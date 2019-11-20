@@ -72,123 +72,45 @@ class User extends Authenticatable
             return parent::save($options);
     }
 
-    protected function processPermission(string $modelName)
-    {
-        try {
-            $permission = $this->getRole()->getPermissionByModelName($modelName);
-        } catch (\Exception $e) {
-            try {
-                $permission = Permission::getByModelName($modelName);
-            } catch (\Exception $e) {
-                $permission = Permission::generate($modelName);
-            }
-        }
-
-        return $permission;
-    }
-
     public function grantBrowseAccess(string $modelName, bool $value = true)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse' => $value,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
-            ]
-        ]);
+        $this->getRole()->grantBrowseAccess($modelName, $value);
         return $this;
     }
 
     public function grantReadAccess(string $modelName, bool $value = true)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse' => $permission->pivot->browse  ?? 0,
-                'read' => $value,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
-            ]
-        ]);
+        $this->getRole()->grantReadAccess($modelName, $value);
         return $this;
     }
 
     public function grantAddAccess(string $modelName, bool $value = true)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse' => $permission->pivot->browse ?? 0,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $value,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
-            ]
-        ]);
+        $this->getRole()->grantAddAccess($modelName, $value);
         return $this;
     }
 
     public function grantEditAccess(string $modelName, bool $value = true)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse' => $permission->pivot->browse ?? 0,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $value,
-                'delete' => $permission->pivot->delete ?? 0
-            ]
-        ]);
+        $this->getRole()->grantEditAccess($modelName, $value);
         return $this;
     }
 
     public function grantDeleteAccess(string $modelName, bool $value = true)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse' => $permission->pivot->browse ?? 0,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $value
-            ]
-        ]);
+        $this->getRole()->grantDeleteAccess($modelName, $value);
         return $this;
     }
 
     public function grantAccess(string $modelName)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse'    => 1,
-                'read'      => 1,
-                'add'       => 1,
-                'edit'      => 1,
-                'delete'    => 1
-            ]
-        ]);
+        $this->getRole()->grantAccess($modelName);
         return $this;
     }
 
     public function disableAccess(string $modelName)
     {
-        $permission = $this->processPermission($modelName);
-        $this->getRole()->permissions()->syncWithoutDetaching([
-            $permission->id => [
-                'browse'    => 0,
-                'read'      => 0,
-                'add'       => 0,
-                'edit'      => 0,
-                'delete'    => 0
-            ]
-        ]);
+        $this->getRole()->disableAccess($modelName);
         return $this;
     }
 }
