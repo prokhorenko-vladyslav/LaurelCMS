@@ -140,4 +140,64 @@ class Role extends Model
         ]);
         return $this;
     }
+
+    public function canBrowse(string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return (bool)$permission->pivot->browse;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function canRead(string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return (bool)$permission->pivot->read;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function canAdd(string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return (bool)$permission->pivot->add;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function canEdit(string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return (bool)$permission->pivot->edit;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function canDelete(string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return (bool)$permission->pivot->delete;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function can(string $action, string $modelName)
+    {
+        try {
+            $permission = $this->getPermissionByModelName($modelName);
+            return isset($permission->pivot->$action) ? (bool)$permission->pivot->$action : false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

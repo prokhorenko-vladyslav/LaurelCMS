@@ -12,11 +12,7 @@
 */
 
 Route::get('/', function () {
-    user()->grantReadAccess(\App\Models\Permission::class, 1);
-    user()->grantEditAccess(\App\Models\Permission::class, true);
-    user()->disableAccess(\App\Models\Role::class);
-    user()->grantAccess(\App\Models\User::class);
-    user()->grantDeleteAccess(\App\Models\Role::class);
+    dd(user()->getRole()->can("browse", \App\Models\User::class));
 
     return view('welcome');
 });
