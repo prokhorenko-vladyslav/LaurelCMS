@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    dd(user()->getRole()->can("browse", \App\Models\User::class));
+    dd(user()->hasAccess('add', \App\Models\Permission::class));
 
     return view('welcome');
 });

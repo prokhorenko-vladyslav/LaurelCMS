@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    private const ENABLED = 1;
+    private const DISABLED = 0;
+    private const DEFAULT_STATUS = 0;
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class)->withPivot(['browse', 'read', 'add', 'edit', 'delete']);
@@ -27,84 +31,84 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
         } catch (\Exception $e) {
             try {
-                $permission = self::getByModelName($modelName);
+                $permission = Permission::getByModelName($modelName);
             } catch (\Exception $e) {
-                $permission = self::generate($modelName);
+                $permission = Permission::generate($modelName);
             }
         }
 
         return $permission;
     }
 
-    public function grantBrowseAccess(string $modelName, bool $value = true)
+    public function grantBrowseAccess(string $modelName, bool $value = self::ENABLED)
     {
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
                 'browse' => $value,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
+                'read' => $permission->pivot->read ?? self::DEFAULT_STATUS,
+                'add' => $permission->pivot->add ?? self::DEFAULT_STATUS,
+                'edit' => $permission->pivot->edit ?? self::DEFAULT_STATUS,
+                'delete' => $permission->pivot->delete ?? self::DEFAULT_STATUS
             ]
         ]);
         return $this;
     }
 
-    public function grantReadAccess(string $modelName, bool $value = true)
+    public function grantReadAccess(string $modelName, bool $value = self::ENABLED)
     {
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse' => $permission->pivot->browse  ?? 0,
+                'browse' => $permission->pivot->browse  ?? self::DEFAULT_STATUS,
                 'read' => $value,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
+                'add' => $permission->pivot->add ?? self::DEFAULT_STATUS,
+                'edit' => $permission->pivot->edit ?? self::DEFAULT_STATUS,
+                'delete' => $permission->pivot->delete ?? self::DEFAULT_STATUS
             ]
         ]);
         return $this;
     }
 
-    public function grantAddAccess(string $modelName, bool $value = true)
+    public function grantAddAccess(string $modelName, bool $value = self::ENABLED)
     {
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse' => $permission->pivot->browse  ?? 0,
-                'read' => $permission->pivot->read ?? 0,
+                'browse' => $permission->pivot->browse  ?? self::DEFAULT_STATUS,
+                'read' => $permission->pivot->read ?? self::DEFAULT_STATUS,
                 'add' => $value,
-                'edit' => $permission->pivot->edit ?? 0,
-                'delete' => $permission->pivot->delete ?? 0
+                'edit' => $permission->pivot->edit ?? self::DEFAULT_STATUS,
+                'delete' => $permission->pivot->delete ?? self::DEFAULT_STATUS
             ]
         ]);
         return $this;
     }
 
-    public function grantEditAccess(string $modelName, bool $value = true)
+    public function grantEditAccess(string $modelName, bool $value = self::ENABLED)
     {
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse' => $permission->pivot->browse  ?? 0,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
+                'browse' => $permission->pivot->browse  ?? self::DEFAULT_STATUS,
+                'read' => $permission->pivot->read ?? self::DEFAULT_STATUS,
+                'add' => $permission->pivot->add ?? self::DEFAULT_STATUS,
                 'edit' => $value,
-                'delete' => $permission->pivot->delete ?? 0
+                'delete' => $permission->pivot->delete ?? self::DEFAULT_STATUS
             ]
         ]);
         return $this;
     }
 
-    public function grantDeleteAccess(string $modelName, bool $value = true)
+    public function grantDeleteAccess(string $modelName, bool $value = self::ENABLED)
     {
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse' => $permission->pivot->browse  ?? 0,
-                'read' => $permission->pivot->read ?? 0,
-                'add' => $permission->pivot->add ?? 0,
-                'edit' => $permission->pivot->edit ?? 0,
+                'browse' => $permission->pivot->browse  ?? self::DEFAULT_STATUS,
+                'read' => $permission->pivot->read ?? self::DEFAULT_STATUS,
+                'add' => $permission->pivot->add ?? self::DEFAULT_STATUS,
+                'edit' => $permission->pivot->edit ?? self::DEFAULT_STATUS,
                 'delete' => $value
             ]
         ]);
@@ -116,11 +120,11 @@ class Role extends Model
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse'    => 1,
-                'read'      => 1,
-                'add'       => 1,
-                'edit'      => 1,
-                'delete'    => 1
+                'browse'    => self::ENABLED,
+                'read'      => self::ENABLED,
+                'add'       => self::ENABLED,
+                'edit'      => self::ENABLED,
+                'delete'    => self::ENABLED
             ]
         ]);
         return $this;
@@ -131,11 +135,11 @@ class Role extends Model
         $permission = $this->processPermission($modelName);
         $this->permissions()->syncWithoutDetaching([
             $permission->id => [
-                'browse'    => 0,
-                'read'      => 0,
-                'add'       => 0,
-                'edit'      => 0,
-                'delete'    => 0
+                'browse'    => self::DISABLED,
+                'read'      => self::DISABLED,
+                'add'       => self::DISABLED,
+                'edit'      => self::DISABLED,
+                'delete'    => self::DISABLED
             ]
         ]);
         return $this;
@@ -147,7 +151,7 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
             return (bool)$permission->pivot->browse;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 
@@ -157,7 +161,7 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
             return (bool)$permission->pivot->read;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 
@@ -167,7 +171,7 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
             return (bool)$permission->pivot->add;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 
@@ -177,7 +181,7 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
             return (bool)$permission->pivot->edit;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 
@@ -187,17 +191,17 @@ class Role extends Model
             $permission = $this->getPermissionByModelName($modelName);
             return (bool)$permission->pivot->delete;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 
-    public function can(string $action, string $modelName)
+    public function hasAccess(string $action, string $modelName)
     {
         try {
             $permission = $this->getPermissionByModelName($modelName);
-            return isset($permission->pivot->$action) ? (bool)$permission->pivot->$action : false;
+            return in_array($action, Permission::PERMISSIONS) ? (bool)$permission->pivot->$action : self::DISABLED;
         } catch (\Exception $e) {
-            return false;
+            return self::DISABLED;
         }
     }
 }

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
+    public const PERMISSIONS = [
+      'browse', 'read', 'add', 'edit', 'delete'
+    ];
+
     protected $fillable = [
         'model_name'
     ];
@@ -13,7 +17,6 @@ class Permission extends Model
     public function setModelName(string $model_name)
     {
         $this->model_name = $model_name;
-
         return $this;
     }
 

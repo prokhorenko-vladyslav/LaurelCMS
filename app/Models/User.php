@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    private const GUEST = "guest";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -53,7 +55,7 @@ class User extends Authenticatable
 
     public static function createGuest()
     {
-        $role = Role::getByName('guest');
+        $role = Role::getByName(self::GUEST);
         $user = new self;
         $user->role()->associate($role);
         return $user;
@@ -61,7 +63,7 @@ class User extends Authenticatable
 
     public function isGuest()
     {
-        return $this->getRole()->name === 'guest';
+        return $this->getRole()->name === self::GUEST;
     }
 
     public function save(array $options = [])
@@ -112,5 +114,35 @@ class User extends Authenticatable
     {
         $this->getRole()->disableAccess($modelName);
         return $this;
+    }
+
+    public function canBrowse(string $modelName)
+    {
+        return $this->getRole()->canBrowse($modelName);
+    }
+
+    public function canRead(string $modelName)
+    {
+        return $this->getRole()->canRead($modelName);
+    }
+
+    public function canAdd(string $modelName)
+    {
+        return $this->getRole()->canAdd($modelName);
+    }
+
+    public function canEdit(string $modelName)
+    {
+        return $this->getRole()->canEdit($modelName);
+    }
+
+    public function canDelete(string $modelName)
+    {
+        return $this->getRole()->canDelete($modelName);
+    }
+
+    public function hasAccess(string $action, string $modelName)
+    {
+        return $this->getRole()->hasAccess($action, $modelName);
     }
 }
