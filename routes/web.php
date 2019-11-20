@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
+    user()->grantReadAccess(\App\Models\Permission::class, 1);
+    user()->grantEditAccess(\App\Models\Permission::class, true);
+    user()->grantAccess(\App\Models\Role::class);
+    user()->disableAccess(\App\Models\User::class);
+
     return view('welcome');
 });
