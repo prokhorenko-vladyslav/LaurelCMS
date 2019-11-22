@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/admin/app.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="blue-background">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
