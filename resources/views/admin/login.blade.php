@@ -13,6 +13,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
+                    <div class="layout"></div>
                     <form action="#" class="form animated zoomIn">
                         <div class="form__logo animated fadeIn delay-1s">
                             <img src="/img/logo.png" alt="Logo">
