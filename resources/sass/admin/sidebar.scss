@@ -1,0 +1,41 @@
+.aside__menu__item {
+    position: relative;
+    list-style: none;
+
+    .aside__item__info {
+        display: flex;
+    }
+
+    .aside__menu__item__checkbox {
+        &:checked {
+            & + .aside__menu__item__toggle {
+
+            }
+
+            & + .aside__menu__item__toggle + .aside__submenu {
+                max-height: 6000px;
+                transform: scaleY(1);
+                opacity: 1;
+                z-index: 2;
+            }
+        }
+    }
+
+    .aside__menu__item__toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .aside__submenu {
+        max-height: 0;
+        transform: scaleY(0);
+        transform-origin: center top;
+        opacity: 0;
+        transition: all .3s ease-in-out;
+    }
+}
+
+
+
+

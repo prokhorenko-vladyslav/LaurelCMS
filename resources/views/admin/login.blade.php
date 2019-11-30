@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
     <link rel="stylesheet" href="/css/admin/app.css">
+    <link rel="stylesheet" href="/css/admin/login.css">
 </head>
 <body>
     <div id="app">
