@@ -1,2 +1,7 @@
 @import '~animate.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+html,
+body {
+    min-height: max-content;
+}

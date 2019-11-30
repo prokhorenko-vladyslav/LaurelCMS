@@ -15,5 +15,9 @@
 </div>
 @cdnJS('https://kit.fontawesome.com/43a92eac72.js')
 @stack('js')
+<script>
+    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+        ':35729/livereload.js?snipver=1"></' + 'script>')
+</script>
 </body>
 </html>
