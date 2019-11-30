@@ -1,5 +1,5 @@
 .aside-toggle:checked + .aside {
-  width: 320px;
+  width: 340px;
 }
 
 .aside-toggle:checked + .aside .aside__header {
@@ -29,19 +29,34 @@
   padding: 2rem;
 }
 
+.aside-toggle:checked + .aside + .main {
+  margin-left: 330px;
+}
+
 .aside {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 65px;
-  min-height: 100vh;
-  background: url("/img/backgrounds/sidebar.jpg") center no-repeat;
+  height: 100vh;
+  background-image: linear-gradient(45deg, #780206, #061161);
   background-size: cover;
   color: #fff;
   font-size: 1rem;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+  /*.aside__layout {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 323px;
+      height: 100%;
+      background: linear-gradient(45deg,#780206,#061161);
+      opacity: .75;
+      z-index: 1;
+  }*/
 }
 
 .aside * {
@@ -50,7 +65,7 @@
 }
 
 .aside:hover {
-  width: 320px;
+  width: 340px;
 }
 
 .aside:hover .aside__header {
@@ -72,17 +87,6 @@
 
 .aside:hover .aside__item__info {
   padding: 2rem;
-}
-
-.aside .aside__layout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, #780206, #061161);
-  opacity: 0.75;
-  z-index: 1;
 }
 
 .aside .aside__header {

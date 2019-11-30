@@ -16,5 +16,6 @@ mix
     .sass('resources/sass/admin/login.scss', 'public/css/admin')
     .sass('resources/sass/admin/header.scss', 'public/css/admin')
     .sass('resources/sass/admin/sidebar.scss', 'public/css/admin')
+    .sass('resources/sass/admin/main.scss', 'public/css/admin')
 
     .js('resources/js/admin/app.js', 'public/js/admin')

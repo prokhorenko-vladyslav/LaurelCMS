@@ -49,7 +49,9 @@ class BladeServiceProvider extends ServiceProvider
             if (isset($parameters[0])) {
                 $path = env('IMG_FOLDER', '/img/') . $parameters[0];
                 $alt = $parameters[1] ?? '';
-                return "<img src=\"{$path}\" alt=\"{$alt}\">";
+                $id = $parameters[2] ?? '';
+                $classes = $parameters[3] ?? '';
+                return "<img id=\"{$id}\" class=\"{$classes}\" src=\"{$path}\" alt=\"{$alt}\">";
             } else {
                 return '';
             }
@@ -60,6 +62,16 @@ class BladeServiceProvider extends ServiceProvider
             if (isset($parameters[0])) {
                 $path = $parameters[0];
                 return "<script src=\"{$path}\" crossorigin=\"anonymous\"></script>";
+            } else {
+                return '';
+            }
+        });
+
+        Blade::directive('imgUrl', function ($expression) {
+            $parameters = $this->getParameters($expression);
+            if (isset($parameters[0])) {
+                $path = env('IMG_FOLDER', '/img/') . $parameters[0];
+                return $path;
             } else {
                 return '';
             }

@@ -3,7 +3,7 @@
 @endpush
 
 <input id="aside-toggle" class="d-none aside-toggle" type="checkbox">
-<aside class="aside">
+<aside class="aside" style="background: url('@imgUrl('backgrounds/sidebar.jpg')')">
     <div class="aside__layout"></div>
     <div class="aside__header d-flex justify-content-between">
         <div class="aside__logo">
@@ -45,6 +45,58 @@
                            </div>
                        </div>
                    </li>
+                    <li class="aside__menu__item">
+                        <div class="aside__item__info">
+                            <div class="aside__menu__item__icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="aside__menu__item__title">
+                                <a href="#">Dashboard2</a>
+                            </div>
+                            <div class="aside__menu__item__status"></div>
+                        </div>
+                    </li>
+                    <li class="aside__menu__item">
+                        <div class="aside__item__info">
+                            <div class="aside__menu__item__icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="aside__menu__item__title">
+                                <a href="#">Dashboard3</a>
+                            </div>
+                            <div class="aside__menu__item__status"></div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="aside__menu__item">
+                <div class="aside__item__info">
+                    <div class="aside__menu__item__icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="aside__menu__item__title">
+                        <a href="#">Dashboard Dashboard1 Dashboard1 Dashboard1</a>
+                    </div>
+                    <div class="aside__menu__item__status">
+                        <div class="aside__status__counter">2</div>
+                    </div>
+                </div>
+                <input id="dashboard_2" class="d-none aside__menu__item__checkbox" type="checkbox">
+                <label class="aside__menu__item__toggle" for="dashboard_2"></label>
+                <ul class="aside__submenu">
+                    <li class="aside__menu__item">
+                        <div class="aside__item__info">
+                            <div class="aside__menu__item__icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="aside__menu__item__title">
+                                <a href="#">Dashboard1</a>
+                            </div>
+                            <div class="aside__menu__item__status">
+                                <div class="aside__status__counter">10</div>
+                            </div>
+                        </div>
+                    </li>
                     <li class="aside__menu__item">
                         <div class="aside__item__info">
                             <div class="aside__menu__item__icon">

@@ -2,14 +2,18 @@
 
 @section('title', 'Dashboard')
 
+@push('css')
+    @css('admin/main.css')
+@endpush
+
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-2 p-0">
+        <div class="col-md-12">
             @include('admin.sublayouts.sidebar')
-        </div>
-        <div class="col-md-10">
-            main
+            <main class="main">
+                main
+            </main>
         </div>
     </div>
 </div>
