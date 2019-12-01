@@ -31,11 +31,7 @@
 }
 
 .aside-toggle:checked + .aside + .main {
-  margin-left: 370px !important;
-}
-
-.aside-toggle:checked + .aside + .main .header {
-  width: calc(100% - 330px) !important;
+  margin-left: 340px !important;
 }
 
 .aside {
@@ -45,7 +41,7 @@
   width: 65px;
   height: 100vh;
   background-size: cover;
-  box-shadow: 5px 83px 3px 0px rgba(0, 0, 0, 0.35);
+  box-shadow: 5px 0 5px 0 rgba(0, 0, 0, 0.35);
   color: #fff;
   overflow-x: hidden;
   overflow-y: hidden;

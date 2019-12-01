@@ -72,16 +72,21 @@
             <i class="fa fa-user-o dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu dropdown-menu-right account__dropdown">
                 <a class="dropdown-item" href="#">
-                    <img class="dropdown-item__flag" src="https://img.icons8.com/color/48/000000/usa-circular.png">
-                    English
+                    <i class="far fa-user"></i>
+                    My Profile
                 </a>
                 <a class="dropdown-item" href="#">
-                    <img class="dropdown-item__flag" src="https://img.icons8.com/color/48/000000/russian-federation-circular.png">
-                    Russian
+                    <i class="far fa-envelope"></i>
+                    My Inbox
                 </a>
                 <a class="dropdown-item" href="#">
-                    <img class="dropdown-item__flag" src="https://img.icons8.com/color/48/000000/ukraine-circular.png">
-                    Ukrainian
+                    <i class="fas fa-cogs"></i>
+                    Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item dropdown-item__notifications-all" href="#">
+                    <i class="fas fa-power-off"></i>
+                    Logout
                 </a>
             </div>
         </div>

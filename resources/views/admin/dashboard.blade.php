@@ -13,8 +13,12 @@
             @include('admin.sublayouts.sidebar')
             <main class="main">
                 @include('admin.sublayouts.header')
+                <div class="content">
+                    @include('admin.sublayouts.browse')
+                </div>
             </main>
         </div>
     </div>
 </div>
+@include('admin.sublayouts.settings-sidebar')
 @stop

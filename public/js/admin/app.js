@@ -19313,6 +19313,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/sass/admin/settings.scss":
+/*!********************************************!*\
+  !*** ./resources/sass/admin/settings.scss ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/admin/sidebar.scss":
 /*!*******************************************!*\
   !*** ./resources/sass/admin/sidebar.scss ***!
@@ -19325,9 +19336,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ }),
 
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/admin/app.js ./resources/sass/admin/app.scss ./resources/sass/admin/login.scss ./resources/sass/admin/header.scss ./resources/sass/admin/sidebar.scss ./resources/sass/admin/main.scss ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/admin/app.js ./resources/sass/admin/app.scss ./resources/sass/admin/login.scss ./resources/sass/admin/header.scss ./resources/sass/admin/sidebar.scss ./resources/sass/admin/settings.scss ./resources/sass/admin/main.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19336,6 +19347,7 @@ __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\app.scss */
 __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\login.scss */"./resources/sass/admin/login.scss");
 __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\header.scss */"./resources/sass/admin/header.scss");
 __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\sidebar.scss */"./resources/sass/admin/sidebar.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\settings.scss */"./resources/sass/admin/settings.scss");
 module.exports = __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\main.scss */"./resources/sass/admin/main.scss");
 
 
