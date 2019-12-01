@@ -26,10 +26,6 @@
             color: #75787d;
             transition: all .3s ease-in-out;
 
-            &::placeholder {
-                font-style: italic;
-            }
-
             &:focus {
                 border-color: #009da0;
                 box-shadow: 0 0 0 .2rem rgba(0,157,160,.25);

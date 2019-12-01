@@ -17,10 +17,20 @@
             </div>
         </div>
         <div class="data card">
+            <div class="data__localization">
+                <button class="data__localization__item active">En</button>
+                <button class="data__localization__item">Ru</button>
+                <button class="data__localization__item">Ua</button>
+            </div>
             <div class="data__header">
                 <h2>Action buttons</h2>
             </div>
-            <table>
+            <div class="data__search">
+                <input class="search__input form-control" type="text" placeholder="Type to search...">
+                <button class="search__button btn btn-primary">Search</button>
+            </div>
+            <div class="data__content">
+                <table>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -116,7 +126,7 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>No</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -135,7 +145,7 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>No</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -154,7 +164,7 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>Yes</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -173,7 +183,7 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>No</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -192,7 +202,7 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>No</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -211,7 +221,83 @@
                     </tr>
                     <tr class="data__row">
                         <td>1</td>
-                        <td><input type="checkbox"></td>
+                        <td>No</td>
+                        <td>John</td>
+                        <td>Carter</td>
+                        <td>Male</td>
+                        <td>johncarter@mail.com</td>
+                        <td class="actions">
+                            <div class="action show">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="action edit">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div class="action delete">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="data__row">
+                        <td>1</td>
+                        <td>No</td>
+                        <td>John</td>
+                        <td>Carter</td>
+                        <td>Male</td>
+                        <td>johncarter@mail.com</td>
+                        <td class="actions">
+                            <div class="action show">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="action edit">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div class="action delete">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="data__row">
+                        <td>1</td>
+                        <td>No</td>
+                        <td>John</td>
+                        <td>Carter</td>
+                        <td>Male</td>
+                        <td>johncarter@mail.com</td>
+                        <td class="actions">
+                            <div class="action show">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="action edit">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div class="action delete">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="data__row">
+                        <td>1</td>
+                        <td>No</td>
+                        <td>John</td>
+                        <td>Carter</td>
+                        <td>Male</td>
+                        <td>johncarter@mail.com</td>
+                        <td class="actions">
+                            <div class="action show">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="action edit">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <div class="action delete">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="data__row">
+                        <td>1</td>
+                        <td>No</td>
                         <td>John</td>
                         <td>Carter</td>
                         <td>Male</td>
@@ -230,6 +316,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
         <div class="data__pagination">
             <div class="pagination__item">

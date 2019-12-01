@@ -3659,3 +3659,24 @@ body * {
   outline: none !important;
 }
 
+html *::-webkit-input-placeholder, body *::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+html *::-moz-placeholder, body *::-moz-placeholder {
+  font-style: italic;
+}
+
+html *:-ms-input-placeholder, body *:-ms-input-placeholder {
+  font-style: italic;
+}
+
+html *::-ms-input-placeholder, body *::-ms-input-placeholder {
+  font-style: italic;
+}
+
+html *::placeholder,
+body *::placeholder {
+  font-style: italic;
+}
+

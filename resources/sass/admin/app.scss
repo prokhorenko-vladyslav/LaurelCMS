@@ -13,5 +13,9 @@ body {
 
     * {
         outline: none !important;
+
+        &::placeholder {
+            font-style: italic;
+        }
     }
 }

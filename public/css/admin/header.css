@@ -34,26 +34,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-.header .search .search__input::-webkit-input-placeholder {
-  font-style: italic;
-}
-
-.header .search .search__input::-moz-placeholder {
-  font-style: italic;
-}
-
-.header .search .search__input:-ms-input-placeholder {
-  font-style: italic;
-}
-
-.header .search .search__input::-ms-input-placeholder {
-  font-style: italic;
-}
-
-.header .search .search__input::placeholder {
-  font-style: italic;
-}
-
 .header .search .search__input:focus {
   border-color: #009da0;
   box-shadow: 0 0 0 0.2rem rgba(0, 157, 160, 0.25);
