@@ -19269,6 +19269,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/sass/admin/add-edit-sidebar.scss":
+/*!****************************************************!*\
+  !*** ./resources/sass/admin/add-edit-sidebar.scss ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/admin/app.scss":
 /*!***************************************!*\
   !*** ./resources/sass/admin/app.scss ***!
@@ -19336,9 +19347,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ }),
 
 /***/ 0:
-/*!********************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/admin/app.js ./resources/sass/admin/app.scss ./resources/sass/admin/login.scss ./resources/sass/admin/header.scss ./resources/sass/admin/sidebar.scss ./resources/sass/admin/settings.scss ./resources/sass/admin/main.scss ***!
-  \********************************************************************************************************************************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/admin/app.js ./resources/sass/admin/app.scss ./resources/sass/admin/login.scss ./resources/sass/admin/header.scss ./resources/sass/admin/sidebar.scss ./resources/sass/admin/settings.scss ./resources/sass/admin/add-edit-sidebar.scss ./resources/sass/admin/main.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19348,6 +19359,7 @@ __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/login.scs
 __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/header.scss */"./resources/sass/admin/header.scss");
 __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/sidebar.scss */"./resources/sass/admin/sidebar.scss");
 __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/settings.scss */"./resources/sass/admin/settings.scss");
+__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/add-edit-sidebar.scss */"./resources/sass/admin/add-edit-sidebar.scss");
 module.exports = __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/main.scss */"./resources/sass/admin/main.scss");
 
 

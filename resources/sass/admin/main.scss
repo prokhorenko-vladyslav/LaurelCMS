@@ -38,9 +38,12 @@
                 display: flex;
 
                 .content__header__action {
-                    margin: 0rem .5rem;
+                    margin: 0 .5rem;
 
                     button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         margin: 0.5rem auto;
                         padding: 0.5rem 1.5rem;
                         border: 0;
@@ -58,6 +61,12 @@
 
                         &:active {
                             box-shadow: 0 0 0 .2rem rgba(28, 188, 216, .4);
+                        }
+
+                        svg {
+                            width: .95rem;
+                            height: .95rem;
+                            margin-right: .5rem;
                         }
                     }
                 }
@@ -281,14 +290,20 @@
                             cursor: pointer;
 
                             &.show {
-                                color: #1cbcd8;
+                                * {
+                                    color: #1cbcd8;
+                                }
                             }
 
                             &.edit {
-                                color: #0cc27e;
+                                * {
+                                    color: #0cc27e;
+                                }
                             }
                             &.delete {
-                                color: #ff586b;
+                                * {
+                                    color: #ff586b;
+                                }
                             }
 
                             i {

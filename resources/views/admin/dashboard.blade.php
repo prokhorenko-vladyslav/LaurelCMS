@@ -14,7 +14,7 @@
             <main class="main">
                 @include('admin.sublayouts.header')
                 <div class="content">
-                    @include('admin.sublayouts.BREADS.add-edit')
+                    @yield('breads')
                 </div>
             </main>
         </div>

@@ -10,7 +10,10 @@
             <div class="content__header__actions">
                 <div class="content__header__action content__header__action_create">
                     <button>
-                        <i class="fas fa-plus"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                             width="24" height="24"
+                             viewBox="0 0 172 172"
+                             style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M86,14.33333c-39.49552,0 -71.66667,32.17115 -71.66667,71.66667c0,39.49552 32.17115,71.66667 71.66667,71.66667c39.49552,0 71.66667,-32.17115 71.66667,-71.66667c0,-39.49552 -32.17115,-71.66667 -71.66667,-71.66667zM86,28.66667c31.74921,0 57.33333,25.58412 57.33333,57.33333c0,31.74921 -25.58412,57.33333 -57.33333,57.33333c-31.74921,0 -57.33333,-25.58412 -57.33333,-57.33333c0,-31.74921 25.58412,-57.33333 57.33333,-57.33333zM78.83333,50.16667v28.66667h-28.66667v14.33333h28.66667v28.66667h14.33333v-28.66667h28.66667v-14.33333h-28.66667v-28.66667z"></path></g></g></svg>
                         Create
                     </button>
                 </div>
@@ -136,7 +139,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -155,7 +160,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -174,7 +181,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -193,7 +202,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -212,7 +223,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -231,7 +244,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -250,7 +265,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -269,7 +286,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -288,7 +307,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>
@@ -307,7 +328,9 @@
                                 <i class="far fa-eye"></i>
                             </div>
                             <div class="action edit">
-                                <i class="fas fa-pen"></i>
+                                <a href="/dashboard/edit">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                             </div>
                             <div class="action delete">
                                 <i class="fas fa-times"></i>

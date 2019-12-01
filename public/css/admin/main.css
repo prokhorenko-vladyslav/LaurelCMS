@@ -46,10 +46,16 @@
 }
 
 .main .content .content__header .content__header__actions .content__header__action {
-  margin: 0rem 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .main .content .content__header .content__header__actions .content__header__action button {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
   margin: 0.5rem auto;
   padding: 0.5rem 1.5rem;
   border: 0;
@@ -69,6 +75,12 @@
 
 .main .content .content__header .content__header__actions .content__header__action button:active {
   box-shadow: 0 0 0 0.2rem rgba(28, 188, 216, 0.4);
+}
+
+.main .content .content__header .content__header__actions .content__header__action button svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-right: 0.5rem;
 }
 
 .main .content .card {
@@ -298,15 +310,15 @@
   cursor: pointer;
 }
 
-.main .content .data .data__content table .actions .action.show {
+.main .content .data .data__content table .actions .action.show * {
   color: #1cbcd8;
 }
 
-.main .content .data .data__content table .actions .action.edit {
+.main .content .data .data__content table .actions .action.edit * {
   color: #0cc27e;
 }
 
-.main .content .data .data__content table .actions .action.delete {
+.main .content .data .data__content table .actions .action.delete * {
   color: #ff586b;
 }
 
