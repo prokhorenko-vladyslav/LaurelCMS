@@ -32,6 +32,10 @@
 
     &:checked + .aside + .main {
         margin-left: 370px !important;
+
+        .header {
+            width: calc(100% - 330px) !important;
+        }
     }
 }
 
@@ -42,10 +46,12 @@
     width: 65px;
     height: 100vh;
     background-size: cover;
+    box-shadow: 5px 83px 10px 0px rgba(0,0,0,.65);
     color: #fff;
     overflow-x: hidden;
     overflow-y: auto;
     transition: all .3s ease-in-out;
+    z-index: 5;
 
     * {
         transition: all .3s ease-in-out;
@@ -236,12 +242,12 @@
 
                 &:before {
                     right: 20px;
-                    transform: rotate(45deg);
+                    transform: rotate(-45deg);
                 }
 
                 &:after {
                     right: 13px;
-                    transform: rotate(-45deg);
+                    transform: rotate(45deg);
                 }
             }
 
@@ -249,11 +255,11 @@
                 &:checked {
                     & + .aside__menu__item__toggle {
                         &:before {
-                            transform: rotate(-45deg);
+                            transform: rotate(45deg);
                         }
 
                         &:after {
-                            transform: rotate(45deg);
+                            transform: rotate(-45deg);
                         }
                     }
 

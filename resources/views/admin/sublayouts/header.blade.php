@@ -15,7 +15,7 @@
         </div>
         <div class="menu__item menu__item_localization has-popup">
             <i class="fa fa-flag-o dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-            <div class="dropdown-menu localization__dropdown">
+            <div class="dropdown-menu dropdown-menu-right localization__dropdown">
                 <a class="dropdown-item" href="#">
                     <img class="dropdown-item__flag" src="https://img.icons8.com/color/48/000000/usa-circular.png">
                     English
@@ -32,7 +32,7 @@
         </div>
         <div class="menu__item menu__item_notifications has-popup has-counter">
             <i class="fa fa-bell-o dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-            <div class="dropdown-menu localization__dropdown">
+            <div class="dropdown-menu dropdown-menu-right notification__dropdown">
                 <a class="dropdown-item dropdown-item__notification dropdown-item__notification_message" href="#">
                     <i class="fa fa-bell-o"></i>
                     <span class="notification__header">New Order Received</span>
@@ -60,7 +60,7 @@
         </div>
         <div class="menu__item menu__item_account has-popup">
             <i class="fa fa-user-o dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-            <div class="dropdown-menu localization__dropdown">
+            <div class="dropdown-menu dropdown-menu-right account__dropdown">
                 <a class="dropdown-item" href="#">
                     <img class="dropdown-item__flag" src="https://img.icons8.com/color/48/000000/usa-circular.png">
                     English

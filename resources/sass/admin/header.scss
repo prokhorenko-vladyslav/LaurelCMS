@@ -1,8 +1,14 @@
 .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 40px);
+    padding-left: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 80px;
+    box-shadow: 5px 0 10px 0px rgba(0,0,0,.7);
 
     .search {
         position: relative;
