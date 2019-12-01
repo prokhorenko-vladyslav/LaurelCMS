@@ -1,0 +1,326 @@
+.aside-toggle:checked + .aside {
+  width: 340px;
+}
+
+.aside-toggle:checked + .aside .aside__header {
+  padding: 1rem 2rem;
+}
+
+.aside-toggle:checked + .aside .aside__header .aside__toggle {
+  z-index: 2;
+}
+
+.aside-toggle:checked + .aside .aside__header .aside__toggle .aside__toggle__ball {
+  right: 1px;
+  left: calc(100% - 13px);
+  background: #fff;
+}
+
+.aside-toggle:checked + .aside .aside__header .aside__logo {
+  height: 70px;
+}
+
+.aside-toggle:checked + .aside .aside__menu__item__toggle,
+.aside-toggle:checked + .aside .aside__menu__item__status {
+  opacity: 1 !important;
+}
+
+.aside-toggle:checked + .aside .aside__item__info {
+  padding: 2rem;
+}
+
+.aside-toggle:checked + .aside + .main {
+  margin-left: 370px !important;
+}
+
+.aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 65px;
+  height: 100vh;
+  background-size: cover;
+  color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside * {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside:hover {
+  width: 340px;
+}
+
+.aside:hover .aside__header {
+  padding: 1rem 2rem;
+}
+
+.aside:hover .aside__header .aside__toggle {
+  z-index: 2;
+}
+
+.aside:hover .aside__header .aside__logo {
+  height: 70px;
+}
+
+.aside:hover .aside__menu__item__toggle,
+.aside:hover .aside__menu__item__status {
+  opacity: 1 !important;
+}
+
+.aside:hover .aside__item__info {
+  padding: 2rem;
+}
+
+.aside .aside__wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  padding-bottom: 1rem;
+  background-image: linear-gradient(45deg, rgba(120, 2, 6, 0.75), rgba(6, 17, 97, 0.75));
+}
+
+.aside .aside__header {
+  padding: 1rem 1.2rem;
+  height: 6rem;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.aside .aside__header .aside__logo {
+  z-index: 2;
+  height: 50px;
+}
+
+.aside .aside__header .aside__logo img {
+  height: 100%;
+}
+
+.aside .aside__header .aside__toggle {
+  position: relative;
+  height: 14px;
+  width: 30px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside .aside__header .aside__toggle:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.aside .aside__header .aside__toggle label {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.aside .aside__header .aside__toggle .aside__toggle__ball {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside .aside__menu {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.aside .aside__menu .aside__menu__item {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
+  list-style: none;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__icon i {
+  font-size: 1.2rem;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__title {
+  width: 62%;
+  margin-left: 1.3rem;
+  margin-right: 0.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__title a {
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__title a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__status {
+  -webkit-transition: opacity 0.7s ease-in;
+  transition: opacity 0.7s ease-in;
+  opacity: 0;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__status .aside__status__counter {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  background-color: #ff586b;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__status .aside__status__text {
+  position: relative;
+  left: -55%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  width: 55px;
+  border-radius: 15px;
+  background-color: #009da0;
+}
+
+.aside .aside__menu .aside__menu__item .aside__item__info {
+  display: -webkit-box;
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  padding-left: 1.7rem;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside .aside__menu .aside__menu__item .aside__item__info:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle {
+  position: absolute;
+  top: 16px;
+  right: 5%;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  -webkit-transition: opacity 0.7s ease-in, -webkit-transform 0.3s ease-in-out;
+  transition: opacity 0.7s ease-in, -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, opacity 0.7s ease-in;
+  transition: transform 0.3s ease-in-out, opacity 0.7s ease-in, -webkit-transform 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle:hover {
+  -webkit-transform: scale(1.15);
+          transform: scale(1.15);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle:before,
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle:after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  display: block;
+  width: 1px;
+  height: 10px;
+  background: #fff;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle:before {
+  right: 20px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__toggle:after {
+  right: 13px;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__checkbox:checked + .aside__menu__item__toggle:before {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__checkbox:checked + .aside__menu__item__toggle:after {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.aside .aside__menu .aside__menu__item .aside__menu__item__checkbox:checked + .aside__menu__item__toggle + .aside__submenu {
+  max-height: 6000px;
+  -webkit-transform: scaleY(1);
+          transform: scaleY(1);
+  opacity: 1;
+  z-index: 2;
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu {
+  position: relative;
+  padding: 0;
+  max-height: 0;
+  -webkit-transform: scaleY(0);
+          transform: scaleY(0);
+  -webkit-transform-origin: center top;
+          transform-origin: center top;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  list-style: none;
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info {
+  border-left: 1px solid rgba(255, 255, 255, 0.7);
+  margin-left: 2.15rem;
+  padding-left: 1rem;
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info:hover {
+  background: transparent;
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info .aside__menu__item__icon {
+  margin-left: 0.7rem;
+}
+
+.aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info .aside__menu__item__title {
+  width: 49%;
+  margin-left: 0.7rem;
+}
+

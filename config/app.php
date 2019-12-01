@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\HelperServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
 
         /*
          * Application Service Providers...
