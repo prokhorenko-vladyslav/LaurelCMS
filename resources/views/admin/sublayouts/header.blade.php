@@ -33,26 +33,36 @@
         <div class="menu__item menu__item_notifications has-popup has-counter">
             <i class="fa fa-bell-o dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu dropdown-menu-right notification__dropdown">
-                <a class="dropdown-item dropdown-item__notification dropdown-item__notification_message" href="#">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="notification__header">New Order Received</span>
-                    <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
-                </a>
-                <a class="dropdown-item dropdown-item__notification dropdown-item__notification_warning" href="#">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="notification__header">New User Registered</span>
-                    <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
-                </a>
-                <a class="dropdown-item dropdown-item__notification dropdown-item__notification_error" href="#">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="notification__header">New Order Received</span>
-                    <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
-                </a>
-                <a class="dropdown-item dropdown-item__notification dropdown-item__notification_success" href="#">
-                    <i class="fa fa-bell-o"></i>
-                    <span class="notification__header">New User Registered</span>
-                    <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
-                </a>
+                <div class="notification__dropdown__content">
+                    <a class="dropdown-item dropdown-item__notification dropdown-item__notification_message" href="#">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="notification__content">
+                            <span class="notification__header">New Order Received</span>
+                            <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
+                        </span>
+                    </a>
+                    <a class="dropdown-item dropdown-item__notification dropdown-item__notification_warning" href="#">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="notification__content">
+                            <span class="notification__header">New User Registered</span>
+                            <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
+                        </span>
+                    </a>
+                    <a class="dropdown-item dropdown-item__notification dropdown-item__notification_error" href="#">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="notification__content">
+                            <span class="notification__header">New Order Received</span>
+                            <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
+                        </span>
+                    </a>
+                    <a class="dropdown-item dropdown-item__notification dropdown-item__notification_success" href="#">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="notification__content">
+                            <span class="notification__header">New User Registered</span>
+                            <span class="notification__description">Lorem ipsum dolor sit ametitaque in, et!</span>
+                        </span>
+                    </a>
+                </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item dropdown-item__notifications-all" href="#">Read all notifications</a>
             </div>

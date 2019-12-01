@@ -1,5 +1,6 @@
 .aside-toggle:checked + .aside {
   width: 340px;
+  overflow-y: auto;
 }
 
 .aside-toggle:checked + .aside .aside__header {
@@ -44,10 +45,10 @@
   width: 65px;
   height: 100vh;
   background-size: cover;
-  box-shadow: 5px 83px 10px 0px rgba(0, 0, 0, 0.65);
+  box-shadow: 5px 83px 3px 0px rgba(0, 0, 0, 0.35);
   color: #fff;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   z-index: 5;
@@ -60,6 +61,7 @@
 
 .aside:hover {
   width: 340px;
+  overflow-y: auto;
 }
 
 .aside:hover .aside__header {
@@ -314,7 +316,7 @@
 .aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info {
   border-left: 1px solid rgba(255, 255, 255, 0.7);
   margin-left: 2.15rem;
-  padding-left: 1rem;
+  padding-left: 1.5rem;
 }
 
 .aside .aside__menu .aside__menu__item .aside__submenu .aside__menu__item .aside__item__info:hover {
