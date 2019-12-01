@@ -1,0 +1,85 @@
+.add-edit-sidebar {
+    .add-edit-sidebar__content {
+        display: flex;
+        width: 400px;
+        z-index: 7;
+        position: fixed;
+        top: 0;
+        right: -400px;
+        transition: all .4s ease;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+
+        * {
+            transition: all .4s ease;
+        }
+
+        .add-edit-sidebar__icon__wrapper {
+            position: absolute;
+            top: calc(50% + 70px);
+            left: -50px;
+            width: 50px;
+            height: 50px;
+            background: #0cc27e;
+            box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+            cursor: pointer;
+
+            &:hover {
+                filter: brightness(.9);
+            }
+
+            .add-edit-sidebar__icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                cursor: pointer;
+
+                svg {
+                    width: 25px;
+                    height: 25px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .add-edit-sidebar__sidebar {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            padding: 1.5rem 1rem;
+            background: #fff;
+
+            .add-edit-sidebar__sidebar__close {
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                cursor: pointer;
+
+                svg {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+
+            .add-edit-sidebar__sidebar__header {
+                text-align: left;
+                text-transform: uppercase;
+                font-size: 1.5rem;
+            }
+
+            .add-edit-sidebar__sidebar__description {
+                padding-bottom: 1rem;
+                font-size: 1rem;
+                border-bottom: 1px solid #a8a8a8;;
+            }
+        }
+    }
+
+    .add-edit-sidebar__checkbox:checked {
+        & + .add-edit-sidebar__content {
+            right: 0;
+        }
+    }
+}

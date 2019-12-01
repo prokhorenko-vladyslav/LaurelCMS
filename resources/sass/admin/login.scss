@@ -1,0 +1,129 @@
+body {
+    overflow: hidden;
+    background-color: #121534;
+    background-image: url('/img/backgrounds/login.jpg');
+    background-size: cover;
+
+    .layout {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(18,21,52, .7);
+    }
+
+    .form {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 400px;
+        margin-top: 17vh;
+        padding: 2rem 3rem;
+        padding-bottom: 5rem;
+        border-top: 8px solid rgb(91,206,147);
+        background-color: rgb(27,33,65);
+        box-shadow: 0px 0px 30px 0px rgba(0,0,0,.6);
+
+        .form__logo {
+            height: 200px;
+            width: 200px;
+            margin: auto;
+        }
+
+        .form__input {
+            position: relative;
+            width: auto;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            padding: 1rem 2rem;
+            background: rgb(34,40,74);
+            border: none;
+            color: rgb(61, 69, 94);
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+                padding-right: 3rem;
+                background: none;
+                border: inherit;
+                color: inherit;
+            }
+
+            .form__show-password {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 30px;
+                height: 30px;
+                margin-top: 15px;
+                margin-right: 2.5rem;
+                background: none;
+                border: none;
+
+                * {
+                    height: 100%;
+                }
+            }
+        }
+
+        .form__block {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+
+            .form__forgot-password {
+                color: rgb(61, 93, 120);
+                font-style: italic;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .form__remember-me {
+                color: #fff;
+                font-size: 14px;
+                display: flex;
+
+                .form__remember-me__checkbox:checked + .form__remember-me__icon {
+                    background: url("/img/icons/tick.png");
+                    background-size: cover;
+                }
+
+                .form__remember-me__icon {
+                    width: 15px;
+                    height: 15px;
+                    margin-top: 3px;
+                    margin-right: 20px;
+                    border: 1px solid #fff;
+                    border-radius: 2px;
+                    background-size: 0%;
+                    transition: all .3s ease-in-out;
+                }
+
+                .form__remember-me__label {
+                    cursor: pointer;
+                    user-select: none;
+                }
+            }
+        }
+
+        .form__submit {
+            width: 40%;
+            margin: auto;
+
+            & > * {
+                width: 100%;
+                height: 45px;
+                border: 1px solid rgb(234,65,134);
+                border-radius: 10rem;
+                box-shadow: 10px 10px 20px 0px rgba(0,0,0,.7);
+                background: rgb(234,65,134);
+                text-transform: uppercase;
+                color: #fff;
+            }
+        }
+    }
+}

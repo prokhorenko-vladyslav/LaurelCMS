@@ -16,3 +16,15 @@ Route::get('/', function () {
 
     return view('welcome');
 });
+
+Route::get('/login', function() {
+    return view('admin.login');
+});
+
+Route::get('/dashboard/browse', function() {
+    return view('admin.pages.browse');
+});
+
+Route::get('/dashboard/edit', function() {
+    return view('admin.pages.add-edit');
+});

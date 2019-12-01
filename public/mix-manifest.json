@@ -1,4 +1,10 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/admin/app.js": "/js/admin/app.js",
+    "/css/admin/app.css": "/css/admin/app.css",
+    "/css/admin/login.css": "/css/admin/login.css",
+    "/css/admin/header.css": "/css/admin/header.css",
+    "/css/admin/sidebar.css": "/css/admin/sidebar.css",
+    "/css/admin/settings.css": "/css/admin/settings.css",
+    "/css/admin/add-edit-sidebar.css": "/css/admin/add-edit-sidebar.css",
+    "/css/admin/main.css": "/css/admin/main.css"
 }
