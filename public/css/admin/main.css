@@ -258,9 +258,13 @@
           align-items: center;
 }
 
+.main .content .data .data__content table tbody tr.data__filter td.last input {
+  max-width: 80%;
+}
+
 .main .content .data .data__content table tbody tr.data__filter td.last .data__filter__delete {
   position: absolute;
-  right: -2rem;
+  right: 0;
   top: calc(50% - 1rem);
   display: -webkit-box;
   display: flex;
