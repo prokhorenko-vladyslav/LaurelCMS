@@ -1,3 +1,7 @@
+@push('css')
+    @css('admin/constructor.css')
+@endpush
+
 <div class="row">
     <div class="col-md-12">
         <div class="content__header">
@@ -44,7 +48,35 @@
                 <button class="data__localization__item">Ua</button>
             </div>
             <div class="data__header">
-                <h2>Main</h2>
+                <h2>Page constructor</h2>
+                <div class="constructor container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item constructor__header">
+                                Header
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="constructor__item constructor__sidebar">
+                                Sidebar
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="constructor__item constructor__main">
+                                Main
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item constructor__footer">
+                                Footer
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="data__editor">
                 Editor

@@ -18,6 +18,7 @@ mix
     .sass('resources/sass/admin/sidebar.scss', 'public/css/admin')
     .sass('resources/sass/admin/settings.scss', 'public/css/admin')
     .sass('resources/sass/admin/add-edit-sidebar.scss', 'public/css/admin')
+    .sass('resources/sass/admin/constructor.scss', 'public/css/admin')
     .sass('resources/sass/admin/main.scss', 'public/css/admin')
 
     .js('resources/js/admin/app.js', 'public/js/admin')

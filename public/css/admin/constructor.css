@@ -1,0 +1,18 @@
+.constructor .constructor__item {
+  position: relative;
+  min-height: 100px;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 3px dotted rgba(0, 0, 0, 0.3);
+}
+
+.constructor .constructor__item:before {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  background-color: #9CF;
+}
+
