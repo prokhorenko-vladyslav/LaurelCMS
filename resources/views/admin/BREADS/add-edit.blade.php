@@ -79,7 +79,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="constructor__item constructor__item_add">
-                                <div class="constructor__item__title">Add new</div>
+                                <div class="constructor__item__title">Add new row</div>
                             </div>
                         </div>
                     </div>

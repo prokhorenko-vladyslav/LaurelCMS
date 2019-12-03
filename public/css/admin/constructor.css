@@ -4,7 +4,6 @@
 }
 
 .constructor .constructor__item {
-  box-sizing: content-box;
   position: relative;
   min-height: 150px;
   margin: 0.5rem;
@@ -77,12 +76,23 @@
 }
 
 .constructor .constructor__item.constructor__item_add .constructor__item__title {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
   padding-left: 1rem;
   font-size: 2rem;
 }
 
 .constructor .constructor__item.constructor__item_add:before {
-  top: -10%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  top: 0;
+  bottom: 0;
   font-size: 2.5rem;
   -webkit-animation: none;
           animation: none;
@@ -111,7 +121,7 @@
 }
 
 .constructor .constructor__item.constructor__item_add:hover {
-  height: 56px;
+  padding-left: 1rem;
   -webkit-transform: scale(1);
           transform: scale(1);
 }
@@ -119,5 +129,9 @@
 .constructor .constructor__item.constructor__item_add:hover:after {
   top: calc(100% + 2rem);
   opacity: 1;
+}
+
+.constructor .constructor__item.constructor__item_add:hover .constructor__item__title {
+  padding-left: 1.05rem;
 }
 

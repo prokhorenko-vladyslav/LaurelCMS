@@ -19364,15 +19364,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/js/admin/app.js */"./resources/js/admin/app.js");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/app.scss */"./resources/sass/admin/app.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/login.scss */"./resources/sass/admin/login.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/header.scss */"./resources/sass/admin/header.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/sidebar.scss */"./resources/sass/admin/sidebar.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/settings.scss */"./resources/sass/admin/settings.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/add-edit-sidebar.scss */"./resources/sass/admin/add-edit-sidebar.scss");
-__webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/constructor.scss */"./resources/sass/admin/constructor.scss");
-module.exports = __webpack_require__(/*! /var/www/html/CMS-Laravel/resources/sass/admin/main.scss */"./resources/sass/admin/main.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\js\admin\app.js */"./resources/js/admin/app.js");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\app.scss */"./resources/sass/admin/app.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\login.scss */"./resources/sass/admin/login.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\header.scss */"./resources/sass/admin/header.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\sidebar.scss */"./resources/sass/admin/sidebar.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\settings.scss */"./resources/sass/admin/settings.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\add-edit-sidebar.scss */"./resources/sass/admin/add-edit-sidebar.scss");
+__webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\constructor.scss */"./resources/sass/admin/constructor.scss");
+module.exports = __webpack_require__(/*! R:\Projects\CMS-Laravel\resources\sass\admin\main.scss */"./resources/sass/admin/main.scss");
 
 
 /***/ })
