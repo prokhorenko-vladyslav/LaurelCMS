@@ -1,18 +1,123 @@
+.constructor {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
 .constructor .constructor__item {
+  box-sizing: content-box;
   position: relative;
-  min-height: 100px;
+  min-height: 150px;
   margin: 0.5rem;
   padding: 0.5rem;
-  border: 3px dotted rgba(0, 0, 0, 0.3);
+  border: 3px dotted #b4b7b9;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.31);
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out, border 0s ease-in-out;
+  transition: all 0.3s ease-in-out, border 0s ease-in-out;
+  z-index: 3;
 }
 
 .constructor .constructor__item:before {
+  content: "+";
   position: absolute;
+  top: calc(35% - 2rem);
+  left: calc(50% - 2rem);
+  color: #4b4d4e;
+  font-size: 4rem;
+  z-index: 4;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.constructor .constructor__item:hover {
+  border-width: 0;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, right top, color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, left bottom, from(0), color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, left bottom, from(0), color-stop(50%, #b4b7b9), color-stop(50%, transparent));
+  background-image: linear-gradient(90deg, #b4b7b9 50%, transparent 50%), linear-gradient(90deg, #b4b7b9 50%, transparent 50%), linear-gradient(0, #b4b7b9 50%, transparent 50%), linear-gradient(0, #b4b7b9 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 6px 3px, 6px 3px, 3px 6px, 3px 6px;
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+  -webkit-animation: running-contour 0.3s linear infinite;
+          animation: running-contour 0.3s linear infinite;
+}
+
+.constructor .constructor__item:hover:not(.constructor__item_add) .constructor__item__title {
+  margin-bottom: 1rem;
+}
+
+.constructor .constructor__item .constructor__item__title {
+  position: absolute;
+  top: 0;
   bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 1rem;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
+  opacity: 0.4;
+  vertical-align: top;
+  text-align: left;
+  color: #b4b7b9;
+  font-size: 5rem;
+  font-style: italic;
+  z-index: 3;
+}
+
+.constructor .constructor__item.constructor__item_add {
+  position: relative;
+  height: 50px;
+  min-height: 56px;
+  padding-left: 1rem;
+}
+
+.constructor .constructor__item.constructor__item_add .constructor__item__title {
+  padding-left: 1rem;
+  font-size: 2rem;
+}
+
+.constructor .constructor__item.constructor__item_add:before {
+  top: -10%;
+  font-size: 2.5rem;
+  -webkit-animation: none;
+          animation: none;
+}
+
+.constructor .constructor__item.constructor__item_add:after {
+  content: "";
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  display: block;
-  background-color: #9CF;
+  height: 50px;
+  border: 0;
+  border-radius: 10px;
+  opacity: 0;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, right top, color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, left bottom, from(0), color-stop(50%, #b4b7b9), color-stop(50%, transparent)), -webkit-gradient(linear, left top, left bottom, from(0), color-stop(50%, #b4b7b9), color-stop(50%, transparent));
+  background-image: linear-gradient(90deg, #b4b7b9 50%, transparent 50%), linear-gradient(90deg, #b4b7b9 50%, transparent 50%), linear-gradient(0, #b4b7b9 50%, transparent 50%), linear-gradient(0, #b4b7b9 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 6px 3px, 6px 3px, 3px 6px, 3px 6px;
+  -webkit-transition: top 0.7s ease-in-out, opacity 0.5s linear;
+  transition: top 0.7s ease-in-out, opacity 0.5s linear;
+  -webkit-animation: running-contour 0.3s linear infinite;
+          animation: running-contour 0.3s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.constructor .constructor__item.constructor__item_add:hover {
+  height: 56px;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.constructor .constructor__item.constructor__item_add:hover:after {
+  top: calc(100% + 2rem);
+  opacity: 1;
 }
 

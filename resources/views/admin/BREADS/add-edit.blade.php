@@ -53,33 +53,37 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="constructor__item constructor__header">
-                                Header
+                                <div class="constructor__item__title">Header</div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="constructor__item constructor__sidebar">
-                                Sidebar
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Sidebar</div>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="constructor__item constructor__main">
-                                Main
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Main</div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="constructor__item constructor__footer">
-                                Footer
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Footer</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item constructor__item_add">
+                                <div class="constructor__item__title">Add new</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="data__editor">
-                Editor
             </div>
         </div>
 
@@ -94,4 +98,5 @@
     </div>
 </div>
 
-@include('admin.sublayouts.add-edit-sidebar')
+@include('admin.sidebars.edit')
+@include('admin.sidebars.blocks')
