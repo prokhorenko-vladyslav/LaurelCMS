@@ -3720,41 +3720,42 @@
   }
 }
 
-html,
-body {
-  min-height: -webkit-max-content;
-  min-height: -moz-max-content;
-  min-height: max-content;
-  background-color: #f5f7fa;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 400;
-  font-size: 0.95rem;
-  color: rgba(0, 0, 0, 0.87);
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  src: url("/fonts/SourceSansPro-Bold.otf") format("opentype");
 }
 
-html *,
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  src: url("/fonts/SourceSansPro-Semibold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+  src: url("/fonts/SourceSansPro-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 300;
+  src: url("/fonts/SourceSansPro-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 100;
+  src: url("/fonts/SourceSansPro-ExtraLight.otf") format("opentype");
+}
+
 body * {
-  outline: none !important;
-}
-
-html *::-webkit-input-placeholder, body *::-webkit-input-placeholder {
-  font-style: italic;
-}
-
-html *::-moz-placeholder, body *::-moz-placeholder {
-  font-style: italic;
-}
-
-html *:-ms-input-placeholder, body *:-ms-input-placeholder {
-  font-style: italic;
-}
-
-html *::-ms-input-placeholder, body *::-ms-input-placeholder {
-  font-style: italic;
-}
-
-html *::placeholder,
-body *::placeholder {
-  font-style: italic;
+  font-family: "Source Sans Pro";
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
