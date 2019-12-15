@@ -10,7 +10,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @include('admin.sublayouts.sidebar')
+            @include('admin.sidebars.sidebar')
             <main class="main">
                 @include('admin.sublayouts.header')
                 <div class="content">
@@ -20,5 +20,5 @@
         </div>
     </div>
 </div>
-@include('admin.sublayouts.settings-sidebar')
+@include('admin.sidebars.settings')
 @stop

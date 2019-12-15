@@ -1,3 +1,7 @@
+@push('css')
+    @css('admin/constructor.css')
+@endpush
+
 <div class="row">
     <div class="col-md-12">
         <div class="content__header">
@@ -44,10 +48,42 @@
                 <button class="data__localization__item">Ua</button>
             </div>
             <div class="data__header">
-                <h2>Main</h2>
-            </div>
-            <div class="data__editor">
-                Editor
+                <h2>Page constructor</h2>
+                <div class="constructor container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item constructor__header">
+                                <div class="constructor__item__title">Header</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Sidebar</div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Main</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item">
+                                <div class="constructor__item__title">Footer</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="constructor__item constructor__item_add">
+                                <div class="constructor__item__title">Add new row</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -62,4 +98,5 @@
     </div>
 </div>
 
-@include('admin.sublayouts.add-edit-sidebar')
+@include('admin.sidebars.edit')
+@include('admin.sidebars.blocks')

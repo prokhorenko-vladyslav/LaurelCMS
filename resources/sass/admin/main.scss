@@ -218,19 +218,73 @@
                     }
 
                     tbody {
-                        tr {
-
-                        }
                         tr.data__filter {
+                            position: relative;
+
+                            td {
+                                border: 0;
+
+                                &.last {
+                                    position: relative;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+
+                                    input {
+                                        max-width: 80%;
+                                    }
+
+                                    .data__filter__delete {
+                                        position: absolute;
+                                        right: 0;
+                                        top: calc(50% - 1rem);
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        height: 2rem;
+                                        width: 2rem;
+                                        margin: 0;
+                                        padding: 0;
+                                        border: 0;
+                                        border-radius: 4px;
+                                        background: #fff;
+
+                                        &:hover {
+                                            background: #e9ecef;
+                                        }
+
+                                        svg {
+                                            height: 1.7rem;
+                                        }
+                                    }
+                                }
+                            }
+
                             .data__filter__text {
+                                position: relative;
+
                                 input {
-                                    padding: .5rem 1rem;
+                                    max-width: 100%;
+                                    padding: .3rem 5.5rem .3rem 1rem;
+                                }
+
+                                .dropdown.lang {
+                                    display: none;
+                                }
+
+                                &.translatable {
+                                    .dropdown.lang {
+                                        position: absolute;
+                                        top: 1.5rem;
+                                        right: .45rem;
+                                        display: block;
+                                    }
                                 }
                             }
 
                             .data__filter__number {
                                 input {
-                                    padding: .5rem 1rem;
+                                    padding: .3rem 1rem;
                                 }
                             }
 
@@ -268,6 +322,14 @@
                             }
                         }
 
+                        tr.data__filter__and-or {
+                            td {
+                                margin: 0;
+                                padding: 0;
+                                border: 0;
+                            }
+                        }
+
                         tr.data__row {
                             &:hover {
                                 cursor: pointer;
@@ -284,9 +346,9 @@
                             justify-content: center;
                             align-items: center;
                             float: left;
-                            width: calc(33% - 2rem);
-                            margin-left: 1rem;
-                            margin-right: 1rem;
+                            width: calc(33% - .3rem);
+                            margin-left: .1rem;
+                            margin-right: .1rem;
                             cursor: pointer;
 
                             &.show {

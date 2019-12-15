@@ -62,11 +62,31 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text translatable">
                             <input class="form-control" type="text" placeholder="First Name">
+                            <div class="dropdown lang">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    EN
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">EN</button>
+                                    <button class="dropdown-item" type="button">RU</button>
+                                    <button class="dropdown-item" type="button">UA</button>
+                                </div>
+                            </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text translatable">
                             <input class="form-control" type="text" placeholder="Last name">
+                            <div class="dropdown lang">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    EN
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">EN</button>
+                                    <button class="dropdown-item" type="button">RU</button>
+                                    <button class="dropdown-item" type="button">UA</button>
+                                </div>
+                            </div>
                         </td>
                         <td class="data__filter__checkbox">
                             <input class="form-control" type="checkbox" placeholder="Gender">
@@ -80,13 +100,30 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text last">
                             <input class="form-control" type="text" placeholder="Email">
+                            <button class="data__filter__delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ff586b"><path d="M31.4975,21.715l-9.7825,9.7825l54.5025,54.5025l-54.825,54.9325l9.675,9.675l54.9325,-54.825l54.825,54.825l9.7825,-9.7825l-54.825,-54.825l54.5025,-54.5025l-9.7825,-9.7825l-54.5025,54.5025z"></path></g></g></svg>
+                            </button>
                         </td>
-                        {{--Изменяем число rowspan в зависимости от количества фильтров--}}
-                        <td class="data__filter__actions" rowspan="2">
+                        {{--Изменяем число rowspan в зависимости от количества фильтров + количество связующих элементов AND/OR --}}
+                        <td class="data__filter__actions" rowspan="3">
                             <button class="data__filter__action data__filter__action_add">Add Filter</button>
                             <button class="data__filter__action data__filter__action_filter">Filter</button>
+                        </td>
+                    </tr>
+                    <tr class="data__filter__and-or">
+                        <td colspan="6">
+                            <input class="d-none" type="checkbox">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    OR
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">OR</button>
+                                    <button class="dropdown-item" type="button">AND</button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr class="data__filter">
@@ -105,11 +142,31 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text translatable">
                             <input class="form-control" type="text" placeholder="First Name">
+                            <div class="dropdown lang">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    EN
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">EN</button>
+                                    <button class="dropdown-item" type="button">RU</button>
+                                    <button class="dropdown-item" type="button">UA</button>
+                                </div>
+                            </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text translatable">
                             <input class="form-control" type="text" placeholder="Last name">
+                            <div class="dropdown lang">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    EN
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">EN</button>
+                                    <button class="dropdown-item" type="button">RU</button>
+                                    <button class="dropdown-item" type="button">UA</button>
+                                </div>
+                            </div>
                         </td>
                         <td class="data__filter__checkbox">
                             <input class="form-control" type="checkbox" placeholder="Gender">
@@ -123,8 +180,11 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="data__filter__text">
+                        <td class="data__filter__text last">
                             <input class="form-control" type="text" placeholder="Email">
+                            <button class="data__filter__delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ff586b"><path d="M31.4975,21.715l-9.7825,9.7825l54.5025,54.5025l-54.825,54.9325l9.675,9.675l54.9325,-54.825l54.825,54.825l9.7825,-9.7825l-54.825,-54.825l54.5025,-54.5025l-9.7825,-9.7825l-54.5025,54.5025z"></path></g></g></svg>
+                            </button>
                         </td>
                     </tr>
                     <tr class="data__row">
