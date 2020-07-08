@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,24 +13,6 @@
 |
 */
 
-/*Route::get('/', function () {
-    dd(user()->hasAccess('add', \App\Models\Permission::class));
-
+Route::get('/', function () {
     return view('welcome');
-});*/
-
-Route::get('/login', function() {
-    return view('admin.login');
-});
-
-Route::get('/dashboard/browse', function() {
-    return view('admin.pages.browse');
-});
-
-Route::get('/dashboard/edit', function() {
-    return view('admin.pages.add-edit');
-});
-
-Route::get('/v2/dashboard/browse', function() {
-    return view('admin-v2.breads.browse');
 });
