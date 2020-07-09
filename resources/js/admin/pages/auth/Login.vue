@@ -99,6 +99,15 @@
             font-size: .8rem;
         }
 
+        .header {
+            font-size: 1.2rem;
+        }
+
+        .sign_in__text {
+            color: #74788d;
+            font-size: .8rem;
+        }
+
         .background {
             position: relative;
             height: 100%;
