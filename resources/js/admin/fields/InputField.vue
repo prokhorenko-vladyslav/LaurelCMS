@@ -83,6 +83,7 @@
         border-radius: 0.25rem;
         transition: all .3s ease-in-out;
 
+        &:hover,
         &.active {
             border-color: rgba(86, 100, 210, 0.35);
             box-shadow: 0 0 3px 0 rgba(86, 100, 210, 0.5);
@@ -114,7 +115,7 @@
         }
 
         .input__label {
-            font-weight: bold;
+            font-weight: 600;
             color: #505d69;
             cursor: default;
         }
