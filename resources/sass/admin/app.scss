@@ -14,4 +14,13 @@
 
 body {
     overflow-x: hidden;
+    font-family: "Nunito", sans-serif;
+}
+
+a {
+    &, &:link,
+    &:visited, &:hover, &:active {
+        color: #74788d;
+        text-decoration: none;
+    }
 }

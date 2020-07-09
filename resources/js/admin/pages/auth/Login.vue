@@ -1,13 +1,13 @@
 <template>
     <div class="row login">
-        <div class="col-md-4">
+        <div class="col-xl-4 col-lg-5 col-md-6">
             <div class="d-flex flex-column align-items-center justify-content-center h-100">
                 <div class="logo">
                     <img src="/admin/img/logo.png" alt="Logo">
                 </div>
-                <h1 class="header">Welcome Back!</h1>
+                <h1 class="header mt-4 mb-0">Welcome Back!</h1>
                 <p class="sign_in__text">Sign in to continue.</p>
-                <div class="row w-100 justify-content-center mt-5">
+                <div class="row w-100 justify-content-center mt-4">
                     <div class="col-md-8 d-flex justify-content-center">
                         <input-field
                             has-icon
@@ -40,9 +40,30 @@
                         </input-field>
                     </div>
                 </div>
+                <div class="row w-100 justify-content-center mt-4">
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <checkbox-field
+                            type="password"
+                        >
+                            <template v-slot:label>
+                                Remember me
+                            </template>
+                        </checkbox-field>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-center mt-4">
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <simple-button>Log In</simple-button>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-center mt-4">
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <router-link to="/" class="link link_forgot-password">Forgot your password?</router-link>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-8 p-0">
+        <div class="col-xl-8 col-lg-7 col-md-6 d-none d-md-block p-0">
             <div class="background">
                 <div class="background-overlay"></div>
             </div>
@@ -52,11 +73,14 @@
 
 <script>
     import InputField from "../../fields/InputField";
+    import CheckboxField from "../../fields/CheckboxField";
+    import SimpleButton from "../../fields/SimpleButton";
 
     export default {
         name: "Login",
         components : {
-            InputField
+            InputField, CheckboxField,
+            SimpleButton,
         }
     }
 </script>
@@ -64,6 +88,15 @@
 <style lang="scss" scoped>
     .login {
         min-height: 100vh;
+
+        .header {
+            font-size: 1.2rem;
+        }
+
+        .sign_in__text {
+            color: #74788d;
+            font-size: .8rem;
+        }
 
         .background {
             position: relative;
@@ -80,6 +113,22 @@
                 height: 100%;
                 opacity: .7;
                 background-color: #292626;
+            }
+        }
+
+        .link_forgot-password {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 14px;
+                height: 14px;
+                margin-right: .4rem;
+                background: url("/admin/img/icons/lock-filled.svg");
+                background-size: cover;
             }
         }
     }
