@@ -17,6 +17,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', function () {
         return view('admin.master');
     });
+    Route::get('/lock', function () {
+        return view('admin.master');
+    });
 });
 
 Route::get('/foo', function () {

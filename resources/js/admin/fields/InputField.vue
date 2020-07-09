@@ -1,5 +1,5 @@
 <template>
-    <div class="input row" :class="{ classes, active : focusing }" @click="focusOnInput">
+    <div class="input row" :class="{ classes, active : focusing, 'flex-row-reverse' : iconRight, 'has-border-bottom' : hasBorderBottom }" @click="focusOnInput">
         <div class="input__icon col-2" v-if="hasIcon">
             <slot name="icon"></slot>
         </div>
@@ -34,6 +34,10 @@
                 type : Boolean,
                 default : false
             },
+            iconRight : {
+                type : Boolean,
+                default : false,
+            },
             hasLabel : {
                 type : Boolean,
                 default : false
@@ -54,6 +58,10 @@
                 type : Boolean,
                 default : false
             },
+            hasBorderBottom : {
+                type : Boolean,
+                default : false,
+            }
         },
         data: () => ({
             focusing : false,
@@ -82,6 +90,11 @@
         border: 1px solid #ced4da;
         border-radius: 0.25rem;
         transition: all .3s ease-in-out;
+
+        &.has-border-bottom {
+            border: none;
+            border-bottom: 1px solid #ced4da;
+        }
 
         &:hover,
         &.active {

@@ -88,6 +88,7 @@
 <style lang="scss" scoped>
     .login {
         min-height: 100vh;
+        padding: 15px;
 
         .header {
             font-size: 1.2rem;

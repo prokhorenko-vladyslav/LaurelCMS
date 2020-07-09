@@ -1,5 +1,6 @@
 import Main from "../pages/Main";
 import Login from "../pages/auth/Login";
+import Lock from "../pages/auth/Lock";
 
 export default [
     {
@@ -9,6 +10,10 @@ export default [
             {
                 path : 'login',
                 component : Login
+            },
+            {
+                path : 'lock',
+                component : Lock
             }
         ]
     }
