@@ -1,9 +1,9 @@
 <template>
     <div class="input row" :class="{ classes, active : focusing }" @click="focusOnInput">
-        <div class="input__icon col-md-2" v-if="hasIcon">
+        <div class="input__icon col-2" v-if="hasIcon">
             <slot name="icon"></slot>
         </div>
-        <div class="input__wrapper col-md-10">
+        <div class="input__wrapper col-10">
             <div class="input__label" v-if="hasLabel">
                 <slot name="label"></slot>
             </div>

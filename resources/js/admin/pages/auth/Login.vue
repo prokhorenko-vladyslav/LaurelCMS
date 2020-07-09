@@ -1,6 +1,6 @@
 <template>
     <div class="row login">
-        <div class="col-md-4">
+        <div class="col-xl-4 col-lg-5 col-md-6">
             <div class="d-flex flex-column align-items-center justify-content-center h-100">
                 <div class="logo">
                     <img src="/admin/img/logo.png" alt="Logo">
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 p-0">
+        <div class="col-xl-8 col-lg-7 col-md-6 d-none d-md-block p-0">
             <div class="background">
                 <div class="background-overlay"></div>
             </div>
