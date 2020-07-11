@@ -4,7 +4,7 @@
             <div class="background-overlay"></div>
             <div class="row h-100 justify-content-center align-items-center lock__block__wrapper">
                 <div class="col-xl-3 lock__block">
-                    <div class="d-flex justify-content-center flex-column">
+                    <div class="d-flex justify-content-center flex-column pt-3 pb-3">
                         <img src="/admin/img/icons/lock-big.svg" alt="" class="lock__block__logo">
                         <div class="header text-center">Hey, Vladislav</div>
                         <div class="row w-100 justify-content-center mt-4">
@@ -14,7 +14,7 @@
                                     icon-right
                                     has-label
                                     has-border-bottom
-                                    icon-size="14px"
+                                    icon-size="15px"
                                     type="password"
                                     placeholder="Enter password"
                                 >
@@ -25,6 +25,11 @@
                                         Password
                                     </template>
                                 </input-field>
+                            </div>
+                        </div>
+                        <div class="row w-100 justify-content-center mt-4">
+                            <div class="col-md-8 d-flex justify-content-center">
+                                <simple-button>Unlock</simple-button>
                             </div>
                         </div>
                     </div>
