@@ -1,6 +1,6 @@
 <template>
     <div class="input row" :class="{ classes, active : focusing, 'flex-row-reverse' : iconRight, 'has-border-bottom' : hasBorderBottom }" @click="focusOnInput">
-        <div class="input__icon col-2" v-if="hasIcon">
+        <div class="input__icon col-2" v-if="hasIcon" :style="{ height : iconSize, width : iconSize }">
             <slot name="icon"></slot>
         </div>
         <div class="input__wrapper col-10">
@@ -41,6 +41,10 @@
             hasLabel : {
                 type : Boolean,
                 default : false
+            },
+            iconSize : {
+                type : String,
+                default : 'text'
             },
             type : {
                 type : String,
@@ -83,7 +87,7 @@
 <style lang="scss" scoped>
     .input {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         width: 100%;
         height: 60px;
         padding: .25rem .5rem;
@@ -106,11 +110,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 30px;
+            height: 30px;
+            margin-bottom: 10px;
             padding: 0;
 
-            img, icon {
-                width: 30px;
-                height: 30px;
+            img, svg {
+                width: 100%;
+                height: 100%;
             }
         }
 
