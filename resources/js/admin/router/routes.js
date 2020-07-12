@@ -10,7 +10,8 @@ export default [
         children: [
             {
                 path : 'login',
-                component : Login
+                component : Login,
+                name : 'admin.auth.login'
             },
             {
                 path : 'forgot',
