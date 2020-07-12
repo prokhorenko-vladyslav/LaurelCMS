@@ -3,7 +3,7 @@
         <div class="background">
             <div class="background-overlay"></div>
             <div class="row h-100 justify-content-center align-items-center lock__block__wrapper">
-                <div class="col-xl-3 lock__block">
+                <div class="col-xl-3 col-md-5 col-10 lock__block">
                     <div class="d-flex justify-content-center flex-column pt-3 pb-3">
                         <img src="/admin/img/icons/lock-big.svg" alt="" class="lock__block__logo">
                         <div class="header text-center">Hey, Vladislav.</div>
