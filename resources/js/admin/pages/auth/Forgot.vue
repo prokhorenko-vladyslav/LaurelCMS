@@ -1,64 +1,34 @@
 <template>
-    <div class="row login">
+    <div class="row forgot">
         <div class="col-xl-4 col-lg-5 col-md-6">
             <div class="d-flex flex-column align-items-center justify-content-center h-100">
                 <div class="logo">
                     <img src="/admin/img/logo.png" alt="Logo">
                 </div>
-                <h1 class="header mt-4 mb-0">Welcome Back!</h1>
-                <p class="sign_in__text">Sign in to continue.</p>
+                <h1 class="header mt-4 mb-0">Forgot password?</h1>
+                <p class="sign_in__text">Input email to reset.</p>
                 <div class="row w-100 justify-content-center mt-4">
-                    <div class="col-md-8 d-flex justify-content-center">
+                    <div class="col-6 col-md-8 d-flex justify-content-center">
                         <input-field
                             has-icon
                             has-label
-                            placeholder="Enter username"
+                            placeholder="Enter email"
                         >
                             <template v-slot:icon>
-                                <img src="/admin/img/icons/account.svg" alt="Account">
+                                <img src="/admin/img/icons/email.svg" alt="Account">
                             </template>
                             <template v-slot:label>
-                                Username
+                                Email
                             </template>
                         </input-field>
                     </div>
                 </div>
                 <div class="row w-100 justify-content-center mt-4">
-                    <div class="col-md-8 d-flex justify-content-center">
-                        <input-field
-                            has-icon
-                            has-label
-                            type="password"
-                            placeholder="Enter password"
-                        >
-                            <template v-slot:icon>
-                                <img src="/admin/img/icons/lock.svg" alt="Lock">
-                            </template>
-                            <template v-slot:label>
-                                Password
-                            </template>
-                        </input-field>
+                    <div class="col-6 d-flex justify-content-end">
+                        <simple-button>Reset</simple-button>
                     </div>
-                </div>
-                <div class="row w-100 justify-content-center mt-4">
-                    <div class="col-md-8 d-flex justify-content-center">
-                        <checkbox-field
-                            type="password"
-                        >
-                            <template v-slot:label>
-                                Remember me
-                            </template>
-                        </checkbox-field>
-                    </div>
-                </div>
-                <div class="row w-100 justify-content-center mt-4">
-                    <div class="col-md-8 d-flex justify-content-center">
-                        <simple-button>Log In</simple-button>
-                    </div>
-                </div>
-                <div class="row w-100 justify-content-center mt-4">
-                    <div class="col-md-8 d-flex justify-content-center">
-                        <router-link :to="{ name : 'admin.auth.forgot' }" class="link link_forgot-password">Forgot your password?</router-link>
+                    <div class="col-6 d-flex justify-content-start">
+                        <router-link :to="{ name : 'admin.auth.login' }" class="link link__login">Login</router-link>
                     </div>
                 </div>
             </div>
@@ -86,9 +56,8 @@
 </script>
 
 <style lang="scss" scoped>
-    .login {
+    .forgot {
         min-height: 100vh;
-        padding: 15px;
 
         .header {
             font-size: 1.2rem;
@@ -101,11 +70,6 @@
 
         .header {
             font-size: 1.2rem;
-        }
-
-        .sign_in__text {
-            color: #74788d;
-            font-size: .8rem;
         }
 
         .background {
@@ -126,19 +90,18 @@
             }
         }
 
-        .link_forgot-password {
-            position: relative;
-            display: flex;
-            align-items: center;
+        .link__login {
+            min-width: 110px;
+            height: 40px;
+            padding: .5rem .75rem;
+            border-radius: .25rem;
+            border: 1px solid #5664d2;
+            color: #5664d2;
+            text-align: center;
+            transition: all .3s ease-in-out;
 
-            &:before {
-                content: '';
-                display: block;
-                width: 14px;
-                height: 14px;
-                margin-right: .4rem;
-                background: url("/admin/img/icons/lock-filled.svg");
-                background-size: cover;
+            &:hover {
+                box-shadow: 0 0 5px 0 rgba(86, 100, 210, 0.5);
             }
         }
     }
