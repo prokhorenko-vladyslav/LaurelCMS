@@ -1,6 +1,7 @@
 import Main from "../pages/Main";
 import Login from "../pages/auth/Login";
 import Lock from "../pages/auth/Lock";
+import Forgot from "../pages/auth/Forgot";
 
 export default [
     {
@@ -9,7 +10,13 @@ export default [
         children: [
             {
                 path : 'login',
-                component : Login
+                component : Login,
+                name : 'admin.auth.login'
+            },
+            {
+                path : 'forgot',
+                component : Forgot,
+                name : 'admin.auth.forgot'
             },
             {
                 path : 'lock',
