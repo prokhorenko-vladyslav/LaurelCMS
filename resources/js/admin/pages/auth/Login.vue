@@ -6,7 +6,7 @@
                     <img src="/admin/img/logo.png" alt="Logo">
                 </div>
                 <h1 class="header mt-4 mb-0">Welcome Back!</h1>
-                <p class="sign_in__text">Sign in to continue.</p>
+                <p class="secondary__text">Sign in to continue.</p>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-md-8 d-flex justify-content-center">
                         <input-field
@@ -91,11 +91,6 @@
 
         .header {
             font-size: 1.2rem;
-        }
-
-        .sign_in__text {
-            color: #74788d;
-            font-size: .8rem;
         }
 
         .header {
