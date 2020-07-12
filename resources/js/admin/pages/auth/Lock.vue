@@ -6,7 +6,7 @@
                 <div class="col-xl-3 lock__block">
                     <div class="d-flex justify-content-center flex-column pt-3 pb-3">
                         <img src="/admin/img/icons/lock-big.svg" alt="" class="lock__block__logo">
-                        <div class="header text-center">Hey, Vladislav</div>
+                        <div class="header text-center">Hey, Vladislav. You have not any activity during 10 minutes. Login to continue working...</div>
                         <div class="row w-100 justify-content-center mt-4">
                             <div class="col-md-8 d-flex justify-content-center">
                                 <input-field
