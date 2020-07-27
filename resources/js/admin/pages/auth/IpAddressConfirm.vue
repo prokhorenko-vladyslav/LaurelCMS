@@ -5,8 +5,8 @@
                 <div class="logo">
                     <img src="/admin/img/logo.png" alt="Logo">
                 </div>
-                <h1 class="header mt-4 mb-0">We have detected another ip address!</h1>
-                <p class="secondary__text">To confirm this ip address input code. Mail has been sent to user email.</p>
+                <h1 class="header mt-4 mb-0">We have detected new ip address!</h1>
+                <p class="secondary__text">To confirm this ip address input code. Mail has been sent to administrator email.</p>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-md-8 d-flex justify-content-center">
                         <input-field
