@@ -7,7 +7,7 @@
                     <div class="d-flex justify-content-center flex-column pt-3 pb-3">
                         <img src="/admin/img/icons/lock-big.svg" alt="" class="lock__block__logo">
                         <div class="header text-center">Hey, Vladislav.</div>
-                        <div class="secondary__text text-center">You have not any activity during 10 minutes. <br>Login to continue working...</div>
+                        <div class="secondary__text text-center">You have not any activity during 10 minutes. <br>Login to continue...</div>
                         <div class="row w-100 justify-content-center mt-4">
                             <div class="col-md-8 d-flex justify-content-center">
                                 <input-field
@@ -26,6 +26,11 @@
                                         Password
                                     </template>
                                 </input-field>
+                            </div>
+                        </div>
+                        <div class="row w-100 justify-content-center mt-4">
+                            <div class="col-md-8 d-flex justify-content-center">
+                                <router-link :to="{ name : 'admin.auth.forgot' }" class="link link_forgot-password">Forgot your password?</router-link>
                             </div>
                         </div>
                         <div class="row w-100 justify-content-center mt-4">
