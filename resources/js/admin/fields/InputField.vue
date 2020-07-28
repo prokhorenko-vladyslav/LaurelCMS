@@ -98,6 +98,14 @@
         &.has-border-bottom {
             border: none;
             border-bottom: 1px solid #ced4da;
+            border-radius: 0;
+
+            &:hover,
+            &.active {
+                border-color: unset;
+                border-bottom-color: rgba(86, 100, 210, 0.5);
+                box-shadow: none;
+            }
         }
 
         &:hover,
