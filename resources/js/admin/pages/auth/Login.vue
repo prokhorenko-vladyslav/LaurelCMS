@@ -131,7 +131,7 @@
                 width: 14px;
                 height: 14px;
                 margin-right: .4rem;
-                background: url("/admin/img/icons/lock-filled.svg");
+                background: url("/admin/img/icons/unlock-filled.svg");
                 background-size: cover;
             }
         }
