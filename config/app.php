@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \Laurel\CMS\Providers\LaurelCoreServiceProvider::class,
 
         /*
          * Application Service Providers...
