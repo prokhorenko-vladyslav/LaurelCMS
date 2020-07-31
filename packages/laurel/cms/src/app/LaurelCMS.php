@@ -29,8 +29,8 @@ class LaurelCMS
      */
     protected function __construct()
     {
-        self::$instance->modules = collect([]);
-        self::$instance->load();
+        $this->modules = collect([]);
+        $this->load();
     }
 
     /**
