@@ -4,19 +4,42 @@
 namespace Laurel\CMS\Traits;
 
 
+use Closure;
 use Illuminate\Support\Collection;
 use Laurel\CMS\Contracts\ModuleContract;
-use Laurel\CMS\Exceptions\{AliasHasNotBeenFoundedException,
+use Laurel\CMS\Exceptions\{
+    AliasHasNotBeenFoundedException,
     ModuleAlreadyExistsException,
     ModuleCannotBeForgottenException,
-    ModuleNotFoundException};
+    ModuleNotFoundException
+};
 use Prophecy\Exception\Doubler\ClassNotFoundException;
 use Psy\Exception\TypeErrorException;
+use ReflectionException;
+use ReflectionFunction;
+use Throwable;
 
+/**
+ * Trait for loading, getting and forgetting modules
+ *
+ * Trait CanLoadModules
+ * @package Laurel\CMS\Traits
+ */
 trait CanLoadModules
 {
+    /**
+     * List of the loaded modules
+     *
+     * @var Collection
+     */
     protected Collection $modules;
 
+    /**
+     * Returns all modules, which define in the core config file in the modules section
+     *
+     * @return Collection
+     * @throws Throwable
+     */
     public function getStaticModules() : Collection
     {
         $modules = config('laurel.cms.core.modules', []);
@@ -24,22 +47,46 @@ trait CanLoadModules
         return collect($modules);
     }
 
+    /**
+     * Checks if module has been loaded or not
+     *
+     * @param string $moduleAlias
+     * @return bool
+     */
     public function isModuleLoaded(string $moduleAlias) : bool
     {
         return $this->modules->has($moduleAlias);
     }
 
+    /**
+     * Returns list of the all loaded modules
+     *
+     * @return Collection
+     */
     public function getModules() : Collection
     {
         return $this->modules;
     }
 
+    /**
+     * Returns module object using its alias
+     *
+     * @param string $moduleAlias
+     * @return ModuleContract
+     * @throws Throwable
+     */
     public function getModule(string $moduleAlias) : ModuleContract
     {
         throw_if(!$this->isModuleLoaded($moduleAlias), ModuleNotFoundException::class, ...["Module with alias \"{$moduleAlias}\" has not been founded"]);
         return $this->modules->get($moduleAlias);
     }
 
+    /**
+     * Returns list of the all modules aliases, which defines in the core config file in the aliases section
+     *
+     * @return array
+     * @throws Throwable
+     */
     public function getModulesAliases() : array
     {
         $moduleAliases = config('laurel.cms.core.aliases', []);
@@ -47,17 +94,38 @@ trait CanLoadModules
         return $moduleAliases;
     }
 
+    /**
+     * Checks if the module has alias or not
+     *
+     * @param string $moduleAlias
+     * @return bool
+     * @throws Throwable
+     */
     public function hasAlias(string $moduleAlias) : bool
     {
         return key_exists($moduleAlias, $this->getModulesAliases());
     }
 
+    /**
+     * Returns alias class of the module
+     *
+     * @param string $moduleAlias
+     * @return string
+     * @throws Throwable
+     */
     public function getAliasClass(string $moduleAlias) : string
     {
         throw_if(!key_exists($moduleAlias, $this->getModulesAliases()), AliasHasNotBeenFoundedException::class, ...["Class for alias \"{$moduleAlias}\" has not been founded"]);
         return $this->getModulesAliases()[$moduleAlias];
     }
 
+    /**
+     * Loads list of modules. Array must be like ['moduleAlias' => 'moduleClass']
+     *
+     * @param array $modules
+     * @return $this
+     * @throws Throwable
+     */
     public function loadModules(array $modules) : self
     {
         foreach ($modules as $moduleAlias => $moduleClass) {
@@ -67,15 +135,39 @@ trait CanLoadModules
         return $this;
     }
 
-    public function loadModulesIf(bool $condition, array $modules) : self
+    /**
+     * Loads list, of the modules if the condition returns true. As condition can be used bool value or closure
+     *
+     * @param $condition
+     * @param array $modules
+     * @return $this
+     * @throws ReflectionException
+     * @throws Throwable
+     */
+    public function loadModulesIf($condition, array $modules) : self
     {
-        if ($condition) {
+        throw_if(!is_bool($condition) && !(new ReflectionFunction($condition))->isClosure(), TypeErrorException::class, ...["Condition for module loading can be Closure or bool"]);
+
+        if (
+            (is_object($condition) && $condition instanceof Closure && $condition()) ||
+            (is_bool($condition) && $condition)
+        ) {
             $this->loadModules($modules);
         }
 
         return $this;
     }
 
+    /**
+     * Loads module. For creating class uses alias class or default module class in the parameters.
+     * Also you can set contract, which must be implemented by module class
+     *
+     * @param string $moduleAlias
+     * @param string $defaultModuleClass
+     * @param string|null $implementContract
+     * @return $this
+     * @throws Throwable
+     */
     public function loadModule(string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
     {
         $moduleClass = $this->hasAlias($moduleAlias) ? $this->getAliasClass($moduleAlias) : $defaultModuleClass;
@@ -92,15 +184,37 @@ trait CanLoadModules
         return $this;
     }
 
-    public function loadModuleIf(bool $condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
+    /**
+     * Loads module, if the condition returns true. As condition can be used bool value or closure
+     *
+     * @param $condition
+     * @param string $moduleAlias
+     * @param string $defaultModuleClass
+     * @param string|null $implementContract
+     * @return $this
+     * @throws ReflectionException
+     * @throws Throwable
+     */
+    public function loadModuleIf($condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
     {
-        if ($condition) {
+        throw_if(!is_bool($condition) && !(new ReflectionFunction($condition))->isClosure(), TypeErrorException::class, ...["Condition for module loading can be Closure or bool"]);
+
+        if (
+            (is_object($condition) && $condition instanceof Closure && $condition()) ||
+            (is_bool($condition) && $condition)
+        ) {
             $this->loadModule($moduleAlias, $defaultModuleClass, $implementContract);
         }
 
         return $this;
     }
 
+    /**
+     * Call unload method, if the module has been loaded
+     *
+     * @param string $moduleAlias
+     * @throws Throwable
+     */
     public function unloadModule(string $moduleAlias) : void
     {
         if ($this->isModuleLoaded($moduleAlias)) {
@@ -108,6 +222,15 @@ trait CanLoadModules
         }
     }
 
+    /**
+     * Unloads module and deletes it from the list.
+     * If force parameter has been setted to true, checking for forgetting availability will be skipped
+     *
+     * @param string $moduleAlias
+     * @param bool $force
+     * @return $this
+     * @throws Throwable
+     */
     public function forgetModule(string $moduleAlias, bool $force = false) : self
     {
         if ($this->isModuleLoaded($moduleAlias)) {
@@ -119,6 +242,12 @@ trait CanLoadModules
         return $this;
     }
 
+    /**
+     * Unloads module and deletes all the modules
+     *
+     * @return $this
+     * @throws Throwable
+     */
     public function forgetAllModules() : self
     {
         foreach ($this->getModules() as $moduleAlias => $module) {
