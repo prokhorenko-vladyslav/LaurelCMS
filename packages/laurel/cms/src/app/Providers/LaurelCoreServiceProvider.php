@@ -8,11 +8,27 @@ use Laurel\CMS\Modules\Auth\AuthModule;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Throwable;
 
+/**
+ * LaurelCMS service provider
+ *
+ * Class LaurelCoreServiceProvider
+ * @package Laurel\CMS\Providers
+ */
 class LaurelCoreServiceProvider extends ServiceProvider
 {
+    /**
+     * Path to the CMS app folder
+     *
+     * @var string
+     */
     protected string $cmsRoot;
 
+    /**
+     * LaurelCoreServiceProvider constructor.
+     * @param $app
+     */
     public function __construct($app)
     {
         $this->cmsRoot = __DIR__ . '/..';
@@ -20,7 +36,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register services.
+     * Register services. Also, method loads helpers, config files and registers resources for publishing
      *
      * @return void
      */
@@ -33,9 +49,10 @@ class LaurelCoreServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap services.
+     * Bootstrap services. Also, method creates CMS instance and load main modules
      *
      * @return void
+     * @throws Throwable
      */
     public function boot()
     {
@@ -45,11 +62,17 @@ class LaurelCoreServiceProvider extends ServiceProvider
             ->loadModule('localization', LocalizationModule::class);
     }
 
+    /**
+     * Method loads php-files with helpers
+     */
     protected function loadHelpers()
     {
         require_once $this->composeFilePath('/Helpers/core.php');
     }
 
+    /**
+     * Method loads config files and merges it with config parameters of the Laravel
+     */
     protected function loadConfig()
     {
         $this->mergeConfigFrom(
@@ -62,6 +85,13 @@ class LaurelCoreServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Method adds to the filepath path of the CMS app folder
+     *
+     * @param string $filePath
+     * @return string
+     * @throws Throwable
+     */
     protected function composeFilePath(string $filePath) : string
     {
         $fileFullPath = $this->cmsRoot . $filePath;
@@ -69,11 +99,19 @@ class LaurelCoreServiceProvider extends ServiceProvider
         return $fileFullPath;
     }
 
+    /**
+     * Method registers publishing resources
+     */
     protected function registerPublishes()
     {
         $this->registerConfigPublishes();
     }
 
+    /**
+     * Method registers config files as resources for publishing
+     *
+     * @throws Throwable
+     */
     protected function registerConfigPublishes()
     {
         $this->publishes([
