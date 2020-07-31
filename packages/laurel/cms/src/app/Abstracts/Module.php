@@ -3,29 +3,43 @@
 
 namespace Laurel\CMS\Abstracts;
 
-
-use Illuminate\Support\Facades\Log;
 use Laurel\CMS\Contracts\ModuleContract;
 
+/**
+ * Abstract class with general methods and fields for creating all modules
+ *
+ * Class Module
+ * @package Laurel\CMS\Abstracts
+ */
 abstract class Module implements ModuleContract
 {
+    /**
+     * Method, which will be called, when module is loading
+     *
+     * @return bool
+     */
     public function load()
-    {
-        // TODO: Implement load() method.
-    }
-
-    public function unload()
-    {
-
-    }
-
-    public function canBeForgotten() : bool
     {
         return true;
     }
 
-    public function __destruct()
+    /**
+     * Method, which will be called, when module is unloading
+     *
+     * @return bool
+     */
+    public function unload()
     {
-        dump("Destroyed module " . static::class);
+        return true;
+    }
+
+    /**
+     * Method, which sets forgetting condition for module
+     *
+     * @return bool
+     */
+    public function canBeForgotten() : bool
+    {
+        return true;
     }
 }
