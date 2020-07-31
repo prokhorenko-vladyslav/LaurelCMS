@@ -3,11 +3,13 @@
 
 namespace Laurel\CMS;
 
+use Laurel\CMS\Traits\CanLoadConsoleModules;
+use Laurel\CMS\Traits\CanLoadHttpModules;
 use Laurel\CMS\Traits\CanLoadModules;
 
 class LaurelCMS
 {
-    use CanLoadModules;
+    use CanLoadModules, CanLoadConsoleModules, CanLoadHttpModules;
 
     protected static self $instance;
 
@@ -19,6 +21,11 @@ class LaurelCMS
     protected function __clone()
     {
 
+    }
+
+    public function __destruct()
+    {
+        \Laurel\CMS\LaurelCMS::instance()->forgetAllModules();
     }
 
     public static function instance() : self
@@ -33,7 +40,9 @@ class LaurelCMS
 
     public function load()
     {
-        $this->loadStaticModules();
+        $this->loadModules($this->getStaticModules()->toArray());
+        $this->loadModulesIf(app()->runningInConsole(), $this->getStaticModulesForConsole()->toArray());
+        $this->loadModulesIf(!app()->runningInConsole(), $this->getStaticModulesForHttp()->toArray());
     }
 
     public static function isLoaded() : bool

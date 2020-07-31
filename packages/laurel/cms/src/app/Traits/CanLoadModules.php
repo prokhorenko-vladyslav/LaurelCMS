@@ -58,10 +58,19 @@ trait CanLoadModules
         return $this->getModulesAliases()[$moduleAlias];
     }
 
-    public function loadStaticModules() : self
+    public function loadModules(array $modules) : self
     {
-        foreach ($this->getStaticModules() as $moduleAlias => $moduleClass) {
+        foreach ($modules as $moduleAlias => $moduleClass) {
             $this->loadModule($moduleAlias, $moduleClass);
+        }
+
+        return $this;
+    }
+
+    public function loadModulesIf(bool $condition, array $modules) : self
+    {
+        if ($condition) {
+            $this->loadModules($modules);
         }
 
         return $this;
@@ -83,6 +92,15 @@ trait CanLoadModules
         return $this;
     }
 
+    public function loadModuleIf(bool $condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
+    {
+        if ($condition) {
+            $this->loadModule($moduleAlias, $defaultModuleClass, $implementContract);
+        }
+
+        return $this;
+    }
+
     public function unloadModule(string $moduleAlias) : void
     {
         if ($this->isModuleLoaded($moduleAlias)) {
@@ -90,13 +108,21 @@ trait CanLoadModules
         }
     }
 
-    public function forgetModule(string $moduleAlias) : self
+    public function forgetModule(string $moduleAlias, bool $force = false) : self
     {
         if ($this->isModuleLoaded($moduleAlias)) {
             $module = $this->getModule($moduleAlias);
-            throw_if(!$module->canBeForgotten(), ModuleCannotBeForgottenException::class, ...["Module \"{$moduleAlias}\" => \"" . get_class($module) . "\" cannot be forgotten"]);
+            throw_if(!$module->canBeForgotten() && !$force, ModuleCannotBeForgottenException::class, ...["Module \"{$moduleAlias}\" => \"" . get_class($module) . "\" cannot be forgotten"]);
             $module->unload();
             $this->modules->forget($moduleAlias);
+        }
+        return $this;
+    }
+
+    public function forgetAllModules() : self
+    {
+        foreach ($this->getModules() as $moduleAlias => $module) {
+            $this->forgetModule($moduleAlias, true);
         }
         return $this;
     }

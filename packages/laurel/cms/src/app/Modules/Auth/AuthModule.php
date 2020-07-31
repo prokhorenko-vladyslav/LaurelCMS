@@ -8,5 +8,4 @@ use Laurel\CMS\Abstracts\Module;
 class AuthModule extends Module
 {
 
-
 }
