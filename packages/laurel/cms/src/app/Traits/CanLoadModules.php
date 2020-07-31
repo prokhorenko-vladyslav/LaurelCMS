@@ -58,10 +58,19 @@ trait CanLoadModules
         return $this->getModulesAliases()[$moduleAlias];
     }
 
-    public function loadStaticModules() : self
+    public function loadModules(array $modules) : self
     {
-        foreach ($this->getStaticModules() as $moduleAlias => $moduleClass) {
+        foreach ($modules as $moduleAlias => $moduleClass) {
             $this->loadModule($moduleAlias, $moduleClass);
+        }
+
+        return $this;
+    }
+
+    public function loadModulesIf(bool $condition, array $modules) : self
+    {
+        if ($condition) {
+            $this->loadModules($modules);
         }
 
         return $this;
@@ -79,6 +88,15 @@ trait CanLoadModules
 
         $module->load();
         $this->modules->put($moduleAlias, $module);
+
+        return $this;
+    }
+
+    public function loadModuleIf(bool $condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
+    {
+        if ($condition) {
+            $this->loadModule($moduleAlias, $defaultModuleClass, $implementContract);
+        }
 
         return $this;
     }
