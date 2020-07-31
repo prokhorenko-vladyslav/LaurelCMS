@@ -21,6 +21,11 @@ class LaurelCMS
 
     }
 
+    public function __destruct()
+    {
+        \Laurel\CMS\LaurelCMS::instance()->forgetAllModules();
+    }
+
     public static function instance() : self
     {
         if (empty(self::$instance)) {

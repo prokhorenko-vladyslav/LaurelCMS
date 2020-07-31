@@ -90,13 +90,21 @@ trait CanLoadModules
         }
     }
 
-    public function forgetModule(string $moduleAlias) : self
+    public function forgetModule(string $moduleAlias, bool $force = false) : self
     {
         if ($this->isModuleLoaded($moduleAlias)) {
             $module = $this->getModule($moduleAlias);
-            throw_if(!$module->canBeForgotten(), ModuleCannotBeForgottenException::class, ...["Module \"{$moduleAlias}\" => \"" . get_class($module) . "\" cannot be forgotten"]);
+            throw_if(!$module->canBeForgotten() && !$force, ModuleCannotBeForgottenException::class, ...["Module \"{$moduleAlias}\" => \"" . get_class($module) . "\" cannot be forgotten"]);
             $module->unload();
             $this->modules->forget($moduleAlias);
+        }
+        return $this;
+    }
+
+    public function forgetAllModules() : self
+    {
+        foreach ($this->getModules() as $moduleAlias => $module) {
+            $this->forgetModule($moduleAlias, true);
         }
         return $this;
     }
