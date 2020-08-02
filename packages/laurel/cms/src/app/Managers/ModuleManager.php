@@ -18,15 +18,39 @@ use ReflectionException;
 use ReflectionFunction;
 use Throwable;
 
+/**
+ * Class for modules manipulating
+ *
+ * Class ModuleManager
+ * @package Laurel\CMS\Managers
+ */
 class ModuleManager
 {
+    /**
+     * Singleton instance for ModuleManager
+     *
+     * @var ModuleManager $this
+     */
     protected static self $instance;
 
+    /**
+     * List of the loaded modules
+     *
+     * @var Collection
+     */
+    protected Collection $modules;
+
+    /**
+     * ModuleManager constructor.
+     */
     protected function __construct()
     {
         $this->modules = collect([]);
     }
 
+    /**
+     * @return static
+     */
     public static function instance() : self
     {
         if (empty(self::$instance)) {
@@ -35,13 +59,6 @@ class ModuleManager
 
         return self::$instance;
     }
-
-    /**
-     * List of the loaded modules
-     *
-     * @var Collection
-     */
-    protected Collection $modules;
 
     /**
      * Returns all modules, which define in the core config file in the modules section
