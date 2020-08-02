@@ -40,6 +40,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
      * Register services. Also, method loads helpers, config files and registers resources for publishing
      *
      * @return void
+     * @throws Throwable
      */
     public function register()
     {
@@ -97,25 +98,9 @@ class LaurelCoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom($paths);
     }
 
-    public function scanMigrationsDir($dir)
-    {
-        $result = array();
-
-       $cdir = scandir($dir);
-       foreach ($cdir as $key => $value)
-       {
-          if (!in_array($value,array(".",".."))) {
-             if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                $result[$value] = $this->scanMigrationsDir($dir . DIRECTORY_SEPARATOR . $value);
-             } else {
-                $result[] = $value;
-             }
-          }
-       }
-
-       return $result;
-    }
-
+    /**
+     * Method for loading commands for CMS
+     */
     protected function loadCommands()
     {
         if ($this->app->runningInConsole()) {
