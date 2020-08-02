@@ -7,9 +7,11 @@ use Laurel\CMS\Managers\ModuleManager;
 /**
  * Helper for getting module manager from the CMS
  */
-function moduleManager() : ModuleManager
-{
-    return LaurelCMS::instance()->moduleManager();
+if (!function_exists('moduleManager')) {
+    function moduleManager() : ModuleManager
+    {
+        return LaurelCMS::instance()->moduleManager();
+    }
 }
 
 /**
@@ -19,7 +21,9 @@ function moduleManager() : ModuleManager
  * @return ModuleContract
  * @throws Throwable
  */
-function module(string $moduleAlias)
-{
-    return LaurelCMS::instance()->getModule($moduleAlias);
+if (!function_exists('module')) {
+    function module(string $moduleAlias)
+    {
+        return LaurelCMS::instance()->getModule($moduleAlias);
+    }
 }
