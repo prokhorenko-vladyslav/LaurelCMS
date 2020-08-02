@@ -3,6 +3,7 @@
 namespace Laurel\CMS\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laurel\CMS\Console\Commands\CreateMigrationForCMS;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Modules\Auth\AuthModule;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
@@ -46,6 +47,8 @@ class LaurelCoreServiceProvider extends ServiceProvider
 
         $this->loadHelpers();
         $this->loadConfig();
+        $this->loadMigrations();
+        $this->loadCommands();
     }
 
     /**
@@ -57,6 +60,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         LaurelCMS::instance()
+            ->setRoot($this->cmsRoot)
             ->moduleManager()
             ->loadModule('auth', AuthModule::class)
             ->loadModule('settings', SettingsModule::class)
@@ -68,7 +72,57 @@ class LaurelCoreServiceProvider extends ServiceProvider
      */
     protected function loadHelpers()
     {
-        require_once $this->composeFilePath('/Helpers/core.php');
+        require_once $this->composePath('/Helpers/core.php');
+    }
+
+    /**
+     * Need to rewrite using recursion. Migrations for modules must loads from Modules/{ModuleName}/migrations folder
+     *
+     * @throws Throwable
+     */
+    protected function loadMigrations()
+    {
+        $mainPath = $this->composePath('/../database/migrations//Modules');
+        $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
+        $paths = array_merge([$mainPath], $directories);
+
+        $mainPath = $this->composePath('/../database/migrations//Core');
+        $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
+        $paths = array_merge($paths, $directories);
+
+        $mainPath = $this->composePath('/../database/migrations/');
+        $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
+        $paths = array_merge($paths, $directories, [$mainPath]);
+
+        $this->loadMigrationsFrom($paths);
+    }
+
+    public function scanMigrationsDir($dir)
+    {
+        $result = array();
+
+       $cdir = scandir($dir);
+       foreach ($cdir as $key => $value)
+       {
+          if (!in_array($value,array(".",".."))) {
+             if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                $result[$value] = $this->scanMigrationsDir($dir . DIRECTORY_SEPARATOR . $value);
+             } else {
+                $result[] = $value;
+             }
+          }
+       }
+
+       return $result;
+    }
+
+    protected function loadCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CreateMigrationForCMS::class
+            ]);
+        }
     }
 
     /**
@@ -77,11 +131,11 @@ class LaurelCoreServiceProvider extends ServiceProvider
     protected function loadConfig()
     {
         $this->mergeConfigFrom(
-            $this->composeFilePath('/../config/core.php'),
+            $this->composePath('/../config/core.php'),
             'laurel.cms.core'
         );
         $this->mergeConfigFrom(
-            $this->composeFilePath('/../config/settings.php'),
+            $this->composePath('/../config/settings.php'),
             'laurel.cms.settings'
         );
     }
@@ -89,13 +143,13 @@ class LaurelCoreServiceProvider extends ServiceProvider
     /**
      * Method adds to the filepath path of the CMS app folder
      *
-     * @param string $filePath
+     * @param string $path
      * @return string
      * @throws Throwable
      */
-    protected function composeFilePath(string $filePath) : string
+    protected function composePath(string $path) : string
     {
-        $fileFullPath = $this->cmsRoot . $filePath;
+        $fileFullPath = $this->cmsRoot . $path;
         throw_if(!file_exists($fileFullPath), FileNotFoundException::class);
         return $fileFullPath;
     }
@@ -116,8 +170,8 @@ class LaurelCoreServiceProvider extends ServiceProvider
     protected function registerConfigPublishes()
     {
         $this->publishes([
-            $this->composeFilePath('/../config/core.php') => config_path('laurel/cms/core.php'),
-            $this->composeFilePath('/../config/settings.php') => config_path('laurel/cms/settings.php'),
+            $this->composePath('/../config/core.php') => config_path('laurel/cms/core.php'),
+            $this->composePath('/../config/settings.php') => config_path('laurel/cms/settings.php'),
         ], 'config');
     }
 }

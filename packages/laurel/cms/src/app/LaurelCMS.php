@@ -8,6 +8,7 @@ use Laurel\CMS\Managers\ModuleManager;
 use Laurel\CMS\Traits\CanLoadConsoleModules;
 use Laurel\CMS\Traits\CanLoadHttpModules;
 use Laurel\CMS\Traits\CanLoadModules;
+use League\Flysystem\FileNotFoundException;
 
 /**
  * Main class of Laurel CMS
@@ -25,6 +26,7 @@ class LaurelCMS
     protected static self $instance;
 
     protected ?ModuleManager $moduleManager;
+    protected ?string $root;
 
     /**
      * LaurelCMS constructor.
@@ -48,6 +50,23 @@ class LaurelCMS
     public function __destruct()
     {
         \Laurel\CMS\LaurelCMS::instance()->moduleManager()->forgetAllModules();
+    }
+
+    public function setRoot(string $root)
+    {
+        throw_if(!file_exists($root), FileNotFoundException::class, ...["Directory \"{$root}\" has not been found"]);
+        $this->root = $root;
+        return $this;
+    }
+
+    public function getRoot() : string
+    {
+        return $this->root;
+    }
+
+    public function getRelativeRoot()
+    {
+        return ltrim(str_replace(app()->basePath(), '', $this->root), '\\');
     }
 
     /**
