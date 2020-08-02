@@ -1,6 +1,16 @@
 <?php
 
 use Laurel\CMS\Contracts\ModuleContract;
+use Laurel\CMS\LaurelCMS;
+use Laurel\CMS\Managers\ModuleManager;
+
+/**
+ * Helper for getting module manager from the CMS
+ */
+function moduleManager() : ModuleManager
+{
+    return LaurelCMS::instance()->moduleManager();
+}
 
 /**
  * Helper for getting module object from the CMS
@@ -11,5 +21,5 @@ use Laurel\CMS\Contracts\ModuleContract;
  */
 function module(string $moduleAlias)
 {
-    return \Laurel\CMS\LaurelCMS::instance()->getModule($moduleAlias);
+    return LaurelCMS::instance()->getModule($moduleAlias);
 }
