@@ -1,8 +1,7 @@
 <?php
 
 
-namespace Laurel\CMS\Traits;
-
+namespace Laurel\CMS\Managers;
 
 use Closure;
 use Illuminate\Support\Collection;
@@ -20,13 +19,20 @@ use ReflectionFunction;
 use Throwable;
 
 /**
- * Trait for loading, getting and forgetting modules
+ * Class for modules manipulating
  *
- * Trait CanLoadModules
- * @package Laurel\CMS\Traits
+ * Class ModuleManager
+ * @package Laurel\CMS\Managers
  */
-trait CanLoadModules
+class ModuleManager
 {
+    /**
+     * Singleton instance for ModuleManager
+     *
+     * @var ModuleManager $this
+     */
+    protected static self $instance;
+
     /**
      * List of the loaded modules
      *
@@ -35,15 +41,61 @@ trait CanLoadModules
     protected Collection $modules;
 
     /**
+     * ModuleManager constructor.
+     */
+    protected function __construct()
+    {
+        $this->modules = collect([]);
+    }
+
+    /**
+     * @return static
+     */
+    public static function instance() : self
+    {
+        if (empty(self::$instance)) {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
+
+    /**
      * Returns all modules, which define in the core config file in the modules section
      *
      * @return Collection
      * @throws Throwable
      */
-    public function getStaticModules() : Collection
+    public function getStaticModules(): Collection
     {
         $modules = config('laurel.cms.core.modules', []);
         throw_if(!is_array($modules), TypeErrorException::class, ...['List of the modules must be an array']);
+        return collect($modules);
+    }
+
+    /**
+     * Returns static modules, which has been defined in the core config file in the http_modules section
+     *
+     * @return Collection
+     * @throws Throwable
+     */
+    public function getStaticModulesForHttp() : Collection
+    {
+        $modules = config('laurel.cms.core.http_modules', []);
+        throw_if(!is_array($modules), TypeErrorException::class, ...['List of the http modules must be an array']);
+        return collect($modules);
+    }
+
+    /**
+     * Returns static modules, which has been defined in the core config file in the console_modules section
+     *
+     * @return Collection
+     * @throws Throwable
+     */
+    public function getStaticModulesForConsole() : Collection
+    {
+        $modules = config('laurel.cms.core.console_modules', []);
+        throw_if(!is_array($modules), TypeErrorException::class, ...['List of the console modules must be an array']);
         return collect($modules);
     }
 
@@ -53,7 +105,7 @@ trait CanLoadModules
      * @param string $moduleAlias
      * @return bool
      */
-    public function isModuleLoaded(string $moduleAlias) : bool
+    public function isModuleLoaded(string $moduleAlias): bool
     {
         return $this->modules->has($moduleAlias);
     }
@@ -63,7 +115,7 @@ trait CanLoadModules
      *
      * @return Collection
      */
-    public function getModules() : Collection
+    public function getModules(): Collection
     {
         return $this->modules;
     }
@@ -75,7 +127,7 @@ trait CanLoadModules
      * @return ModuleContract
      * @throws Throwable
      */
-    public function getModule(string $moduleAlias) : ModuleContract
+    public function getModule(string $moduleAlias): ModuleContract
     {
         throw_if(!$this->isModuleLoaded($moduleAlias), ModuleNotFoundException::class, ...["Module with alias \"{$moduleAlias}\" has not been founded"]);
         return $this->modules->get($moduleAlias);
@@ -87,7 +139,7 @@ trait CanLoadModules
      * @return array
      * @throws Throwable
      */
-    public function getModulesAliases() : array
+    public function getModulesAliases(): array
     {
         $moduleAliases = config('laurel.cms.core.aliases', []);
         throw_if(!is_array($moduleAliases), TypeErrorException::class, ...["List of module aliases must be an array"]);
@@ -101,7 +153,7 @@ trait CanLoadModules
      * @return bool
      * @throws Throwable
      */
-    public function hasAlias(string $moduleAlias) : bool
+    public function hasAlias(string $moduleAlias): bool
     {
         return key_exists($moduleAlias, $this->getModulesAliases());
     }
@@ -113,7 +165,7 @@ trait CanLoadModules
      * @return string
      * @throws Throwable
      */
-    public function getAliasClass(string $moduleAlias) : string
+    public function getAliasClass(string $moduleAlias): string
     {
         throw_if(!key_exists($moduleAlias, $this->getModulesAliases()), AliasHasNotBeenFoundedException::class, ...["Class for alias \"{$moduleAlias}\" has not been founded"]);
         return $this->getModulesAliases()[$moduleAlias];
@@ -126,7 +178,7 @@ trait CanLoadModules
      * @return $this
      * @throws Throwable
      */
-    public function loadModules(array $modules) : self
+    public function loadModules(array $modules): self
     {
         foreach ($modules as $moduleAlias => $moduleClass) {
             $this->loadModule($moduleAlias, $moduleClass);
@@ -144,7 +196,7 @@ trait CanLoadModules
      * @throws ReflectionException
      * @throws Throwable
      */
-    public function loadModulesIf($condition, array $modules) : self
+    public function loadModulesIf($condition, array $modules): self
     {
         throw_if(!is_bool($condition) && !(new ReflectionFunction($condition))->isClosure(), TypeErrorException::class, ...["Condition for module loading can be Closure or bool"]);
 
@@ -168,7 +220,7 @@ trait CanLoadModules
      * @return $this
      * @throws Throwable
      */
-    public function loadModule(string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
+    public function loadModule(string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null): self
     {
         $moduleClass = $this->hasAlias($moduleAlias) ? $this->getAliasClass($moduleAlias) : $defaultModuleClass;
 
@@ -195,7 +247,7 @@ trait CanLoadModules
      * @throws ReflectionException
      * @throws Throwable
      */
-    public function loadModuleIf($condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null) : self
+    public function loadModuleIf($condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null): self
     {
         throw_if(!is_bool($condition) && !(new ReflectionFunction($condition))->isClosure(), TypeErrorException::class, ...["Condition for module loading can be Closure or bool"]);
 
@@ -215,7 +267,7 @@ trait CanLoadModules
      * @param string $moduleAlias
      * @throws Throwable
      */
-    public function unloadModule(string $moduleAlias) : void
+    public function unloadModule(string $moduleAlias): void
     {
         if ($this->isModuleLoaded($moduleAlias)) {
             $this->getModule($moduleAlias)->unload();
@@ -231,7 +283,7 @@ trait CanLoadModules
      * @return $this
      * @throws Throwable
      */
-    public function forgetModule(string $moduleAlias, bool $force = false) : self
+    public function forgetModule(string $moduleAlias, bool $force = false): self
     {
         if ($this->isModuleLoaded($moduleAlias)) {
             $module = $this->getModule($moduleAlias);
@@ -248,7 +300,7 @@ trait CanLoadModules
      * @return $this
      * @throws Throwable
      */
-    public function forgetAllModules() : self
+    public function forgetAllModules(): self
     {
         foreach ($this->getModules() as $moduleAlias => $module) {
             $this->forgetModule($moduleAlias, true);

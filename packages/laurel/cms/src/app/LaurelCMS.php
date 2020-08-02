@@ -3,6 +3,8 @@
 
 namespace Laurel\CMS;
 
+use Laurel\CMS\Exceptions\ModuleManagerNotFoundException;
+use Laurel\CMS\Managers\ModuleManager;
 use Laurel\CMS\Traits\CanLoadConsoleModules;
 use Laurel\CMS\Traits\CanLoadHttpModules;
 use Laurel\CMS\Traits\CanLoadModules;
@@ -15,8 +17,6 @@ use Laurel\CMS\Traits\CanLoadModules;
  */
 class LaurelCMS
 {
-    use CanLoadModules, CanLoadConsoleModules, CanLoadHttpModules;
-
     /**
      * Singleton instance
      *
@@ -24,12 +24,13 @@ class LaurelCMS
      */
     protected static self $instance;
 
+    protected ?ModuleManager $moduleManager;
+
     /**
      * LaurelCMS constructor.
      */
     protected function __construct()
     {
-        $this->modules = collect([]);
         $this->load();
     }
 
@@ -46,7 +47,7 @@ class LaurelCMS
      */
     public function __destruct()
     {
-        \Laurel\CMS\LaurelCMS::instance()->forgetAllModules();
+        \Laurel\CMS\LaurelCMS::instance()->moduleManager()->forgetAllModules();
     }
 
     /**
@@ -67,9 +68,21 @@ class LaurelCMS
      */
     public function load()
     {
-        $this->loadModules($this->getStaticModules()->toArray());
-        $this->loadModulesIf(app()->runningInConsole(), $this->getStaticModulesForConsole()->toArray());
-        $this->loadModulesIf(!app()->runningInConsole(), $this->getStaticModulesForHttp()->toArray());
+        $this->setModuleManager(ModuleManager::instance());
+        $this->moduleManager()->loadModules($this->moduleManager()->getStaticModules()->toArray());
+        $this->moduleManager()->loadModulesIf(app()->runningInConsole(), $this->moduleManager()->getStaticModulesForConsole()->toArray());
+        $this->moduleManager()->loadModulesIf(!app()->runningInConsole(),$this->moduleManager()->getStaticModulesForHttp()->toArray());
+    }
+
+    public function setModuleManager(ModuleManager $moduleManager)
+    {
+        $this->moduleManager = $moduleManager;
+    }
+
+    public function moduleManager() : ModuleManager
+    {
+        throw_if(empty($this->moduleManager), ModuleManagerNotFoundException::class, ...['Module manager has not been found']);
+        return $this->moduleManager;
     }
 
     /**
