@@ -57,6 +57,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         LaurelCMS::instance()
+            ->moduleManager()
             ->loadModule('auth', AuthModule::class)
             ->loadModule('settings', SettingsModule::class)
             ->loadModule('localization', LocalizationModule::class);
