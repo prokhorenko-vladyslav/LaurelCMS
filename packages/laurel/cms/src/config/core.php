@@ -21,10 +21,7 @@
 
         ],
 
-        /**
-         * Aliases for overriding modules classes
-         */
         'aliases' => [
-
+//            \Laurel\CMS\Modules\Settings\SettingsModule::class => \App\UpdatedSettingModule::class
         ]
     ];
