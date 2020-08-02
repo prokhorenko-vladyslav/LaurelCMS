@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Support\Collection;
 use Laurel\CMS\Contracts\ModuleContract;
 use Laurel\CMS\Exceptions\{
-    AliasHasNotBeenFoundedException,
     ModuleAlreadyExistsException,
     ModuleCannotBeForgottenException,
     ModuleNotFoundException
@@ -134,44 +133,6 @@ class ModuleManager
     }
 
     /**
-     * Returns list of the all modules aliases, which defines in the core config file in the aliases section
-     *
-     * @return array
-     * @throws Throwable
-     */
-    public function getModulesAliases(): array
-    {
-        $moduleAliases = config('laurel.cms.core.aliases', []);
-        throw_if(!is_array($moduleAliases), TypeErrorException::class, ...["List of module aliases must be an array"]);
-        return $moduleAliases;
-    }
-
-    /**
-     * Checks if the module has alias or not
-     *
-     * @param string $moduleAlias
-     * @return bool
-     * @throws Throwable
-     */
-    public function hasAlias(string $moduleAlias): bool
-    {
-        return key_exists($moduleAlias, $this->getModulesAliases());
-    }
-
-    /**
-     * Returns alias class of the module
-     *
-     * @param string $moduleAlias
-     * @return string
-     * @throws Throwable
-     */
-    public function getAliasClass(string $moduleAlias): string
-    {
-        throw_if(!key_exists($moduleAlias, $this->getModulesAliases()), AliasHasNotBeenFoundedException::class, ...["Class for alias \"{$moduleAlias}\" has not been founded"]);
-        return $this->getModulesAliases()[$moduleAlias];
-    }
-
-    /**
      * Loads list of modules. Array must be like ['moduleAlias' => 'moduleClass']
      *
      * @param array $modules
@@ -211,20 +172,18 @@ class ModuleManager
     }
 
     /**
-     * Loads module. For creating class uses alias class or default module class in the parameters.
+     * Loads module. For creating class uses module class in the parameters.
      * Also you can set contract, which must be implemented by module class
      *
      * @param string $moduleAlias
-     * @param string $defaultModuleClass
+     * @param string $moduleClass
      * @param string|null $implementContract
      * @return $this
      * @throws Throwable
      */
-    public function loadModule(string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null): self
+    public function loadModule(string $moduleAlias, string $moduleClass, ?string $implementContract = null): self
     {
-        $moduleClass = $this->hasAlias($moduleAlias) ? $this->getAliasClass($moduleAlias) : $defaultModuleClass;
-
-        $module = new $moduleClass;
+        $module = $moduleClass::instance();
         throw_if($this->modules->has($moduleAlias), ModuleAlreadyExistsException::class, ...["Module with alias \"{$moduleAlias}\" already exists"]);
         throw_if(!$module instanceof ModuleContract, TypeErrorException::class, ...["Module \"{$moduleAlias}\" => \"{$moduleClass}\" does not implement " . ModuleContract::class]);
         throw_if(!empty($implementContract) && !interface_exists($implementContract), ClassNotFoundException::class, ...["Contract \"{$implementContract}\" has not been founded", $implementContract]);

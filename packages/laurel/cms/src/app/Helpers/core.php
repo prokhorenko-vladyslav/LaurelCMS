@@ -22,8 +22,8 @@ if (!function_exists('moduleManager')) {
  * @throws Throwable
  */
 if (!function_exists('module')) {
-    function module(string $moduleAlias)
+    function module(string $moduleAlias) : ModuleContract
     {
-        return LaurelCMS::instance()->getModule($moduleAlias);
+        return LaurelCMS::instance()->moduleManager()->getModule($moduleAlias);
     }
 }
