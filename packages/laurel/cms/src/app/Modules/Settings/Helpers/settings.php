@@ -1,7 +1,17 @@
 <?php
+
+use Laurel\CMS\LaurelCMS;
+use Laurel\CMS\Modules\Settings\SettingsModule;
+
 if (!function_exists('settingsModule')) {
-    function settingsModule() : \Laurel\CMS\Modules\Settings\SettingsModule
+    /**
+     * Helper for SettingModule class
+     *
+     * @return SettingsModule
+     * @throws Throwable
+     */
+    function settingsModule() : SettingsModule
     {
-        return \Laurel\CMS\LaurelCMS::instance()->moduleManager()->getModule('settings');
+        return LaurelCMS::instance()->moduleManager()->getModule('settings');
     }
 }

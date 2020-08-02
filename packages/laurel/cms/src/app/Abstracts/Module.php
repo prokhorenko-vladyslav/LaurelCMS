@@ -5,6 +5,7 @@ namespace Laurel\CMS\Abstracts;
 
 use Laurel\CMS\Contracts\ModuleContract;
 use Psy\Exception\TypeErrorException;
+use Throwable;
 
 /**
  * Abstract class with general methods and fields for creating all modules
@@ -14,13 +15,29 @@ use Psy\Exception\TypeErrorException;
  */
 abstract class Module implements ModuleContract
 {
+    /**
+     * Singleton module instance
+     *
+     * @var static $this
+     */
     protected static self $instance;
 
+    /**
+     * Module constructor. Creating of the new object is disabled
+     */
     private function __construct()
     {
 
     }
 
+    /**
+     * Creates module instance and calls its load method.
+     * Before creating module object, method will check the existence of the alias.
+     * If does, its alias class will be used instead of the default class
+     *
+     * @return static
+     * @throws Throwable
+     */
     private static function createInstance() : self
     {
         if (empty(self::$instance)) {
@@ -37,16 +54,35 @@ abstract class Module implements ModuleContract
         return self::$instance;
     }
 
+    /**
+     * Checks if the module class has alias.
+     * List of the aliases will be taken from core config file of the CMS
+     *
+     * @param string $className
+     * @return bool
+     */
     private static function hasAlias(string $className)
     {
         return key_exists($className, config('laurel.cms.core.aliases'));
     }
 
+    /**
+     * Returns alias class name
+     *
+     * @param string $className
+     * @return string|null
+     */
     private static function getAliasClass(string $className) : ?string
     {
         return config('laurel.cms.core.aliases')[$className] ?? null;
     }
 
+    /**
+     * Returns instance of the module class
+     *
+     * @return static
+     * @throws Throwable
+     */
     public static function instance() : self
     {
         return self::createInstance();
