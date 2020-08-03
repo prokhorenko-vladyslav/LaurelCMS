@@ -6,6 +6,7 @@ namespace Laurel\CMS\Managers;
 use Closure;
 use Illuminate\Support\Collection;
 use Laurel\CMS\Contracts\ModuleContract;
+use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Exceptions\{
     ModuleAlreadyExistsException,
     ModuleCannotBeForgottenException,
@@ -189,6 +190,7 @@ class ModuleManager
         throw_if(!empty($implementContract) && !interface_exists($implementContract), ClassNotFoundException::class, ...["Contract \"{$implementContract}\" has not been founded", $implementContract]);
         throw_if(!empty($implementContract) && !$module instanceof $implementContract, TypeErrorException::class, ...["Module \"{$moduleAlias}\" => \"{$moduleClass}\" must implement contract \"" . $implementContract . "\""]);
 
+        $module->setName($moduleAlias);
         $module->load();
         $this->modules->put($moduleAlias, $module);
 
