@@ -42,18 +42,6 @@ class Setting extends Model
     }
 
     /**
-     * Checks value and return true, if it seems like json
-     *
-     * @param string $value
-     * @return bool
-     */
-    public static function valueIsJson(string $value)
-    {
-        json_decode($value);
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
-
-    /**
      * Sets group of the setting
      *
      * @param string|null $groupName
@@ -134,7 +122,7 @@ class Setting extends Model
      */
     public function getValueAttribute($value)
     {
-        return self::valueIsJson($value) ? json_decode($value, !$this->valueAsObjectIfJson) : $value;
+        return valueIsJson($value) ? json_decode($value, !$this->valueAsObjectIfJson) : $value;
     }
 
     /**
