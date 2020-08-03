@@ -15,12 +15,15 @@ use Throwable;
  */
 abstract class Module implements ModuleContract
 {
+    protected static array $instances = [];
     /**
      * Singleton module instance
      *
      * @var static $this
      */
-    protected static self $instance;
+    protected self $instance;
+
+    protected string $name;
 
     /**
      * Module constructor. Creating of the new object is disabled
@@ -40,18 +43,29 @@ abstract class Module implements ModuleContract
      */
     private static function createInstance() : self
     {
-        if (empty(self::$instance)) {
+        if (!key_exists(static::class, self::$instances)) {
             if (self::hasAlias(static::class)) {
                 $className = self::getAliasClass(static::class);
                 throw_if(get_parent_class($className) !== static::class, TypeErrorException::class, ...["Alias class \"{$className}\" must extends " . static::class]);
             } else {
                 $className = static::class;
             }
-            self::$instance = new $className;
-            self::$instance->load();
+            self::$instances[static::class] = new $className;
+            self::$instances[static::class]->load();
         }
 
-        return self::$instance;
+        return self::$instances[static::class];
+    }
+
+    public function setName(string $name) : self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getName() : string
+    {
+        return $this->name;
     }
 
     /**
@@ -116,5 +130,20 @@ abstract class Module implements ModuleContract
     public function canBeForgotten() : bool
     {
         return true;
+    }
+
+    public function getConfigFiles() : array
+    {
+        return [];
+    }
+
+    public function getModuleConfig() : ?array
+    {
+        return config("laurel.cms.modules.{$this->getName()}");
+    }
+
+    public function getModuleMiddleware() : array
+    {
+        return [];
     }
 }

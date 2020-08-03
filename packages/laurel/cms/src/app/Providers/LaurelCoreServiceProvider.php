@@ -4,8 +4,10 @@ namespace Laurel\CMS\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laurel\CMS\Console\Commands\CreateMigrationForCMS;
+use Laurel\CMS\Exceptions\MiddlewareGroupHasNotBeenFoundException;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Modules\Auth\AuthModule;
+use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -47,7 +49,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
         $this->registerPublishes();
 
         $this->loadHelpers();
-        $this->loadConfig();
+        $this->loadCoreConfig();
         $this->loadMigrations();
         $this->loadCommands();
     }
@@ -64,8 +66,11 @@ class LaurelCoreServiceProvider extends ServiceProvider
             ->setRoot($this->cmsRoot)
             ->moduleManager()
             /*->loadModule('auth', AuthModule::class)*/
-            ->loadModule('settings', SettingsModule::class);
-            /*->loadModule('localization', LocalizationModule::class);*/
+            ->loadModule('settings', SettingsModule::class)
+            ->loadModule('localization', LocalizationModule::class);
+
+        $this->loadModulesConfig();
+        $this->loadModulesMiddleware();
     }
 
     /**
@@ -113,7 +118,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
     /**
      * Method loads config files and merges it with config parameters of the Laravel
      */
-    protected function loadConfig()
+    protected function loadCoreConfig()
     {
         $this->mergeConfigFrom(
             $this->composePath('/../config/core.php'),
@@ -123,6 +128,40 @@ class LaurelCoreServiceProvider extends ServiceProvider
             $this->composePath('/../config/settings.php'),
             'laurel.cms.settings'
         );
+    }
+
+    protected function loadModulesConfig()
+    {
+        foreach (LaurelCMS::instance()->moduleManager()->getModules() as $moduleAlias => $module) {
+            foreach ($module->getConfigFiles() as $configFile) {
+                $this->mergeConfigFrom(
+                    $configFile,
+                    "laurel.cms.modules.{$moduleAlias}"
+                );
+            }
+        }
+    }
+
+    protected function loadModulesMiddleware()
+    {
+        $router = $this->app['router'];
+        $routerMiddlewareGroups = $router->getMiddlewareGroups();
+        foreach (LaurelCMS::instance()->moduleManager()->getModules() as $module) {
+            $moduleMiddleware = $module->getModuleMiddleware();
+            if (!empty($module->getModuleMiddleware())) {
+                foreach ($moduleMiddleware as $routeGroup => $middleware) {
+                    if ($routeGroup === '*') {
+                        foreach ($routerMiddlewareGroups as $groupName => $group) {
+                            $router->pushMiddlewareToGroup($groupName, $middleware);
+                        }
+                    } else {
+                        throw_if(!key_exists($routeGroup, $routerMiddlewareGroups), MiddlewareGroupHasNotBeenFoundException::class, ...["Middleware group \"{$routeGroup}\" has not been found"]);
+                        $router->pushMiddlewareToGroup($routeGroup, $middleware);
+                    }
+                }
+            }
+        }
+//        dd(, $router->getMiddlewareGroups());//(LocalizationMiddleware::class);
     }
 
     /**
