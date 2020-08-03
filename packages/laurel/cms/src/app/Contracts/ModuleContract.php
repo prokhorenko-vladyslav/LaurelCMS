@@ -12,6 +12,10 @@ namespace Laurel\CMS\Contracts;
  */
 interface ModuleContract
 {
+    public function setName(string $name) : self;
+
+    public function getName() : string;
+
     /**
      * Method, which will be called, when module is loading
      *
@@ -32,4 +36,10 @@ interface ModuleContract
      * @return bool
      */
     public function canBeForgotten() : bool;
+
+    public function getConfigFiles() : array;
+
+    public function getModuleConfig() : ?array;
+
+    public function getModuleMiddleware() : array;
 }
