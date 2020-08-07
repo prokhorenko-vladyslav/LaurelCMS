@@ -5,9 +5,6 @@ namespace Laurel\CMS;
 
 use Laurel\CMS\Exceptions\ModuleManagerNotFoundException;
 use Laurel\CMS\Managers\ModuleManager;
-use Laurel\CMS\Traits\CanLoadConsoleModules;
-use Laurel\CMS\Traits\CanLoadHttpModules;
-use Laurel\CMS\Traits\CanLoadModules;
 use League\Flysystem\FileNotFoundException;
 
 /**
@@ -76,7 +73,7 @@ class LaurelCMS
      */
     public static function instance() : self
     {
-        if (empty(self::$instance)) {
+        if (!self::isLoaded()) {
             self::$instance = new self;
         }
         return self::$instance;
