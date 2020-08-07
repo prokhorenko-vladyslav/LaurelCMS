@@ -184,9 +184,13 @@ class ModuleManager
      */
     public function loadModule(string $moduleAlias, string $moduleClass, ?string $implementContract = null): self
     {
-        $module = $moduleClass::instance();
-        throw_if($this->modules->has($moduleAlias), ModuleAlreadyExistsException::class, ...["Module with alias \"{$moduleAlias}\" already exists"]);
+        if (method_exists($moduleClass, 'instance')) {
+            $module = $moduleClass::instance();
+        } else {
+            $module = null;
+        }
         throw_if(!$module instanceof ModuleContract, TypeErrorException::class, ...["Module \"{$moduleAlias}\" => \"{$moduleClass}\" does not implement " . ModuleContract::class]);
+        throw_if($this->modules->has($moduleAlias), ModuleAlreadyExistsException::class, ...["Module with alias \"{$moduleAlias}\" already exists"]);
         throw_if(!empty($implementContract) && !interface_exists($implementContract), ClassNotFoundException::class, ...["Contract \"{$implementContract}\" has not been founded", $implementContract]);
         throw_if(!empty($implementContract) && !$module instanceof $implementContract, TypeErrorException::class, ...["Module \"{$moduleAlias}\" => \"{$moduleClass}\" must implement contract \"" . $implementContract . "\""]);
 
@@ -202,21 +206,25 @@ class ModuleManager
      *
      * @param $condition
      * @param string $moduleAlias
-     * @param string $defaultModuleClass
+     * @param string $moduleClass
      * @param string|null $implementContract
      * @return $this
      * @throws ReflectionException
      * @throws Throwable
      */
-    public function loadModuleIf($condition, string $moduleAlias, string $defaultModuleClass, ?string $implementContract = null): self
+    public function loadModuleIf($condition, string $moduleAlias, string $moduleClass, ?string $implementContract = null): self
     {
-        throw_if(!is_bool($condition) && !(new ReflectionFunction($condition))->isClosure(), TypeErrorException::class, ...["Condition for module loading can be Closure or bool"]);
+        $mustBeLoad = false;
+        if (is_object($condition) && $condition instanceof Closure) {
+            if ($condition()) {
+                $mustBeLoad = true;
+            }
+        } else {
+            $mustBeLoad = (bool)$condition;
+        }
 
-        if (
-            (is_object($condition) && $condition instanceof Closure && $condition()) ||
-            (is_bool($condition) && $condition)
-        ) {
-            $this->loadModule($moduleAlias, $defaultModuleClass, $implementContract);
+        if ($mustBeLoad) {
+            $this->loadModule($moduleAlias, $moduleClass, $implementContract);
         }
 
         return $this;
