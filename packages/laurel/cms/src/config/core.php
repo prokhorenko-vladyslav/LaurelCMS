@@ -1,6 +1,26 @@
 <?php
     return [
         /**
+         * Route prefix for modules. Web group
+         */
+        'modules_web_prefix' => 'modules',
+
+        /**
+         * Route name for modules. Web group
+         */
+        'modules_web_name' => 'modules.',
+
+        /**
+         * Route prefix for modules. Api group
+         */
+        'modules_api_prefix' => 'api/modules',
+
+        /**
+         * Route name for modules. Api group
+         */
+        'modules_api_name' => 'api.modules.',
+
+        /**
          * List of modules, which will be loaded on every request
          */
         'modules' => [

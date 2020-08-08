@@ -3,6 +3,7 @@ import Login from "../pages/auth/Login";
 import Lock from "../pages/auth/Lock";
 import Forgot from "../pages/auth/Forgot";
 import IpAddressConfirm from "../pages/auth/IpAddressConfirm";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 export default [
     {
@@ -27,6 +28,10 @@ export default [
             {
                 path : 'lock',
                 component : Lock
+            },
+            {
+                path : 'dashboard',
+                component : Dashboard
             }
         ]
     }

@@ -42,4 +42,8 @@ interface ModuleContract
     public function getModuleConfig() : ?array;
 
     public function getModuleMiddleware() : array;
+
+    public function loadModuleWebRoutes();
+
+    public function loadModuleApiRoutes();
 }

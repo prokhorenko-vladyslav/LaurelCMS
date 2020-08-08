@@ -146,7 +146,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
 
     protected function loadModulesMiddleware()
     {
-        $router = $this->app['router'];
+        $router = &$this->app['router'];
         $routerMiddlewareGroups = $router->getMiddlewareGroups();
         foreach (LaurelCMS::instance()->moduleManager()->getModules() as $module) {
             $moduleMiddleware = $module->getModuleMiddleware();
@@ -156,14 +156,12 @@ class LaurelCoreServiceProvider extends ServiceProvider
                         foreach ($routerMiddlewareGroups as $groupName => $group) {
                             $router->pushMiddlewareToGroup($groupName, $middleware);
                         }
-                    } else {
-                        throw_if(!key_exists($routeGroup, $routerMiddlewareGroups), MiddlewareGroupHasNotBeenFoundException::class, ...["Middleware group \"{$routeGroup}\" has not been found"]);
+                    } elseif (key_exists($routeGroup, $routerMiddlewareGroups)) {
                         $router->pushMiddlewareToGroup($routeGroup, $middleware);
                     }
                 }
             }
         }
-//        dd(, $router->getMiddlewareGroups());//(LocalizationMiddleware::class);
     }
 
     /**

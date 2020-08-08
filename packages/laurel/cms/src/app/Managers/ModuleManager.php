@@ -5,7 +5,9 @@ namespace Laurel\CMS\Managers;
 
 use Closure;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Contracts\ModuleContract;
+use Laurel\CMS\Http\Middleware\ModuleMiddleware;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Exceptions\{
     ModuleAlreadyExistsException,
@@ -196,9 +198,35 @@ class ModuleManager
 
         $module->setName($moduleAlias);
         $module->load();
+        $this->loadModuleRoutes($module);
         $this->modules->put($moduleAlias, $module);
 
         return $this;
+    }
+
+    protected function loadModuleRoutes(ModuleContract $module)
+    {
+        Route::name(config('laurel.cms.core.modules_web_name', 'modules.'))
+            ->prefix(config('laurel.cms.core.modules_web_prefix', 'modules'))
+            ->middleware('web')
+            ->group(function() use ($module) {
+                Route::name($module->getName() . ".")
+                    ->prefix($module->getName())
+                    ->group(function() use ($module) {
+                    $module->loadModuleWebRoutes();
+                });
+        });
+
+        Route::name(config('laurel.cms.core.modules_api_name', 'modules.'))
+            ->prefix(config('laurel.cms.core.modules_api_prefix', 'modules'))
+            ->middleware('api')
+            ->group(function() use ($module) {
+                Route::name($module->getName() . ".")
+                    ->prefix($module->getName())
+                    ->group(function() use ($module) {
+                    $module->loadModuleApiRoutes();
+                });
+        });
     }
 
     /**
@@ -209,7 +237,6 @@ class ModuleManager
      * @param string $moduleClass
      * @param string|null $implementContract
      * @return $this
-     * @throws ReflectionException
      * @throws Throwable
      */
     public function loadModuleIf($condition, string $moduleAlias, string $moduleClass, ?string $implementContract = null): self
