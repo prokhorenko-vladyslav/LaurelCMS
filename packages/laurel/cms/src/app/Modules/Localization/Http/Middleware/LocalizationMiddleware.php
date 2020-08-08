@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Laurel\CMS\Modules\Localization\Exceptions\LocaleHasNotBeenFoundException;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
+use Throwable;
 
 class LocalizationMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @param Closure $next
      * @return mixed
+     * @throws LocaleHasNotBeenFoundException
+     * @throws Throwable
      */
     public function handle($request, Closure $next)
     {
