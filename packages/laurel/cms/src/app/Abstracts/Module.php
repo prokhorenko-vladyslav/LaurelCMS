@@ -3,6 +3,7 @@
 
 namespace Laurel\CMS\Abstracts;
 
+use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Contracts\ModuleContract;
 use Psy\Exception\TypeErrorException;
 use Throwable;
@@ -145,5 +146,15 @@ abstract class Module implements ModuleContract
     public function getModuleMiddleware() : array
     {
         return [];
+    }
+
+    public function loadModuleWebRoutes()
+    {
+
+    }
+
+    public function loadModuleApiRoutes()
+    {
+
     }
 }

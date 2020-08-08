@@ -5,8 +5,10 @@ namespace Laurel\CMS\Modules\Localization;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Abstracts\Module;
 use Laurel\CMS\Modules\Localization\Exceptions\LocaleHasNotBeenFoundException;
+use Laurel\CMS\Modules\Localization\Http\Controllers\TranslationController;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use League\Flysystem\FileNotFoundException;
 use Psy\Exception\TypeErrorException;
@@ -42,6 +44,20 @@ class LocalizationModule extends Module
         return [
             '*' => LocalizationMiddleware::class,
         ];
+    }
+
+    public function loadModuleWebRoutes()
+    {
+
+    }
+
+    public function loadModuleApiRoutes()
+    {
+        Route::group([
+            'namespace' => 'Laurel\\CMS\\Modules\\Localization\\Http\\Controllers\\'
+        ], function() {
+            Route::get('translations/{group?}', "TranslationController@index")->name('translations');
+        });
     }
 
     public function getTranslations() : ?Collection
