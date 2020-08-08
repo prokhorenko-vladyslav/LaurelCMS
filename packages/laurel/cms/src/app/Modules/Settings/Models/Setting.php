@@ -3,10 +3,10 @@
 
 namespace Laurel\CMS\Modules\Settings\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingAlreadyExistsException;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingNotFoundException;
+use Laurel\CMS\Modules\Settings\Traits\CanBeOverrided;
 use Throwable;
 
 /**
@@ -17,6 +17,8 @@ use Throwable;
  */
 class Setting extends Model
 {
+    use CanBeOverrided;
+
     /**
      * Return setting value as object (true) or as array (false)
      *
@@ -35,10 +37,29 @@ class Setting extends Model
      */
     public static function getSetting(?string $group, string $name, bool $throwIfNotFound = false) : ?self
     {
-        $setting = self::where('group', $group)->where('name', $name)->first();
+        $setting = self::where('group', $group)->where('name', $name)->whereNull('setting_id')->first();
         throw_if(!$setting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"" . ($group ? "$group." : "") . "$name\" has not been found"]);
 
         return $setting;
+    }
+
+    /**
+     * Return object of the overrided setting. If it has not been found, exception SettingNotFoundException will be throwed
+     *
+     * @param string|null $group
+     * @param string $name
+     * @param string $morphClass
+     * @param int $morphId
+     * @param bool $throwIfNotFound
+     * @return static|null
+     * @throws Throwable
+     */
+    public static function getSettingFor(?string $group, string $name, string $morphClass, int $morphId, bool $throwIfNotFound = false) : ?self
+    {
+        $overridedSetting = self::where('group', $group)->where('name', $name)->overrided($morphClass, $morphId)->first();
+        throw_if(!$overridedSetting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"" . ($group ? "$group." : "") . "$name\" has not been found"]);
+
+        return $overridedSetting;
     }
 
     /**
@@ -163,7 +184,7 @@ class Setting extends Model
     {
         if (!$this->exists) {
             throw_if(
-                self::getSetting($this->group, $this->name),
+                $this->isOverriding ? self::getSettingFor($this->group, $this->name, $this->getMorphClass(), $this->getMorphId()) : self::getSetting($this->group, $this->name),
                 SettingAlreadyExistsException::class,
                 ...["Setting \"$this->name\" already exists " . ($this->group ? "in group \"{$this->group}\"" : "")]);
         }
