@@ -18,6 +18,8 @@ class CreateSettingsTable extends Migration
             $table->string('group')->nullable();
             $table->string('name');
             $table->string('value')->nullable();
+            $table->foreignId('setting_id')->nullable();
+            $table->nullableMorphs('settingable');
             $table->timestamps();
         });
     }

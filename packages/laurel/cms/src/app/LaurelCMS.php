@@ -82,12 +82,14 @@ class LaurelCMS
     /**
      * Method loads general static modules and modules for console or http requests
      */
-    public function load()
+    public function load() : self
     {
         $this->setModuleManager(ModuleManager::instance());
         $this->moduleManager()->loadModules($this->moduleManager()->getStaticModules()->toArray());
         $this->moduleManager()->loadModulesIf(app()->runningInConsole(), $this->moduleManager()->getStaticModulesForConsole()->toArray());
         $this->moduleManager()->loadModulesIf(!app()->runningInConsole(),$this->moduleManager()->getStaticModulesForHttp()->toArray());
+
+        return $this;
     }
 
     public function setModuleManager(ModuleManager $moduleManager)

@@ -40,8 +40,13 @@ class LocalizationModule extends Module
     public function getModuleMiddleware(): array
     {
         return [
-            '*' => LocalizationMiddleware::class
+            '*' => LocalizationMiddleware::class,
         ];
+    }
+
+    public function getTranslations() : ?Collection
+    {
+        return $this->translations;
     }
 
     public function loadTranslations(?string $group = null, ?string $lang = null)
@@ -60,7 +65,7 @@ class LocalizationModule extends Module
         throw_if(!file_exists($langDirectory), FileNotFoundException::class, ...["Directory with translations \"{$langDirectory}\" does not exists"]);
         $langFiles = $this->recursiveFetchFilesForLang($lang, $langDirectory);
         foreach ($langFiles as $langFile) {
-            $translations = require_once $langFile;
+            $translations = require $langFile;
             throw_if(!is_array($translations), TypeErrorException::class, ...["Translations, which getted from path \"{$langFile}\", is not an array"]);
 
             $translationFileKey = $this->getTranslationFileKey($langFile, $lang);
