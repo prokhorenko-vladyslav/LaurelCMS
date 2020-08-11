@@ -32,35 +32,45 @@
             <router-link to="#" class="main-menu__section__item">Invoice</router-link>
         </div>
         <div class="main-menu__section">
-            <div class="main-menu__section__header">Ui elements</div>
-            <div class="has-subsection">
-                <input id="checkbox_3" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="checkbox_3" class="main-menu__section__item parent">Content</label>
-                <div class="main-menu__subsection">
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Grid</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Typography</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Text Utilities</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Syntax Highlighter</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Helper Classes</router-link>
-                </div>
-            </div>
-            <router-link to="#" class="main-menu__section__item">Colors</router-link>
-            <router-link to="#" class="main-menu__section__item">Icons</router-link>
-            <router-link to="#" class="main-menu__section__item">Card</router-link>
-            <router-link to="#" class="main-menu__section__item">Widgets <div class="counter info">New</div></router-link>
-            <router-link to="#" class="main-menu__section__item">Components</router-link>
-            <router-link to="#" class="main-menu__section__item">Extra components</router-link>
+            <div class="main-menu__section__header">Content</div>
+            <router-link to="#" class="main-menu__section__item">Pages</router-link>
+            <router-link to="#" class="main-menu__section__item">Categories</router-link>
+            <router-link to="#" class="main-menu__section__item">Posts</router-link>
+            <router-link to="#" class="main-menu__section__item">Comments</router-link>
+            <router-link to="#" class="main-menu__section__item">Reviews</router-link>
         </div>
         <div class="main-menu__section">
-            <div class="main-menu__section__header">Forms & Tables</div>
-            <router-link to="#" class="main-menu__section__item">Form elements</router-link>
-            <router-link to="#" class="main-menu__section__item">Form layout</router-link>
-            <router-link to="#" class="main-menu__section__item">Form wizzard</router-link>
-            <router-link to="#" class="main-menu__section__item">Form validation</router-link>
-            <router-link to="#" class="main-menu__section__item">Form repeater</router-link>
-            <router-link to="#" class="main-menu__section__item">Table</router-link>
-            <router-link to="#" class="main-menu__section__item">Table extended</router-link>
-            <router-link to="#" class="main-menu__section__item">Datatable</router-link>
+            <div class="main-menu__section__header">Shop</div>
+            <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Categories</router-link>
+            <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Products</router-link>
+            <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Attributes</router-link>
+            <div class="has-subsection">
+                <input id="sales" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                <label for="sales" class="main-menu__section__item parent">Sales</label>
+                <div class="main-menu__subsection">
+                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Orders <div class="counter">99+</div></router-link>
+                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Clients</router-link>
+                </div>
+            </div>
+        </div>
+        <div class="main-menu__section">
+            <div class="main-menu__section__header">Design</div>
+            <div class="has-subsection">
+                <input id="ui_elements" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                <label for="ui_elements" class="main-menu__section__item parent">UI elements</label>
+                <div class="main-menu__subsection">
+                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Widgets <div class="counter info">New</div></router-link>
+                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Components <div class="counter info">New</div></router-link>
+                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Contact forms <div class="counter info">New</div></router-link>
+                </div>
+            </div>
+            <router-link to="#" class="main-menu__section__item">Themes <div class="counter">1</div></router-link>
+        </div>
+        <div class="main-menu__section">
+            <div class="main-menu__section__header">Settings</div>
+            <router-link to="#" class="main-menu__section__item">General</router-link>
+            <router-link to="#" class="main-menu__section__item">Server</router-link>
+            <router-link to="#" class="main-menu__section__item">Localization</router-link>
         </div>
     </div>
 </template>
@@ -126,7 +136,8 @@
                     height: 20px;
                     margin-left: auto;
                     border-radius: 50%;
-                    font-size: 12px;
+                    font-size: 10px;
+                    line-height: 100%;
                     background: #ffdede;
                     color: #ff5b5c;
 
