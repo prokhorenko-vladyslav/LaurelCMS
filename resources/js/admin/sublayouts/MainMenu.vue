@@ -302,21 +302,8 @@
                             margin-top: 0;
                         }
 
-                        &.router-link-active,
                         &:hover {
-                            color: #5A8DEE;
-                            background: rgba(90, 141, 238, .15);
-
-                            &:before {
-                                background-image: url("/admin/img/icons/right-arrow-blue.svg");
-                            }
-
-                            &:first-of-type:after {
-                                background: none;
-                            }
-                        }
-
-                        &:hover {
+                            left: 0;
                             padding-left: 2rem;
                         }
 
