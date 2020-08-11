@@ -1,12 +1,13 @@
 <template>
     <div class="main-menu">
+        <div class="main-menu__content">
         <div class="main-menu__header">
 
         </div>
         <div class="main-menu__section">
             <div class="has-subsection">
                 <input id="checkbox_1" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="checkbox_1" class="main-menu__section__item parent">Dashboard <span class="counter">2</span></label>
+                <label for="checkbox_1" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/dashboard.svg" alt=""> Dashboard <span class="counter">2</span></label>
                 <div class="main-menu__subsection">
                     <router-link to="#" class="main-menu__section__item main-menu__section__subitem">eCommerce</router-link>
                     <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Analytics</router-link>
@@ -15,13 +16,14 @@
         </div>
         <div class="main-menu__section">
             <div class="main-menu__section__header">Apps</div>
-            <router-link to="#" class="main-menu__section__item">Email</router-link>
-            <router-link to="#" class="main-menu__section__item">Chat</router-link>
-            <router-link to="#" class="main-menu__section__item">Todo</router-link>
-            <router-link to="#" class="main-menu__section__item">Calendar</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/email.svg" alt="">Email</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/chat.svg" alt="">Chat</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/todo.svg" alt="">Todo</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/calendar.svg" alt="">Calendar</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/kanban.svg" alt="">Kanban</router-link>
             <div class="has-subsection">
                 <input id="checkbox_2" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="checkbox_2" to="#" class="main-menu__section__item parent">Kanban</label>
+                <label for="checkbox_2" to="#" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/invoice.svg" alt=""> Invoice</label>
                 <div class="main-menu__subsection">
                     <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice List</router-link>
                     <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice</router-link>
@@ -29,11 +31,11 @@
                     <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice Edit</router-link>
                 </div>
             </div>
-            <router-link to="#" class="main-menu__section__item">Invoice</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/file_manager.svg" alt=""> File Manager</router-link>
         </div>
         <div class="main-menu__section">
             <div class="main-menu__section__header">Content</div>
-            <router-link to="#" class="main-menu__section__item">Pages</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/page.svg" alt=""> Pages</router-link>
             <router-link to="#" class="main-menu__section__item">Categories</router-link>
             <router-link to="#" class="main-menu__section__item">Posts</router-link>
             <router-link to="#" class="main-menu__section__item">Comments</router-link>
@@ -72,6 +74,7 @@
             <router-link to="#" class="main-menu__section__item">Server</router-link>
             <router-link to="#" class="main-menu__section__item">Localization</router-link>
         </div>
+            </div>
     </div>
 </template>
 
@@ -83,17 +86,40 @@
 
 <style lang="scss" scoped>
     .main-menu {
+        position: relative;
         height: 100vh;
         width: 100%;
-        padding: 1rem;
+        padding: 0;
         border-right: 1px solid #DFE3E7;
-        background: #F2F4F4;
-        overflow-y: auto;
+        background-image: url('/admin/img/images/menu.jpg');
+        background-size: cover;
 
-        &:after {
-            content: "";
-            display: block;
-            height: 2rem;
+        .main-menu__content {
+            height: 100vh;
+            padding: 1rem;
+            overflow-y: auto;
+
+            &:after {
+                content: "";
+                display: block;
+                height: 2rem;
+            }
+        }
+
+        & > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(54, 90, 126, 0.4);
+            z-index: 1;
         }
 
         .main-menu__header {
@@ -111,9 +137,10 @@
             }
 
             .main-menu__section__item {
+                position: relative;
+                left: 0;
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
                 width: 100%;
                 margin-top: .2rem;
                 padding: .6rem 1rem;
@@ -124,14 +151,22 @@
 
                 &.router-link-active,
                 &:hover {
-                    background: rgba(90, 141, 238, .15);
-                    color: #5A8DEE;
+                    left: 1rem;
+                }
+
+                img {
+                    max-width: 30px;
+                    height: 30px;
+                    margin-right: 1rem;
                 }
 
                 .counter {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    position: relative;
+                    left: 0;
+                    margin-right: 1rem;
                     width: 20px;
                     height: 20px;
                     margin-left: auto;
@@ -140,6 +175,7 @@
                     line-height: 100%;
                     background: #ffdede;
                     color: #ff5b5c;
+                    transition: all .3s ease-in-out;
 
                     &.info {
                         height: 24px;
@@ -156,14 +192,24 @@
                         text-rendering: geometricPrecision;
                     }
                 }
+
+                &:after {
+                    position: relative;
+                    left: 0;
+                }
+
+                &:hover {
+                    &:after,
+                    .counter {
+                        left: -1rem;
+                    }
+                }
             }
 
             .has-subsection {
                 max-height: max-content;
                 margin-top: .5rem;
-                border: 1px solid #DFE3E7;
                 border-radius: .25rem;
-                background: #FAFBFB;
                 overflow: hidden;
                 transition: all .6s ease-in-out;
 
@@ -171,12 +217,6 @@
                     margin: 0;
                     border: none;
                     border-radius: 0;
-
-                    &.router-link-active,
-                    &:hover {
-                        background: none;
-                        color: #8494A7;
-                    }
 
                     &.parent {
                         width: auto;
@@ -193,14 +233,11 @@
                             width: 8px;
                             height: 8px;
                             margin-top: -4px;
-                            border-right: 2px solid #8494A7;
-                            border-bottom: 2px solid #8494A7;
+                            margin-left: auto;
+                            border-right: 2px solid rgba(255,255,255,.8);
+                            border-bottom: 2px solid rgba(255,255,255,.8);
                             cursor: pointer;
                             transition: all .3s ease-in-out;
-                        }
-
-                        .counter {
-                            margin-right: 1rem;
                         }
                     }
 
@@ -248,6 +285,7 @@
                         justify-content: flex-start;
                         position: relative;
                         margin-top: .2rem;
+                        border-radius: .25rem;
 
                         &:before {
                             content: '';
@@ -300,7 +338,8 @@
                             display: block;
                             width: 90%;
                             height: 1px;
-                            background: #DFE3E7;
+                            /*background: #DFE3E7;*/
+                            background: #8494A7;
                             transition: all .3s ease-in-out;
                         }
                     }
