@@ -15,6 +15,8 @@ interface ModuleContract
     public function setName(string $name) : self;
 
     public function getName() : string;
+    
+    public function install();
 
     /**
      * Method, which will be called, when module is loading
