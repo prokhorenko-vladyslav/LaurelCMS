@@ -25,6 +25,11 @@ class SettingsModule extends Module
         require_once __DIR__ . '/Helpers/settings.php';
     }
 
+    public function install() 
+    {
+    
+    }
+
     /**
      * Can module be forgetten or not
      *
