@@ -103,6 +103,11 @@ abstract class Module implements ModuleContract
         return self::createInstance();
     }
 
+    public function install()
+    {
+        // TODO: Implement install() method.
+    }
+
     /**
      * Method, which will be called, when module is loading
      *

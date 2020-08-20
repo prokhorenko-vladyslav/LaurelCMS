@@ -7,5 +7,5 @@ use Laurel\CMS\Abstracts\Module;
 
 class PermissionModule extends Module
 {
-    
+
 }
