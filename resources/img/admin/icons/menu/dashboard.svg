@@ -1,0 +1,32 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve" data-animoptions="{'duration':'2', 'repeat':'0', 'repeatDelay':'0.5'}" preserveAspectRatio="xMinYMin meet" style="left: 0px; top: 0px;"><g class="lievo-setrotation"><g class="lievo-setsharp" style="transform-origin: 0px 0px 0px;" data-svg-origin="30.625 30" transform="matrix(1,0,0,1,-0.6250002980232194,-0.6250002980232194)"><g class="lievo-setflip"><g class="lievo-main">
+
+
+		<g class="lievo-lineicon">
+			<polygon fill="none" stroke="#8494a7" stroke-width="3.25px" stroke-linecap="square" stroke-miterlimit="10" points="37,51 23,51 25,45 35,45" style=""></polygon>
+			<line fill="none" stroke="#8494a7" stroke-width="3.25px" stroke-linecap="square" stroke-miterlimit="10" x1="21" y1="51" x2="39" y2="51" style=""></line>
+			<circle class="lievo-likestroke lievo-altstroke" fill="#8494a7" cx="30" cy="41" r="2" style="stroke-width: 0px;" stroke="none"></circle>
+			<defs>
+				<clipPath id="livicon_desktop_l_2">
+					<path class="lievo-donotdraw lievo-nohovercolor lievo-nohoverstroke" d="M7,37V11c0-1.1,0.9-2,2-2h42c1.1,0,2,0.9,2,2v26H7z" style="stroke-width: 0px;" stroke="none" fill="none"></path>
+				</clipPath>
+			</defs>
+			<g clip-path="url(#livicon_desktop_l_2)">
+				<g opacity="0" style="opacity: 0;" data-svg-origin="6 38" transform="matrix(1,0,0,1,0,0)">
+					<rect class="lievo-donotdraw lievo-likestroke lievo-altstroke" x="6" y="8" opacity="0.5" fill="#8494a7" width="48" height="30" style="stroke-width: 0px;" stroke="none"></rect>
+				</g>
+			</g>
+			<line fill="none" stroke="#8494a7" stroke-width="3.25px" stroke-linecap="square" stroke-miterlimit="10" x1="7" y1="37" x2="53" y2="37" style=""></line>
+			<path fill="none" stroke="#8494a7" stroke-width="3.25px" stroke-linecap="square" stroke-miterlimit="10" d="M51,45H9c-1.1,0-2-0.9-2-2V11c0-1.1,0.9-2,2-2h42c1.1,0,2,0.9,2,2v32C53,44.1,52.1,45,51,45z" style=""></path>
+		</g>
+
+
+
+		<g class="lievo-common" opacity="0" style="opacity: 0;">
+			<rect class="lievo-donotdraw lievo-likestroke" x="10" y="12" fill="#8494a7" width="4" height="4" style="stroke-width: 0px;" stroke="none"></rect>
+			<rect class="lievo-donotdraw lievo-likestroke" x="10" y="18" fill="#8494a7" width="4" height="4" style="stroke-width: 0px;" stroke="none"></rect>
+			<rect class="lievo-donotdraw lievo-likestroke" x="10" y="24" fill="#8494a7" width="4" height="4" style="stroke-width: 0px;" stroke="none"></rect>
+			<rect class="lievo-donotdraw lievo-likestroke lievo-altstroke" x="10" y="30" fill="#8494a7" width="4" height="4" style="stroke-width: 0px;" stroke="none" data-svg-origin="12 32" transform="matrix(1,0,0,1,0,0)"></rect>
+		</g>
+	<rect x="-19" y="-19" width="4" height="4" class="lievo-checkshift lievo-donotdraw lievo-nohoverstroke lievo-nohovercolor" style="stroke-width: 2px; stroke-linecap: butt; stroke-linejoin: round; opacity: 0;" fill="none" stroke="#8494a7" stroke-width="3.25px"></rect></g></g></g></g>
+
+<desc>LivIcons Evolution</desc></svg>
