@@ -46,8 +46,8 @@
 </template>
 
 <script>
-    import InputField from "../../fields/InputField";
-    import SimpleButton from "../../fields/SimpleButton";
+    import InputField from "../../elements/InputField";
+    import SimpleButton from "../../elements/SimpleButton";
 
     export default {
         name: "Lock",

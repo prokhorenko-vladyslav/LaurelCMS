@@ -9,7 +9,7 @@ use Psy\Exception\TypeErrorException;
 use Throwable;
 
 /**
- * Abstract class with general methods and fields for creating all modules
+ * Abstract class with general methods and elements for creating all modules
  *
  * Class Module
  * @package Laurel\CMS\Abstracts

@@ -1,5 +1,5 @@
 <template>
-    <div class="input" :class="{ classes, outlined }">
+    <div class="input" :class="{ classes, outlined, simple }">
         <div class="input__button p-0">
             <button
                 :disabled="disabled"
@@ -26,6 +26,10 @@
             outlined : {
                 type : Boolean,
                 default : false
+            },
+            simple : {
+                type : Boolean,
+                default : false,
             }
         },
         methods : {
@@ -42,6 +46,24 @@
         align-items: center;
         width: auto;
         height: 40px;
+
+        &.simple {
+            .input__button {
+                min-width: auto;
+
+                button {
+                    border: none;
+                    background: none;
+                    color: #5664d2;
+                    text-align: center;
+                    transition: all .3s ease-in-out;
+
+                    &:hover {
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
 
         &.outlined {
             .input__button {
