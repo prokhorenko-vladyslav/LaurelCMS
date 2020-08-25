@@ -10,7 +10,10 @@
             <div class="header__item language">
                 <img src="/admin/img/icons/flags/usa.svg" alt=""> English
             </div>
-            <router-link to="#" class="header__item"><img src="/admin/img/icons/header/fullscreen.svg" alt=""></router-link>
+            <simple-button simple class="header__item" @click="toggleFullScreen">
+                <img src="/admin/img/icons/header/fullScreen.svg" alt="" v-if="!isFullscreen">
+                <img src="/admin/img/icons/header/normalScreen.svg" alt="" v-else>
+            </simple-button>
             <router-link to="#" class="header__item"><img src="/admin/img/icons/header/search.svg" alt=""></router-link>
             <router-link to="#" class="header__item"><img src="/admin/img/icons/header/notification.svg" alt=""></router-link>
             <div class="account d-flex align-items-center">
@@ -27,8 +30,27 @@
 </template>
 
 <script>
+    import SimpleButton from "../elements/SimpleButton";
+
     export default {
-        name: "DashboardHeader"
+        name: "DashboardHeader",
+        components: {SimpleButton},
+        data: () => ({
+            isFullscreen : false
+        }),
+        methods: {
+            toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    this.isFullscreen = true;
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                        this.isFullscreen = false;
+                    }
+                }
+            }
+        }
     }
 </script>
 

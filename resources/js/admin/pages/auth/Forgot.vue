@@ -42,9 +42,9 @@
 </template>
 
 <script>
-    import InputField from "../../fields/InputField";
-    import CheckboxField from "../../fields/CheckboxField";
-    import SimpleButton from "../../fields/SimpleButton";
+    import InputField from "../../elements/InputField";
+    import CheckboxField from "../../elements/CheckboxField";
+    import SimpleButton from "../../elements/SimpleButton";
 
     export default {
         name: "Login",
