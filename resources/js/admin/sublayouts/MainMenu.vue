@@ -71,6 +71,7 @@
         <div class="main-menu__section">
             <div class="main-menu__section__header">Settings</div>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/settings.svg" alt=""> General</router-link>
+            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/permission.svg" alt=""> Permissions</router-link>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/server.svg" alt=""> Server</router-link>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/localization.svg" alt=""> Localization</router-link>
         </div>
