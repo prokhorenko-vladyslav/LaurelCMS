@@ -1,9 +1,13 @@
 import VueRouter from "vue-router";
 import routes from "./routes";
 
-const router = new VueRouter({
-    routes,
-    mode : 'history'
-})
+window.createRouter = function() {
+    return new VueRouter({
+        routes,
+        mode : 'history'
+    })
+}
+
+const router = window.createRouter();
 
 export default router;

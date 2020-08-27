@@ -1,4 +1,4 @@
-export default [
+window.additional_routes = [
     {
         path: '/admin',
         component : () => import('../pages/Main'),

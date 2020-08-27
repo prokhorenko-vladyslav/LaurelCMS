@@ -12,6 +12,7 @@
     <div id="app">
         <router-view></router-view>
     </div>
+    <script src="/admin/js/routes.js"></script>
     <script src="/admin/js/app.js"></script>
 </body>
 </html>

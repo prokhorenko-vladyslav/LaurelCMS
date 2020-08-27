@@ -66,7 +66,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
             LaurelCMS::instance()
                 ->setRoot($this->cmsRoot)
                 ->moduleManager()
-                /*->loadModule('auth', AuthModule::class)*/
+                ->loadModule('auth', AuthModule::class)
                 ->loadModule('settings', SettingsModule::class)
                 ->loadModule('localization', LocalizationModule::class);
         }
