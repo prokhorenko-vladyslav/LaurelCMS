@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35f6c40740ff5af0c084421dee5947dd",
+    "content-hash": "4b47357c667b113411ac79ffd039d25e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1016,6 +1016,82 @@
                 "ui"
             ],
             "time": "2020-06-30T20:56:33+00:00"
+        },
+        {
+            "name": "laurel/menu",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prokhorenko-vladyslav/LaurelMenu.git",
+                "reference": "9f9f713e88458eac143e156717f748a78cd0e3f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prokhorenko-vladyslav/LaurelMenu/zipball/9f9f713e88458eac143e156717f748a78cd0e3f7",
+                "reference": "9f9f713e88458eac143e156717f748a78cd0e3f7",
+                "shasum": ""
+            },
+            "require": {
+                "laurel/multi-route": "^1.0.7",
+                "spatie/laravel-translatable": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laurel\\Menu\\": "src/",
+                    "Laurel\\Menu\\App\\": "src/app"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Prokhorenko Vladyslav",
+                    "email": "random.person.1907@gmail.com"
+                }
+            ],
+            "description": "Simple menu for laravel",
+            "time": "2020-05-28T12:08:16+00:00"
+        },
+        {
+            "name": "laurel/multi-route",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prokhorenko-vladyslav/LaurelMultiRoute.git",
+                "reference": "fc072bc4a3f8631b17ef796551ecae26a44aff8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prokhorenko-vladyslav/LaurelMultiRoute/zipball/fc072bc4a3f8631b17ef796551ecae26a44aff8e",
+                "reference": "fc072bc4a3f8631b17ef796551ecae26a44aff8e",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^7.0",
+                "php": "^7.2.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laurel\\MultiRoute\\": "src/",
+                    "Laurel\\MultiRoute\\App\\": "src/app"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "prokhorenko-vladyslav",
+                    "email": "random.person.1907@gmail.com"
+                }
+            ],
+            "description": "Simple routing for Laravel",
+            "time": "2020-05-27T15:56:28+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2104,6 +2180,84 @@
                 }
             ],
             "time": "2020-07-28T16:51:01+00:00"
+        },
+        {
+            "name": "spatie/laravel-translatable",
+            "version": "4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translatable.git",
+                "reference": "7642b38df16a61e5738ed00c912ca522bb32b554"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/7642b38df16a61e5738ed00c912ca522bb32b554",
+                "reference": "7642b38df16a61e5738ed00c912ca522bb32b554",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.8.0|^6.0|^7.0",
+                "illuminate/support": "~5.8.0|^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Translatable\\TranslatableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Translatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Mohamed Said",
+                    "email": "theMohamedSaid@gmail.com",
+                    "role": "Original idea"
+                }
+            ],
+            "description": "A trait to make an Eloquent model hold translations",
+            "homepage": "https://github.com/spatie/laravel-translatable",
+            "keywords": [
+                "eloquent",
+                "i8n",
+                "laravel-translatable",
+                "model",
+                "multilingual",
+                "spatie",
+                "translate"
+            ],
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-07-09T07:05:40+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

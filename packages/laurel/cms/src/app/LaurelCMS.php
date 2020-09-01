@@ -112,4 +112,11 @@ class LaurelCMS
     {
         return !empty(self::$instance);
     }
+
+    public function getServiceProviders() : array
+    {
+        return array_merge([
+            \Laurel\CMS\Providers\LaurelCoreServiceProvider::class,
+        ], config('laurel.cms.packages.providers', []));
+    }
 }
