@@ -130,6 +130,10 @@ class LaurelCoreServiceProvider extends ServiceProvider
             $this->composePath('/../config/settings.php'),
             'laurel.cms.settings'
         );
+        $this->mergeConfigFrom(
+            $this->composePath('/../config/packages.php'),
+            'laurel.cms.packages'
+        );
     }
 
     protected function loadModulesConfig()
