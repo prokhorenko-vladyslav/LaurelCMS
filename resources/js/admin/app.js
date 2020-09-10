@@ -4,7 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Vuex from "vuex";
+
 window.Vue = require('vue');
+Vue.use(Vuex);
 
 require('./bootstrap');
 
@@ -26,7 +29,18 @@ require('./bootstrap');
  */
 
 import router from "./router/router";
+import store from "./store/store";
+
+window.composeRoute = function (route, parameters = {}, isExternal = false) {
+    // add to composing parameters and isExternal option
+    let routeUri = window.apiRoutes[route];
+
+    return routeUri;
+};
+
+Vue.prototype.composeRoute = window.composeRoute;
 
 const app = new Vue({
-    router
+    router,
+    store
 }).$mount('#app');

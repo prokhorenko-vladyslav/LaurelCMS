@@ -13,6 +13,7 @@
                             has-icon
                             has-label
                             placeholder="Enter username"
+                            v-model="login"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/account.svg" alt="Account">
@@ -30,6 +31,7 @@
                             has-label
                             type="password"
                             placeholder="Enter password"
+                            v-model="password"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/lock.svg" alt="Lock">
@@ -44,6 +46,7 @@
                     <div class="col-md-8 d-flex justify-content-center">
                         <checkbox-field
                             type="password"
+                            v-model="rememberMe"
                         >
                             <template v-slot:label>
                                 Remember me
@@ -53,7 +56,11 @@
                 </div>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-md-8 d-flex justify-content-center">
-                        <simple-button>Log In</simple-button>
+                        <simple-button
+                            @click="signIn({
+                                login, password, rememberMe
+                            })"
+                        >Log In</simple-button>
                     </div>
                 </div>
                 <div class="row w-100 justify-content-center mt-4">
@@ -72,6 +79,8 @@
 </template>
 
 <script>
+    import { mapActions } from "vuex";
+
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
     import SimpleButton from "../../elements/SimpleButton";
@@ -81,6 +90,19 @@
         components : {
             InputField, CheckboxField,
             SimpleButton,
+        },
+        data: () => ({
+            login : '',
+            password : '',
+            rememberMe : false
+        }),
+        created() {
+            console.log(apiRoutes);
+        },
+        methods: {
+            ...mapActions('Admin/Auth', [
+                'signIn'
+            ])
         }
     }
 </script>

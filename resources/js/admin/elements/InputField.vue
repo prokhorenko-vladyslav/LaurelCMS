@@ -16,6 +16,7 @@
                     ref="input"
                     @focus="setFocus"
                     @blur="removeFocus"
+                    v-model="dataValue"
                 >
             </div>
         </div>
@@ -67,9 +68,20 @@
                 default : false,
             }
         },
-        data: () => ({
-            focusing : false,
-        }),
+        data() {
+            return {
+                focusing : false,
+                dataValue : this.value
+            }
+        },
+        watch: {
+            value() {
+                this.dataValue = this.value
+            },
+            dataValue() {
+                this.$emit('input', this.dataValue);
+            }
+        },
         methods : {
             focusOnInput() {
                 this.$refs["input"].focus()

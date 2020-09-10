@@ -1,13 +1,13 @@
 <template>
-    <div class="input d-flex" :class="{ classes, checked : fieldValue }">
+    <div class="input d-flex" :class="{ classes, checked : dataValue }">
         <div class="input__input p-0">
             <label class="input__fake-checkbox">
                 <input
                     class="d-none"
                     type="checkbox"
-                    :value="value"
                     :disabled="disabled"
-                    :checked="fieldValue"
+                    :checked="dataValue"
+                    v-model="dataValue"
                 >
             </label>
         </div>
@@ -26,12 +26,8 @@
                 default : ''
             },
             value : {
-                type : String,
-                default : ''
-            },
-            checked : {
                 type : Boolean,
-                default : false
+                default : ''
             },
             disabled : {
                 type : Boolean,
@@ -40,18 +36,21 @@
         },
         data() {
             return {
-                fieldValue : this.checked
+                dataValue : this.value
             }
         },
         watch : {
-            checked() {
-                this.fieldValue = this.checked;
+            value() {
+                this.dataValue = this.value;
+            },
+            dataValue() {
+                this.$emit('input', this.dataValue);
             }
         },
         methods : {
             check() {
                 if (!this.disabled) {
-                    this.fieldValue = !this.fieldValue;
+                    this.dataValue = !this.dataValue;
                 }
             }
         }
