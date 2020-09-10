@@ -3,6 +3,7 @@
 
 namespace Laurel\CMS;
 
+use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Exceptions\ModuleManagerNotFoundException;
 use Laurel\CMS\Managers\ModuleManager;
 use League\Flysystem\FileNotFoundException;
@@ -73,7 +74,7 @@ class LaurelCMS
      */
     public static function instance() : self
     {
-        if (!self::isLoaded()) {
+        if (empty(self::$instance)) {
             self::$instance = new self;
         }
         return self::$instance;
@@ -103,20 +104,25 @@ class LaurelCMS
         return $this->moduleManager;
     }
 
-    /**
-     * Method returns true, if instance has been created and modules have been loaded
-     *
-     * @return bool
-     */
-    public static function isLoaded() : bool
-    {
-        return !empty(self::$instance);
-    }
-
     public function getServiceProviders() : array
     {
         return array_merge([
             \Laurel\CMS\Providers\LaurelCoreServiceProvider::class,
         ], config('laurel.cms.packages.providers', []));
+    }
+
+    public function getApiRoutes() : array
+    {
+        $routes = [];
+        foreach (Route::getRoutes()->getIterator() as $route) {
+            if (strpos($route->uri, 'api') !== false) {
+                if (!empty($route->action['as'])) {
+                    $routes[$route->action['as']] = "/" . $route->uri;
+                } else {
+                    $routes[] = "/" . $route->uri;
+                }
+            }
+        }
+        return $routes;
     }
 }

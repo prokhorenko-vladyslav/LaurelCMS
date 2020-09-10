@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasTranslations;
+    use HasApiTokens, Notifiable, HasTranslations;
 
     /**
      * The attributes that are mass assignable.

@@ -15,7 +15,9 @@ interface ModuleContract
     public function setName(string $name) : self;
 
     public function getName() : string;
-    
+
+    public function getNamespace() : string;
+
     public function install();
 
     /**
