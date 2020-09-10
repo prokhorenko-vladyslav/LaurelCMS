@@ -1,30 +1,37 @@
+import Main from "../pages/Main";
+import Login from "../pages/auth/Login";
+import IpAddressConfirm from "../pages/auth/IpAddressConfirm";
+import Forgot from "../pages/auth/Forgot";
+import Lock from "../pages/auth/Lock";
+import Dashboard from "../pages/dashboard/Dashboard";
+
 export default [
     {
         path: '/admin',
-        component : () => import('../pages/Main'),
+        component : Main,
         children: [
             {
                 path : 'login',
-                component : () => import('../pages/auth/Login'),
+                component : Login,
                 name : 'admin.auth.login'
             },
             {
                 path : 'ipConfirm',
-                component : () => import('../pages/auth/IpAddressConfirm'),
+                component : IpAddressConfirm,
                 name : 'admin.auth.ipConfirm'
             },
             {
                 path : 'forgot',
-                component : () => import('../pages/auth/Forgot'),
+                component : Forgot,
                 name : 'admin.auth.forgot'
             },
             {
                 path : 'lock',
-                component : () => import('../pages/auth/Lock'),
+                component : Lock,
             },
             {
                 path : 'dashboard',
-                component : () => import('../pages/dashboard/Dashboard'),
+                component : Dashboard,
             }
         ]
     }
