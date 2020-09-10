@@ -53,7 +53,7 @@ class AuthModule extends Module
         Route::group([
             'namespace' => 'Http\\Controllers\\'
         ], function() {
-            Route::get('login', 'AuthController@login')->name('login');
+            Route::post('login', 'AuthController@login')->name('login');
 
             Route::post('forgot-password', 'AuthController@forgotPassword')->name('forgot-password');
 
