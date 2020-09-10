@@ -69,6 +69,12 @@ abstract class Module implements ModuleContract
         return $this->name;
     }
 
+    public function getNamespace() : string
+    {
+        $class = new \ReflectionClass(static::class);
+        return $class->getNamespaceName();
+    }
+
     /**
      * Checks if the module class has alias.
      * List of the aliases will be taken from core config file of the CMS

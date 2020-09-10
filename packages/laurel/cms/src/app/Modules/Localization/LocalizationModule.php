@@ -54,7 +54,7 @@ class LocalizationModule extends Module
     public function loadModuleApiRoutes()
     {
         Route::group([
-            'namespace' => 'Laurel\\CMS\\Modules\\Localization\\Http\\Controllers\\'
+            'namespace' => 'Http\\Controllers\\'
         ], function() {
             Route::get('translations/{group?}', "TranslationController@index")->name('translations');
         });

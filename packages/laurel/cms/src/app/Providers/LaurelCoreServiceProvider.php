@@ -2,14 +2,17 @@
 
 namespace Laurel\CMS\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laurel\CMS\Console\Commands\CreateMigrationForCMS;
+use Laurel\CMS\Contracts\BladeExtensionContract;
 use Laurel\CMS\Exceptions\MiddlewareGroupHasNotBeenFoundException;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Modules\Auth\AuthModule;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
+use Psy\Exception\TypeErrorException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Throwable;
 
@@ -62,17 +65,16 @@ class LaurelCoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (!LaurelCMS::isLoaded()) {
-            LaurelCMS::instance()
-                ->setRoot($this->cmsRoot)
-                ->moduleManager()
-                ->loadModule('auth', AuthModule::class)
-                ->loadModule('settings', SettingsModule::class)
-                ->loadModule('localization', LocalizationModule::class);
-        }
+        LaurelCMS::instance()
+            ->setRoot($this->cmsRoot)
+            ->moduleManager()
+            ->loadModule('auth', AuthModule::class)
+            ->loadModule('settings', SettingsModule::class)
+            ->loadModule('localization', LocalizationModule::class);
 
         $this->loadModulesConfig();
         $this->loadModulesMiddleware();
+        $this->loadExtensions();
     }
 
     /**
@@ -133,6 +135,10 @@ class LaurelCoreServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             $this->composePath('/../config/packages.php'),
             'laurel.cms.packages'
+        );
+        $this->mergeConfigFrom(
+            $this->composePath('/../config/extensions.php'),
+            'laurel.cms.extensions'
         );
     }
 
@@ -201,5 +207,27 @@ class LaurelCoreServiceProvider extends ServiceProvider
             $this->composePath('/../config/core.php') => config_path('laurel/cms/core.php'),
             $this->composePath('/../config/settings.php') => config_path('laurel/cms/settings.php'),
         ], 'config');
+    }
+
+    protected function loadExtensions()
+    {
+        $this->loadBladeExtensions();
+    }
+
+    protected function loadBladeExtensions()
+    {
+        $bladeExtensions = config('laurel.cms.extensions.blade', []);
+        throw_if(!is_array($bladeExtensions), TypeErrorException::class, ...['Blade extensions must be an array']);
+
+        foreach ($bladeExtensions as $bladeExtensionClass) {
+            $bladeExtension = new $bladeExtensionClass;
+            throw_if(!$bladeExtension instanceof BladeExtensionContract, TypeErrorException::class, ...["Blade extensions class \"{$bladeExtensionClass}\" does not implement " . BladeExtensionContract::class]);
+
+            $directiveMethod = $bladeExtension->isCondition() ? "if" : "directive";
+
+            Blade::$directiveMethod($bladeExtension->getDirectiveName(), function() use ($bladeExtension) {
+                return $bladeExtension->getDirectiveExpression();
+            });
+        }
     }
 }

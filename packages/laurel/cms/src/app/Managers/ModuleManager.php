@@ -212,6 +212,7 @@ class ModuleManager
             ->group(function() use ($module) {
                 Route::name($module->getName() . ".")
                     ->prefix($module->getName())
+                    ->namespace($module->getNamespace())
                     ->group(function() use ($module) {
                     $module->loadModuleWebRoutes();
                 });
@@ -223,6 +224,7 @@ class ModuleManager
             ->group(function() use ($module) {
                 Route::name($module->getName() . ".")
                     ->prefix($module->getName())
+                    ->namespace($module->getNamespace())
                     ->group(function() use ($module) {
                     $module->loadModuleApiRoutes();
                 });
