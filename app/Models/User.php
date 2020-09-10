@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasTranslations;
 
+    public const MALE = 'male';
+    public const FEMALE = 'female';
+
     /**
      * The attributes that are mass assignable.
      *
