@@ -18,11 +18,11 @@ class AuthService
         }
 
         if ($loggedIn) {
-            return new ServiceResponse(200, $loggedIn, [
+            return serviceResponse(200, $loggedIn, [
                 'token' => Auth::user()->createToken(config('app.name'))->accessToken
             ]);
         } else {
-            return new ServiceResponse(404, $loggedIn);
+            return serviceResponse(404, $loggedIn);
         }
     }
 }

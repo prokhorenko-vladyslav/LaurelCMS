@@ -1,6 +1,7 @@
 <?php
 
 use Laurel\CMS\Contracts\ModuleContract;
+use Laurel\CMS\Core\Responses\ServiceResponse;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Managers\ModuleManager;
 
@@ -39,5 +40,12 @@ if (!function_exists('valuesIsJson')) {
     {
         json_decode($value);
         return (json_last_error() == JSON_ERROR_NONE);
+    }
+}
+
+if (!function_exists('serviceResponse')) {
+    function serviceResponse(int $code, bool $status, array $data = [], string $message = '')
+    {
+        return new ServiceResponse($code, $status, $data, $message);
     }
 }
