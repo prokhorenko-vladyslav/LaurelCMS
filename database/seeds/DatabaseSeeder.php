@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::create([
-            'name' => 'Vladislav',
+            'first_name' => 'Vladislav',
             'login' => 'admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin')
