@@ -5,9 +5,11 @@
  */
 
 import Vuex from "vuex";
+import Vuelidate from 'vuelidate';
 
 window.Vue = require('vue');
 Vue.use(Vuex);
+Vue.use(Vuelidate);
 
 require('./bootstrap');
 
