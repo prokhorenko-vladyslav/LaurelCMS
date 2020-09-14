@@ -13,12 +13,13 @@
                             has-icon
                             has-label
                             placeholder="Enter username"
-                            v-model="login"
+                            v-model.trim="$v.login.$model"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/account.svg" alt="Account">
                             </template>
                             <template v-slot:label>
+                                <div class="error" v-if="submitted && !$v.login.required">Name is required</div>
                                 Username
                             </template>
                         </input-field>
@@ -31,7 +32,7 @@
                             has-label
                             type="password"
                             placeholder="Enter password"
-                            v-model="password"
+                            v-model.trim="$v.password.$model"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/lock.svg" alt="Lock">
@@ -57,9 +58,7 @@
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-md-8 d-flex justify-content-center">
                         <simple-button
-                            @click="signIn({
-                                login, password, rememberMe
-                            })"
+                            @click="fireSignIn"
                         >Log In</simple-button>
                     </div>
                 </div>
@@ -80,6 +79,7 @@
 
 <script>
     import { mapActions } from "vuex";
+    import { required } from 'vuelidate/lib/validators'
 
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
@@ -94,15 +94,36 @@
         data: () => ({
             login : '',
             password : '',
-            rememberMe : false
+            rememberMe : false,
+            submitted : false
         }),
+        validations: {
+            login : {
+                required
+            },
+            password : {
+                required
+            }
+        },
         created() {
             console.log(apiRoutes);
         },
         methods: {
             ...mapActions('Admin/Auth', [
                 'signIn'
-            ])
+            ]),
+            fireSignIn() {
+                this.submitted = true;
+                this.$v.$touch();
+                if (!this.$v.$invalid) {
+                    this.signIn({
+                        login : this.login,
+                        password : this.password,
+                        rememberMe : this.rememberMe
+                    })
+                    this.submitted = false;
+                }
+            }
         }
     }
 </script>
