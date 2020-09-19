@@ -2,6 +2,8 @@
 
 namespace Laurel\CMS\Modules\Auth\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -54,14 +56,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function ipAddresses()
+    public function ipAddresses() : BelongsToMany
     {
-        return $this->belongsToMany(IpAddress::class)->withTimestamps();
+        return $this->belongsToMany(IpAddress::class)->withTimestamps()->withPivot([ 'confirmation_code', 'is_confirmed', 'confirmation_code_sent_at' ]);
     }
 
-    public static function findUserByLogin(string $login)
+    public static function findByLogin(string $login) : self
     {
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
         return self::where($field, $login)->first();
+    }
+
+    public static function findByIpAddress(string $ipAddress) : self
+    {
+        return self::whereHas('ipAddresses', function (Builder $ipAddressQuery) use ($ipAddress) {
+            return $ipAddressQuery->where('ip_address', $ipAddress);
+        })->first();
+    }
+
+    public function findIpAddress(string $ipAddress) : IpAddress
+    {
+        return $this->ipAddresses()->firstOrNew([
+            'ip_address' => $ipAddress
+        ]);
     }
 }

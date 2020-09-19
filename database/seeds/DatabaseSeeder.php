@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
 
         $user->ipAddresses()->save($ipAddress);
 
-        SettingsModule::instance()->createSetting('admin.check_ip_address', true);
+        SettingsModule::instance()->createSetting('admin.ip_address.need_to_check', true);
+        SettingsModule::instance()->createSetting('admin.ip_address.code_expires_in_minutes', 15);
         SettingsModule::instance()->createSetting('admin.app_name', 'LaurelCMS');
     }
 }

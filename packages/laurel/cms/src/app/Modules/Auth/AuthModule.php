@@ -55,6 +55,8 @@ class AuthModule extends Module
         ], function() {
             Route::post('login', 'AuthController@login')->name('login');
 
+            Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirm-ip-address');
+
             Route::post('forgot-password', 'AuthController@forgotPassword')->name('forgot-password');
 
             Route::post('unlock', 'AuthController@unlock')->name('unlock');
