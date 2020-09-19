@@ -24,6 +24,9 @@ class CreateIpAddressesTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('ip_address_id');
+            $table->boolean('is_confirmed')->default(false);
+            $table->timestamp('confirmation_code_sent_at')->nullable();
+            $table->string('confirmation_code')->nullable();
             $table->timestamps();
         });
     }

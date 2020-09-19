@@ -4,9 +4,16 @@
 namespace Laurel\CMS\Modules\Auth\Traits;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
+use Laurel\CMS\Core\Responses\ServiceResponse;
+use Laurel\CMS\Mail\Admin\IpAddressConfirmMail;
+use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
+use Laurel\CMS\Modules\Auth\Models\IpAddress;
 use Laurel\CMS\Modules\Auth\Models\User;
 
 /**
@@ -22,14 +29,65 @@ trait CanProcessIpAddress
      */
     public function checkUserIp(User $user)
     {
-        if (settingsModule()->setting('admin.check_ip_address')) {
-            $ipAddress = $user->whereHas('ipAddresses', function (Builder $ipAddressQuery) {
-                return $ipAddressQuery->where('ip_address', Request::ip())->where('is_blocked', false);
-            })->count();
+        if (settingsModule()->setting('admin.ip_address.need_to_check')) {
+            $ipAddress = $user->ipAddresses()->where('ip_address', Request::ip())->first();
 
-            throw_if(!$ipAddress, IpAddressNotFoundException::class, ...["IpAddress for user with id {$user->id} has not been found"]);
+            throw_if(!$ipAddress || !$ipAddress->pivot->is_confirmed, IpAddressNotFoundException::class, ...["IpAddress for user with id {$user->id} has not been found"]);
+            throw_if($ipAddress->isBlocked(), IpAddressIsBlockedException::class, ...["IpAddress " . Request::ip() . " has been blocked"]);
         }
 
         return true;
+    }
+
+    public function sendIpConfirmMail(string $login) : ServiceResponse
+    {
+        $confirmationCode = Str::random(64);
+        $user = User::findByLogin($login);
+        $ipAddress = $user->findIpAddress(Request::ip());
+        $this->updateConfirmation($user, $ipAddress, $confirmationCode, Carbon::now()->format('Y-m-d H:i:s'));
+
+        Mail::to($user->email)->send(new IpAddressConfirmMail($confirmationCode));
+        return serviceResponse(200, true, 'admin.auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
+    }
+
+    protected function updateConfirmation(User $user, IpAddress $ipAddress, ?string $confirmationCode, ?string $confirmationCodeSentAt = null, bool $isConfirmed = false)
+    {
+        if ($ipAddress->exists) {
+            $user->ipAddresses()->updateExistingPivot($ipAddress->id, [
+                'confirmation_code' => $confirmationCode,
+                'is_confirmed' => $isConfirmed,
+                'confirmation_code_sent_at' => $confirmationCodeSentAt
+            ]);
+        } else {
+            $user->ipAddresses()->save($ipAddress, [
+                'confirmation_code' => $confirmationCode,
+                'is_confirmed' => $isConfirmed,
+                'confirmation_code_sent_at' => $confirmationCodeSentAt
+            ]);
+        }
+    }
+
+    public function confirmIpAddress(string $login, string $ipAddress, string $code)
+    {
+        $user = User::findByLogin($login);
+
+        if ($user) {
+            $ipAddress = $user->ipAddresses()->where('ip_address', $ipAddress)->first();
+
+            if ($ipAddress && $ipAddress->pivot->confirmation_code_sent_at) {
+                $confirmationCodeSentAt = Carbon::createFromFormat('Y-m-d H:i:s', $ipAddress->pivot->confirmation_code_sent_at);
+                $diffInMinutes = $confirmationCodeSentAt->diffInMinutes(Carbon::now());
+
+                if (
+                    $ipAddress->pivot->confirmation_code === $code &&
+                    $diffInMinutes <= settingsModule()->setting('admin.ip_address.code_expires_in_minutes', 15)
+                ) {
+                    $this->updateConfirmation($user, $ipAddress, null, null, true);
+                    return serviceResponse(200, true, 'admin.auth.ip_confirmed');
+                }
+            }
+        }
+
+        return serviceResponse(404, false, 'admin.auth.ip_not_found');
     }
 }

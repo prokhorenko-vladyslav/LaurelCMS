@@ -4,7 +4,11 @@
 namespace Laurel\CMS\Modules\Auth\Http\Controllers;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
+use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
+use Laurel\CMS\Modules\Auth\Http\Requests\ConfirmIpAddressRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\LoginRequest;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
@@ -29,6 +33,8 @@ class AuthController
             return $this->authService->sendIpConfirmMail(
                 $request->validated()['login']
             )->respond();
+        } catch (IpAddressIsBlockedException $e) {
+            return serviceResponse(403, false, 'admin.auth.ip_address_blocked', [], "Ip address " . Request::ip() . " has been blocked")->respond();
         } catch (Exception $e) {
             return serviceResponse(404, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
         }
@@ -37,6 +43,20 @@ class AuthController
     public function sendIpConfirmMail()
     {
 
+    }
+
+    public function confirmIpAddress(ConfirmIpAddressRequest $request)
+    {
+        try {
+            return $this->authService->confirmIpAddress(
+                $request->input('login'),
+                $request->input('ip_address'),
+                $request->input('code'),
+            )->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 
     public function forgotPassword()

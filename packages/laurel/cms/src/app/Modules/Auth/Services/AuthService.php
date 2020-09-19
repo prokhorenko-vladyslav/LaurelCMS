@@ -6,6 +6,7 @@ namespace Laurel\CMS\Modules\Auth\Services;
 use Laurel\CMS\Core\Responses\ServiceResponse;
 use Illuminate\Support\Facades\Auth;
 use Laurel\CMS\Modules\Auth\Exceptions\IncorrectCredentialsException;
+use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\User;
@@ -26,10 +27,11 @@ class AuthService
      * @return ServiceResponse
      * @throws IpAddressNotFoundException
      * @throws PasswordIncorrectException
+     * @throws IpAddressIsBlockedException
      */
     public function login(string $login, string $password, bool $rememberMe = false) : ServiceResponse
     {
-        $user = User::findUserByLogin($login);
+        $user = User::findByLogin($login);
         $this->checkUserPassword($user, $password);
         $this->checkUserIp($user);
         Auth::login($user, $rememberMe);
@@ -39,6 +41,4 @@ class AuthService
             'token' => $this->createApiToken($user)
         ]);
     }
-
-
 }
