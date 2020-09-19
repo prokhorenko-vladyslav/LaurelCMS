@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => Laurel\CMS\Modules\Auth\Models\User::class,
         ],
 
         // 'users' => [

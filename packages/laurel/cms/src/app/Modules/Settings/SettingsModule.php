@@ -25,9 +25,9 @@ class SettingsModule extends Module
         require_once __DIR__ . '/Helpers/settings.php';
     }
 
-    public function install() 
+    public function install()
     {
-    
+
     }
 
     /**
@@ -41,7 +41,7 @@ class SettingsModule extends Module
     }
 
     /**
-     * Method for fetching setting from database and returning its value.
+     * Method for fetching setting from database and returning this value.
      * If value has been saved as JSON, method will decode it and return
      * array(if $valueAsObjectIfJson setted to false) or object (if $valueAsObjectIfJson setted to true)
      *

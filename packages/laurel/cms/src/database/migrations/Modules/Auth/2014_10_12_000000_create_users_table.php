@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laurel\CMS\Modules\Auth\Models\User;
 
 class CreateUsersTable extends Migration
 {
@@ -21,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('login')->unique();
             $table->string('email')->unique();
             $table->enum('gender', [
-                \App\Models\User::MALE,
-                \App\Models\User::FEMALE,
+                User::MALE,
+                User::FEMALE,
             ])->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

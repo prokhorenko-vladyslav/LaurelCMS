@@ -125,4 +125,9 @@ class LaurelCMS
         }
         return $routes;
     }
+
+    public function getAppName()
+    {
+        return settingsModule()->setting('admin.app_name', env('APP_NAME', 'LaurelCMS'));
+    }
 }

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace Laurel\CMS\Modules\Auth\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Laurel\CMS\Modules\Auth\Models\IpAddress;
 use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
 
 /**
  * Class User
  * @package App\Models
+ * @property string $id
  * @property string $email
  * @property string $login
  * @property string $password
@@ -57,6 +56,12 @@ class User extends Authenticatable
 
     public function ipAddresses()
     {
-        return $this->belongsToMany(IpAddress::class);
+        return $this->belongsToMany(IpAddress::class)->withTimestamps();
+    }
+
+    public static function findUserByLogin(string $login)
+    {
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
+        return self::where($field, $login)->first();
     }
 }
