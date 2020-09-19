@@ -44,8 +44,15 @@ if (!function_exists('valuesIsJson')) {
 }
 
 if (!function_exists('serviceResponse')) {
-    function serviceResponse(int $code, bool $status, array $data = [], string $message = '')
+    function serviceResponse(int $code, bool $status, string $alias, array $data = [], string $message = '')
     {
-        return new ServiceResponse($code, $status, $data, $message);
+        return new ServiceResponse($code, $status, $alias, $data, $message);
+    }
+}
+
+if (!function_exists('cms')) {
+    function cms() : LaurelCMS
+    {
+        return LaurelCMS::instance();
     }
 }
