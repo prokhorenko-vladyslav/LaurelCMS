@@ -5,7 +5,6 @@ namespace Laurel\CMS\Modules\Auth\Traits;
 
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -15,6 +14,7 @@ use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Models\IpAddress;
 use Laurel\CMS\Modules\Auth\Models\User;
+use Throwable;
 
 /**
  * Trait CanProcessIpAddress
@@ -23,9 +23,14 @@ use Laurel\CMS\Modules\Auth\Models\User;
 trait CanProcessIpAddress
 {
     /**
+     * If setting "need to check ip address" has been setted to true, method will check request ip
+     * and throw IpAddressNotFoundException (if ip has not been founded) or IpAddressIsBlockedException
+     * (if this ip address has been blocked)
+     *
      * @param User $user
      * @return bool
      * @throws IpAddressNotFoundException
+     * @throws IpAddressIsBlockedException
      */
     public function checkUserIp(User $user)
     {
@@ -39,6 +44,12 @@ trait CanProcessIpAddress
         return true;
     }
 
+    /**
+     * Sends mail with code for ip address confirmation
+     *
+     * @param string $login
+     * @return ServiceResponse
+     */
     public function sendIpConfirmMail(string $login) : ServiceResponse
     {
         $confirmationCode = Str::random(64);
@@ -50,6 +61,16 @@ trait CanProcessIpAddress
         return serviceResponse(200, true, 'admin.auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
     }
 
+    /**
+     * Updates confirmation code, it`s status and sending time, when code has been sent to user with specified ip.
+     * If ip address is not exists, relation will be created, or updated (if it already exists).
+     *
+     * @param User $user
+     * @param IpAddress $ipAddress
+     * @param string|null $confirmationCode
+     * @param string|null $confirmationCodeSentAt
+     * @param bool $isConfirmed
+     */
     protected function updateConfirmation(User $user, IpAddress $ipAddress, ?string $confirmationCode, ?string $confirmationCodeSentAt = null, bool $isConfirmed = false)
     {
         if ($ipAddress->exists) {
@@ -67,6 +88,15 @@ trait CanProcessIpAddress
         }
     }
 
+    /**
+     * Checks expires time of the confirmation code and calls method for updating ip confirmation
+     *
+     * @param string $login
+     * @param string $ipAddress
+     * @param string $code
+     * @return ServiceResponse
+     * @throws Throwable
+     */
     public function confirmIpAddress(string $login, string $ipAddress, string $code)
     {
         $user = User::findByLogin($login);
