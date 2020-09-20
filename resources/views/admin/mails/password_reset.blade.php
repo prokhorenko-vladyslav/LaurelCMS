@@ -1,0 +1,1 @@
+Reset password code: {{ $passwordResetToken }}

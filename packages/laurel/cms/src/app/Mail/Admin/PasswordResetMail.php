@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class IpAddressConfirmMail extends Mailable
+class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected string $confirmationCode;
+    protected string $passwordResetToken;
 
     /**
      * Create a new message instance.
      *
-     * @param string $confirmationCode
+     * @param string $passwordResetToken
      */
-    public function __construct(string $confirmationCode)
+    public function __construct(string $passwordResetToken)
     {
-        $this->confirmationCode = $confirmationCode;
+        $this->passwordResetToken = $passwordResetToken;
     }
 
     /**
@@ -30,8 +30,8 @@ class IpAddressConfirmMail extends Mailable
      */
     public function build()
     {
-        return $this->view('admin.mails.ip_confirm', [
-            'confirmationCode' => $this->confirmationCode
+        return $this->view('admin.mails.password_reset', [
+            'passwordResetToken' => $this->passwordResetToken
         ]);
     }
 }

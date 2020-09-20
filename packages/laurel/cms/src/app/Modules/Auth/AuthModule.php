@@ -57,7 +57,11 @@ class AuthModule extends Module
 
             Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirm-ip-address');
 
-            Route::post('forgot-password', 'AuthController@forgotPassword')->name('forgot-password');
+            Route::post('sendIpConfirmMail', 'AuthController@sendIpConfirmMail')->name('send-ip-confirm-mail');
+
+            Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('send-reset-password-mail');
+
+            Route::post('resetPassword', 'AuthController@resetPassword')->name('reset-password');
 
             Route::post('unlock', 'AuthController@unlock')->name('unlock');
         });

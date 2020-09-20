@@ -46,6 +46,12 @@ class ServiceResponse
         return $this->message;
     }
 
+    public function setMessage(string $message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
     public function toArray() : array
     {
         return [

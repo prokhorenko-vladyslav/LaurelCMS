@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Request;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Http\Requests\ConfirmIpAddressRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\ResetPasswordRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\LoginRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\SendIpConfirmMailRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\SendResetPasswordMailRequest;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
 class AuthController
@@ -25,9 +28,9 @@ class AuthController
     {
         try {
             return $this->authService->login(
-                $request->validated()['login'],
-                $request->validated()['password'],
-                $request->validated()['rememberMe'] ?? false
+                $request->input('login'),
+                $request->input('password'),
+                $request->input('rememberMe', false)
             )->respond();
         } catch (IpAddressNotFoundException $e) {
             return $this->authService->sendIpConfirmMail(
@@ -40,9 +43,14 @@ class AuthController
         }
     }
 
-    public function sendIpConfirmMail()
+    public function sendIpConfirmMail(SendIpConfirmMailRequest $request)
     {
-
+        try {
+            return $this->authService->sendIpConfirmMail($request->input('login'))->setMessage('Mail with ip confirmation code has been sent')->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 
     public function confirmIpAddress(ConfirmIpAddressRequest $request)
@@ -59,9 +67,30 @@ class AuthController
         }
     }
 
-    public function forgotPassword()
+    public function sendResetPasswordMail(SendResetPasswordMailRequest $request)
     {
-        dd('forgot-password');
+        try {
+            return $this->authService->sendResetPasswordMail(
+                $request->input('login')
+            )->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+            return $this->authService->resetPassword(
+            $request->input('login'),
+            $request->input('token'),
+            $request->input('new_password'),
+        )->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 
     public function unlock()

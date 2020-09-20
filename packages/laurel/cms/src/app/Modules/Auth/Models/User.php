@@ -67,6 +67,11 @@ class User extends Authenticatable
         return self::where($field, $login)->first();
     }
 
+    public static function findByEmail(string $email) : self
+    {
+        return self::where('email', $email)->first();
+    }
+
     public static function findByIpAddress(string $ipAddress) : self
     {
         return self::whereHas('ipAddresses', function (Builder $ipAddressQuery) use ($ipAddress) {
