@@ -12,6 +12,7 @@ use Laurel\CMS\Modules\Auth\Http\Requests\ConfirmIpAddressRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\ResetPasswordRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\LoginRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\SendIpConfirmMailRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\SendResetPasswordMailRequest;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
 class AuthController
@@ -66,12 +67,26 @@ class AuthController
         }
     }
 
+    public function sendResetPasswordMail(SendResetPasswordMailRequest $request)
+    {
+        try {
+            return $this->authService->sendResetPasswordMail(
+                $request->input('login')
+            )->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
+    }
+
     public function resetPassword(ResetPasswordRequest $request)
     {
         try {
-            return $this->authService->sendResetPasswordEmail(
-                $request->input('login')
-            )->respond();
+            return $this->authService->resetPassword(
+            $request->input('login'),
+            $request->input('token'),
+            $request->input('new_password'),
+        )->respond();
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return serviceResponse(500, false, 'server_error')->respond();
