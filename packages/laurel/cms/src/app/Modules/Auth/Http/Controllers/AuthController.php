@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Http\Requests\ConfirmIpAddressRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\ResetPasswordRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\LoginRequest;
 use Laurel\CMS\Modules\Auth\Http\Requests\SendIpConfirmMailRequest;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
@@ -65,9 +66,16 @@ class AuthController
         }
     }
 
-    public function forgotPassword()
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        dd('forgot-password');
+        try {
+            return $this->authService->sendResetPasswordEmail(
+                $request->input('login')
+            )->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 
     public function unlock()

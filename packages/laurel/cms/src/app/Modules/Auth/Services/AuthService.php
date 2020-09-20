@@ -37,7 +37,7 @@ class AuthService
         Auth::login($user, $rememberMe);
 
         throw_if(!Auth::check(), IncorrectCredentialsException::class);
-        return serviceResponse(200, true, 'admin.auth.logged_in', [
+        return serviceResponse(200, true, 'auth.logged_in', [
             'token' => $this->createApiToken($user)
         ]);
     }

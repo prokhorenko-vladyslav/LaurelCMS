@@ -58,7 +58,7 @@ trait CanProcessIpAddress
         $this->updateConfirmation($user, $ipAddress, $confirmationCode, Carbon::now()->format('Y-m-d H:i:s'));
 
         Mail::to($user->email)->send(new IpAddressConfirmMail($confirmationCode));
-        return serviceResponse(200, true, 'admin.auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
+        return serviceResponse(200, true, 'auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
     }
 
     /**
@@ -113,11 +113,11 @@ trait CanProcessIpAddress
                     $diffInMinutes <= settingsModule()->setting('admin.ip_address.code_expires_in_minutes', 15)
                 ) {
                     $this->updateConfirmation($user, $ipAddress, null, null, true);
-                    return serviceResponse(200, true, 'admin.auth.ip_confirmed');
+                    return serviceResponse(200, true, 'auth.ip_confirmed');
                 }
             }
         }
 
-        return serviceResponse(404, false, 'admin.auth.ip_not_found');
+        return serviceResponse(404, false, 'auth.ip_not_found');
     }
 }
