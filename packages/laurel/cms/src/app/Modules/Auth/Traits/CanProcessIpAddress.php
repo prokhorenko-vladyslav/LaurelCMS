@@ -5,6 +5,7 @@ namespace Laurel\CMS\Modules\Auth\Traits;
 
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -55,7 +56,7 @@ trait CanProcessIpAddress
         $confirmationCode = Str::random(64);
         $user = User::findByLogin($login);
         $ipAddress = $user->findIpAddress(Request::ip());
-        $this->updateConfirmation($user, $ipAddress, $confirmationCode, Carbon::now()->format('Y-m-d H:i:s'));
+        $this->updateConfirmation($user, $ipAddress, Hash::make($confirmationCode), Carbon::now()->format('Y-m-d H:i:s'));
 
         Mail::to($user->email)->send(new IpAddressConfirmMail($confirmationCode));
         return serviceResponse(200, true, 'auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
@@ -109,7 +110,7 @@ trait CanProcessIpAddress
                 $diffInMinutes = $confirmationCodeSentAt->diffInMinutes(Carbon::now());
 
                 if (
-                    $ipAddress->pivot->confirmation_code === $code &&
+                    Hash::check($code, $ipAddress->pivot->confirmation_code) &&
                     $diffInMinutes <= settingsModule()->setting('admin.ip_address.code_expires_in_minutes', 15)
                 ) {
                     $this->updateConfirmation($user, $ipAddress, null, null, true);
