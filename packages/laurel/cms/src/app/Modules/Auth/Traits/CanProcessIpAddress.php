@@ -107,7 +107,7 @@ trait CanProcessIpAddress
 
             if ($ipAddress && $ipAddress->pivot->confirmation_code_sent_at) {
                 $confirmationCodeSentAt = Carbon::createFromFormat('Y-m-d H:i:s', $ipAddress->pivot->confirmation_code_sent_at);
-                $diffInMinutes = $confirmationCodeSentAt->diffInMinutes(Carbon::now());
+                $diffInMinutes = $confirmationCodeSentAt->diffInMinutes(now(), false);
 
                 if (
                     Hash::check($code, $ipAddress->pivot->confirmation_code) &&

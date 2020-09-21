@@ -21,7 +21,7 @@ class LockCheckMiddleware
             settingsModule()->setting('admin.lock_admin_panel')
         ) {
             $token = auth()->user()->token();
-            $diffInMinutes = now()->diffInMinutes($token->lock_at);
+            $diffInMinutes = now()->diffInMinutes($token->lock_at, false);
 
             if (!$this->checkLockingTime($request, $diffInMinutes)) {
                 return $this->createLockResponse($request);
