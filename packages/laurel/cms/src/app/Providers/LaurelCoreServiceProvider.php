@@ -4,11 +4,13 @@ namespace Laurel\CMS\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use Laurel\CMS\Console\Commands\CreateMigrationForCMS;
 use Laurel\CMS\Contracts\BladeExtensionContract;
 use Laurel\CMS\Exceptions\MiddlewareGroupHasNotBeenFoundException;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Modules\Auth\AuthModule;
+use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
@@ -212,6 +214,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
     protected function loadExtensions()
     {
         $this->loadBladeExtensions();
+        $this->loadPassportExtensions();
     }
 
     protected function loadBladeExtensions()
@@ -229,5 +232,13 @@ class LaurelCoreServiceProvider extends ServiceProvider
                 return $bladeExtension->getDirectiveExpression();
             });
         }
+    }
+
+    protected function loadPassportExtensions()
+    {
+        Passport::tokensExpireIn(now()->addHours(
+            settingsModule()->setting('admin.token_lifetime_in_hours', 1)
+        ));
+        Passport::useTokenModel(Token::class);
     }
 }
