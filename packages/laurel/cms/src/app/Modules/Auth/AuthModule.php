@@ -3,9 +3,9 @@
 
 namespace Laurel\CMS\Modules\Auth;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Abstracts\Module;
+use Laurel\CMS\Modules\Auth\Http\Middleware\LockCheckMiddleware;
 
 class AuthModule extends Module
 {
@@ -63,7 +63,7 @@ class AuthModule extends Module
 
             Route::post('resetPassword', 'AuthController@resetPassword')->name('reset-password');
 
-            Route::post('unlock', 'AuthController@unlock')->name('unlock');
+            Route::middleware('auth:api')->post('unlock', 'AuthController@unlock')->name('unlock');
         });
     }
 }

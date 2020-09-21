@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
 
         SettingsModule::instance()->createSetting('admin.ip_address.need_to_check', true);
         SettingsModule::instance()->createSetting('admin.ip_address.code_expires_in_minutes', 15);
-        SettingsModule::instance()->createSetting('admin.app_name', 'LaurelCMS');
+        SettingsModule::instance()->createSetting('cms.app_name', 'LaurelCMS');
+        SettingsModule::instance()->createSetting('admin.token_lifetime_in_hours', 1);
+        SettingsModule::instance()->createSetting('admin.lock_admin_panel', 1);
+        SettingsModule::instance()->createSetting('admin.lock_after_minutes', 1);
     }
 }

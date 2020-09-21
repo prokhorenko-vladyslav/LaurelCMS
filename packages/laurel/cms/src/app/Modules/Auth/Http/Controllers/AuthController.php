@@ -8,11 +8,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
-use Laurel\CMS\Modules\Auth\Http\Requests\ConfirmIpAddressRequest;
-use Laurel\CMS\Modules\Auth\Http\Requests\ResetPasswordRequest;
-use Laurel\CMS\Modules\Auth\Http\Requests\LoginRequest;
-use Laurel\CMS\Modules\Auth\Http\Requests\SendIpConfirmMailRequest;
-use Laurel\CMS\Modules\Auth\Http\Requests\SendResetPasswordMailRequest;
+use Laurel\CMS\Modules\Auth\Http\Requests\{ ConfirmIpAddressRequest, ResetPasswordRequest, LoginRequest, SendIpConfirmMailRequest, SendResetPasswordMailRequest, UnlockRequest };
+use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
 class AuthController
@@ -39,7 +36,7 @@ class AuthController
         } catch (IpAddressIsBlockedException $e) {
             return serviceResponse(403, false, 'admin.auth.ip_address_blocked', [], "Ip address " . Request::ip() . " has been blocked")->respond();
         } catch (Exception $e) {
-            return serviceResponse(404, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
+            return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
         }
     }
 
@@ -93,8 +90,17 @@ class AuthController
         }
     }
 
-    public function unlock()
+    public function unlock(UnlockRequest $request)
     {
-        dd('unlock');
+        try {
+            return $this->authService->unlock(
+                $request->input('password')
+            )->respond();
+        } catch (PasswordIncorrectException $e) {
+            return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 }

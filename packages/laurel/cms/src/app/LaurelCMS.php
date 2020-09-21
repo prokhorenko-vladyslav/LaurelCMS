@@ -128,6 +128,6 @@ class LaurelCMS
 
     public function getAppName()
     {
-        return settingsModule()->setting('admin.app_name', env('APP_NAME', 'LaurelCMS'));
+        return settingsModule()->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
     }
 }

@@ -3,12 +3,14 @@
 
 namespace Laurel\CMS\Modules\Auth\Traits;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Laurel\CMS\Mail\Admin\PasswordResetMail;
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\PasswordReset;
+use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Auth\Models\User;
 
 /**
@@ -60,5 +62,24 @@ trait CanProcessPassword
         }
 
         return serviceResponse(500, false, 'auth.token_has_not_been_founded', [], 'Token has not been found or is expired');
+    }
+
+    public function unlock(string $password)
+    {
+        if (
+            settingsModule()->setting('admin.lock_admin_panel')
+        ) {
+            $user = Auth::user();
+            $this->checkUserPassword($user, $password);
+            $this->resetLockTimeForToken($user->token());
+        }
+
+        return serviceResponse(200, true, 'auth.account_unlocked', [], 'Account unlocked');
+    }
+
+    protected function resetLockTimeForToken(Token $token)
+    {
+        $token->lock_at = now()->addMinutes(settingsModule()->setting('admin.lock_after_minutes', 15));
+        $token->saveOrFail();
     }
 }
