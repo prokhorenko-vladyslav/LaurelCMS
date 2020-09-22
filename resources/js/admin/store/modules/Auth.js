@@ -1,10 +1,15 @@
 export default {
     namespaced: true,
     state: {
-        token : false
+        token : false,
+        lockCheckingInterval : null,
+        isLocked : false,
     },
     mutations: {
         setApiToken: (state, token) => state.token = token,
+        setLockCheckingInterval: (state, lockCheckingInterval) => state.lockCheckingInterval = lockCheckingInterval,
+        clearLockCheckingInterval: (state) => clearInterval(state.lockCheckingInterval),
+        setIsLocked: (state, isLocked) => state.isLocked = isLocked,
     },
     getters: {
 
@@ -36,6 +41,13 @@ export default {
                     return false;
                 })
         },
+        async hasToken({ state, dispatch }) {
+            if (!state.token) {
+                return await dispatch('loadTokenFromLocalStorage');
+            } else {
+                return true;
+            }
+        },
         signIn({ dispatch }, { login, password, rememberMe }) {
             return axios
                 .post(
@@ -57,9 +69,51 @@ export default {
                     return false;
                 })
         },
+        unlock({ dispatch }, password) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.unlock'),
+                    {
+                        password
+                    },
+                    {
+                        headers: { Authorization: `Bearer ${localStorage.api_token}` }
+                    }
+                )
+                .then( async response => {
+                    return response.data.status && response.data.alias === 'auth.account_unlocked';
+                })
+                .catch( error => {
+                    console.log('catch', error);
+                    return false;
+                })
+        },
         saveToken({ commit }, token) {
             localStorage.api_token = token;
             commit('setApiToken', token)
+        },
+        startLockChecking({ commit, dispatch }) {
+            commit('setLockCheckingInterval', setInterval(async () => {
+                commit('setIsLocked', await dispatch('checkLock'))
+            }, 10000));
+        },
+        stopLockChecking({ commit }) {
+            commit('clearLockCheckingInterval');
+        },
+        checkLock() {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.lockStatus'), null,
+                    {
+                        headers: { Authorization: `Bearer ${localStorage.api_token}` }
+                    }
+                )
+                .then( async response => {
+                    return !response.data.status || response.data.alias !== 'auth.account_not_locked';
+                })
+                .catch( error => {
+                    return !error.response.data.status && error.response.data.alias === 'auth.account_locked';
+                })
         }
     },
 }

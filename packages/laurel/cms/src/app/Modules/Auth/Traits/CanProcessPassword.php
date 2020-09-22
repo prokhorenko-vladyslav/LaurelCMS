@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Laurel\CMS\Core\Responses\ServiceResponse;
 use Laurel\CMS\Mail\Admin\PasswordResetMail;
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\PasswordReset;
@@ -81,5 +82,21 @@ trait CanProcessPassword
     {
         $token->lock_at = now()->addMinutes(settingsModule()->setting('admin.lock_after_minutes', 15));
         $token->saveOrFail();
+    }
+
+    public function getLockStatus() : ServiceResponse
+    {
+        if (
+        settingsModule()->setting('admin.lock_admin_panel')
+        ) {
+            $user = Auth::user();
+            if (now()->diffInMinutes($user->token()->lock_at, false) >= 0) {
+                return serviceResponse(200, true, 'auth.account_not_locked', [], 'Account not locked');
+            } else {
+                return serviceResponse(401, false, 'auth.account_locked', [], 'Account locked');
+            }
+        } else {
+            return serviceResponse(200, true, 'auth.account_not_locked', [], 'Account not locked');
+        }
     }
 }

@@ -131,7 +131,6 @@
 
                     if (response) {
                         this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.dashboard' }));
-                        //setTimeout(() => this.$router.push({ name: 'admin.dashboard' }), 1000);
                     }
                 }
             }
