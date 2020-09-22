@@ -14,7 +14,9 @@ use Laurel\CMS\Modules\Auth\Http\Requests\{CheckTokenRequest,
     LoginRequest,
     SendIpConfirmMailRequest,
     SendResetPasswordMailRequest,
-    UnlockRequest};
+    UnlockRequest,
+    CheckLockRequest
+};
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
@@ -114,6 +116,16 @@ class AuthController
             )->respond();
         } catch (PasswordIncorrectException $e) {
             return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
+    }
+
+    public function lockStatus(CheckLockRequest $request)
+    {
+        try {
+            return $this->authService->getLockStatus()->respond();
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return serviceResponse(500, false, 'server_error')->respond();

@@ -61,10 +61,11 @@ class AuthModule extends Module
 
             Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('sendResetPasswordMail');
 
-            Route::post('resetPassword', 'AuthController@resetPassword')->name('reset-password');
+            Route::post('resetPassword', 'AuthController@resetPassword')->name('resetPassword');
 
             Route::middleware('auth:api')->group(function() {
                 Route::post('unlock', 'AuthController@unlock')->name('unlock');
+                Route::post('lockStatus', 'AuthController@lockStatus')->name('lockStatus');
                 Route::post('checkToken', 'AuthController@checkToken')->name('checkToken');
             });
         });

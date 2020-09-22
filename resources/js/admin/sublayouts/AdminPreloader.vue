@@ -62,7 +62,13 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        background: #313746;
+
+        background: #4b6cb7;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #182848, #4b6cb7);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
         background-size: cover;
         z-index: 100;
     }
@@ -89,7 +95,7 @@
     ul {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        animation:rot 16s linear infinite;
+        animation:rot 12s linear infinite;
         @keyframes rot {
             100% {
                 transform:rotate(360deg);
@@ -98,9 +104,10 @@
     }
 
     li {
-        @include obj(40px,40px,#651FFF);
+        @include obj(40px,40px,#1e3055);
         border-radius:4px;
-        box-shadow: 0 0 1px #fff, 0 0 5px #651FFF, 0 0 10px #651FFF, 0 0 15px #651FFF, 0 0 25px #651FFF, 0 0 55px #651FFF;
+        margin: .2rem;
+        box-shadow: 0 0 1px #fff, 0 0 5px #4b6bb6, 0 0 10px #4b6bb6, 0 0 15px #4b6bb6, 0 0 25px #4b6bb6, 0 0 55px #4b6bb6;
         animation: scale 0.8s linear alternate infinite;
 
         @keyframes scale {

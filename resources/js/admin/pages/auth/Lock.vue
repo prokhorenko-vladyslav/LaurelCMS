@@ -18,6 +18,7 @@
                                     icon-size="15px"
                                     type="password"
                                     placeholder="Enter password"
+                                    v-model="password"
                                 >
                                     <template v-slot:icon>
                                         <img class="lock__block__field-icon" src="/admin/img/icons/lock-filled.svg" alt="Lock">
@@ -35,7 +36,7 @@
                         </div>
                         <div class="row w-100 justify-content-center mt-4">
                             <div class="col-md-8 d-flex justify-content-center">
-                                <simple-button>Unlock</simple-button>
+                                <simple-button @click="fireUnlockEvent">Unlock</simple-button>
                             </div>
                         </div>
                     </div>
@@ -48,12 +49,38 @@
 <script>
     import InputField from "../../elements/InputField";
     import SimpleButton from "../../elements/SimpleButton";
+    import {mapActions} from "vuex";
 
     export default {
         name: "Lock",
         components : {
             InputField,
             SimpleButton,
+        },
+        data: () => ({
+            password : ''
+        }),
+        async created() {
+            if (!await this.hasToken()) {
+                this.setLoadingStatus(false).then(() => this.$router.push({ name: 'admin.auth.login' }));
+            } else {
+                this.setLoadingStatus(true);
+            }
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.stopLockChecking();
+            next();
+        },
+        methods: {
+            ...mapActions(['setLoadingStatus']),
+            ...mapActions('Admin/Auth', [
+                'loadTokenFromLocalStorage', 'hasToken', 'unlock', 'stopLockChecking'
+            ]),
+            async fireUnlockEvent() {
+                if (await this.unlock(this.password)) {
+                    this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.dashboard' }));
+                }
+            }
         }
     }
 </script>

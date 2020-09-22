@@ -24,11 +24,18 @@
             MainMenu,
             DashboardHeader
         },
-        created() {
-            this.setLoadingStatus(true);
+        async created() {
+            if (!await this.hasToken()) {
+                this.setLoadingStatus(false).then(() => this.$router.push({ name: 'admin.auth.login' }));
+            } else {
+                this.setLoadingStatus(true);
+            }
         },
         methods: {
             ...mapActions(['setLoadingStatus']),
+            ...mapActions('Admin/Auth', [
+                'loadTokenFromLocalStorage', 'hasToken'
+            ])
         }
     }
 </script>
