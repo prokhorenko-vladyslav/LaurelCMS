@@ -16,6 +16,7 @@ use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
  * @property string $email
  * @property string $login
  * @property string $password
+ * @property boolean $is_blocked
  */
 
 class User extends Authenticatable
@@ -54,6 +55,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_blocked' => 'bool'
+    ];
+
+    protected $dates = [
+        'blocked_at', 'blocked_until'
     ];
 
     public function ipAddresses() : BelongsToMany
@@ -84,5 +90,10 @@ class User extends Authenticatable
         return $this->ipAddresses()->firstOrNew([
             'ip_address' => $ipAddress
         ]);
+    }
+
+    public function isBlocked() : bool
+    {
+        return $this->is_blocked;
     }
 }

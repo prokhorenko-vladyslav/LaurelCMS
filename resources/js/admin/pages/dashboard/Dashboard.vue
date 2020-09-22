@@ -16,11 +16,19 @@
     import DashboardHeader from "../../sublayouts/DashboardHeader";
     import MainMenu from "../../sublayouts/MainMenu";
 
+    import {mapActions} from "vuex";
+
     export default {
         name: "Dashboard",
         components: {
             MainMenu,
             DashboardHeader
+        },
+        created() {
+            this.setLoadingStatus(true);
+        },
+        methods: {
+            ...mapActions(['setLoadingStatus']),
         }
     }
 </script>

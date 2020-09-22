@@ -78,7 +78,7 @@
 </template>
 
 <script>
-    import { mapActions } from "vuex";
+    import { mapActions, mapMutations } from "vuex";
     import { required } from 'vuelidate/lib/validators'
 
     import InputField from "../../elements/InputField";
@@ -105,23 +105,34 @@
                 required
             }
         },
-        created() {
-            console.log(apiRoutes);
+        async created() {
+            let isTokenValid = await this.loadTokenFromLocalStorage();
+            if (isTokenValid) {
+                this.$router.push({ name: 'admin.dashboard' })
+            } else {
+                this.setLoadingStatus(true)
+            }
         },
         methods: {
+            ...mapActions(['setLoadingStatus']),
             ...mapActions('Admin/Auth', [
-                'signIn'
+                'loadTokenFromLocalStorage', 'signIn'
             ]),
-            fireSignIn() {
+            async fireSignIn() {
                 this.submitted = true;
                 this.$v.$touch();
                 if (!this.$v.$invalid) {
-                    this.signIn({
+                    let response = await this.signIn({
                         login : this.login,
                         password : this.password,
                         rememberMe : this.rememberMe
                     })
                     this.submitted = false;
+
+                    if (response) {
+                        this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.dashboard' }));
+                        //setTimeout(() => this.$router.push({ name: 'admin.dashboard' }), 1000);
+                    }
                 }
             }
         }

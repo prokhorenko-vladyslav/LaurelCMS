@@ -27,6 +27,9 @@ class CreateUsersTable extends Migration
             ])->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_blocked')->default(false);
+            $table->timestamp('blocked_at')->nullable();
+            $table->timestamp('blocked_until')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

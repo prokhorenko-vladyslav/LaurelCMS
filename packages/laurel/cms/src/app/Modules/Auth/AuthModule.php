@@ -55,15 +55,18 @@ class AuthModule extends Module
         ], function() {
             Route::post('login', 'AuthController@login')->name('login');
 
-            Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirm-ip-address');
+            Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirmIpAddress');
 
-            Route::post('sendIpConfirmMail', 'AuthController@sendIpConfirmMail')->name('send-ip-confirm-mail');
+            Route::post('sendIpConfirmMail', 'AuthController@sendIpConfirmMail')->name('sendIpConfirmMail');
 
-            Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('send-reset-password-mail');
+            Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('sendResetPasswordMail');
 
             Route::post('resetPassword', 'AuthController@resetPassword')->name('reset-password');
 
-            Route::middleware('auth:api')->post('unlock', 'AuthController@unlock')->name('unlock');
+            Route::middleware('auth:api')->group(function() {
+                Route::post('unlock', 'AuthController@unlock')->name('unlock');
+                Route::post('checkToken', 'AuthController@checkToken')->name('checkToken');
+            });
         });
     }
 }

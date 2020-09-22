@@ -28,10 +28,12 @@ export default [
             {
                 path : 'lock',
                 component : Lock,
+                name : 'admin.auth.lock'
             },
             {
                 path : 'dashboard',
                 component : Dashboard,
+                name: 'admin.dashboard'
             }
         ]
     }

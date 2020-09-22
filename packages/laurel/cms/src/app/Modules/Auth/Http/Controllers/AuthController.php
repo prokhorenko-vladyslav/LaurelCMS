@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
-use Laurel\CMS\Modules\Auth\Http\Requests\{ ConfirmIpAddressRequest, ResetPasswordRequest, LoginRequest, SendIpConfirmMailRequest, SendResetPasswordMailRequest, UnlockRequest };
+use Laurel\CMS\Modules\Auth\Http\Requests\{CheckTokenRequest,
+    ConfirmIpAddressRequest,
+    ResetPasswordRequest,
+    LoginRequest,
+    SendIpConfirmMailRequest,
+    SendResetPasswordMailRequest,
+    UnlockRequest};
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
 
@@ -19,6 +25,16 @@ class AuthController
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
+    }
+
+    public function checkToken(CheckTokenRequest $request)
+    {
+        try {
+            return $this->authService->checkToken()->respond();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return serviceResponse(500, false, 'server_error')->respond();
+        }
     }
 
     public function login(LoginRequest $request)
