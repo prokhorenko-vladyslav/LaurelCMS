@@ -13,6 +13,7 @@
                             has-icon
                             has-label
                             placeholder="Enter email"
+                            v-model="login"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/email.svg" alt="Account">
@@ -23,12 +24,81 @@
                         </input-field>
                     </div>
                 </div>
+                <template v-if="isResetPasswordMailSent">
+                    <div class="row w-100 justify-content-center mt-4">
+                        <div class="col-6 col-md-8 d-flex justify-content-center">
+                            <input-field
+                                has-icon
+                                has-label
+                                type="password"
+                                placeholder="Enter new password"
+                                v-model="new_password"
+                            >
+                                <template v-slot:icon>
+                                    <img src="/admin/img/icons/email.svg" alt="Account">
+                                </template>
+                                <template v-slot:label>
+                                    New password
+                                </template>
+                            </input-field>
+                        </div>
+                    </div>
+                    <div class="row w-100 justify-content-center mt-4">
+                        <div class="col-6 col-md-8 d-flex justify-content-center">
+                            <input-field
+                                has-icon
+                                has-label
+                                type="password"
+                                placeholder="Confirm new password"
+                                v-model="new_password_confirmation"
+                            >
+                                <template v-slot:icon>
+                                    <img src="/admin/img/icons/email.svg" alt="Account">
+                                </template>
+                                <template v-slot:label>
+                                    Confirm new password
+                                </template>
+                            </input-field>
+                        </div>
+                    </div>
+                    <div class="row w-100 justify-content-center mt-4">
+                        <div class="col-6 col-md-8 d-flex justify-content-center">
+                            <input-field
+                                has-icon
+                                has-label
+                                placeholder="Code from email"
+                                v-model="token"
+                            >
+                                <template v-slot:icon>
+                                    <img src="/admin/img/icons/email.svg" alt="Account">
+                                </template>
+                                <template v-slot:label>
+                                    Code from email
+                                </template>
+                            </input-field>
+                        </div>
+                    </div>
+                </template>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-6 d-flex justify-content-end">
-                        <simple-button>Reset</simple-button>
+                        <simple-button @click="fireResetPasswordEvent">Reset</simple-button>
                     </div>
                     <div class="col-6 d-flex justify-content-start">
                         <router-link :to="{ name : 'admin.auth.login' }" class="link link__login">Login</router-link>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-center mt-4">
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <simple-button class="button__has_code"
+                                       simple
+                                       @click="enableCodeInputMode"
+                                       v-if="!isResetPasswordMailSent"
+                        >Already has code?</simple-button>
+                        <simple-button class="button__has_code"
+                                       simple
+                                       @click="disableCodeInputMode"
+                                       v-if="isResetPasswordMailSent"
+                        >Does not have code?</simple-button>
                     </div>
                 </div>
             </div>
@@ -45,12 +115,49 @@
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
     import SimpleButton from "../../elements/SimpleButton";
+    import {mapActions} from "vuex";
 
     export default {
-        name: "Login",
+        name: "Forgot",
         components : {
             InputField, CheckboxField,
             SimpleButton,
+        },
+        data: () => ({
+            login: '',
+            new_password: '',
+            new_password_confirmation: '',
+            token: '',
+            isResetPasswordMailSent: false
+        }),
+        created() {
+            this.setLoadingStatus(true)
+        },
+        methods: {
+            ...mapActions(['setLoadingStatus']),
+            ...mapActions('Admin/Auth', ['sendResetPasswordMail', 'resetPassword']),
+            enableCodeInputMode() {
+                this.isResetPasswordMailSent = true;
+            },
+            disableCodeInputMode() {
+                this.isResetPasswordMailSent = false;
+            },
+            async fireResetPasswordEvent() {
+                if (this.isResetPasswordMailSent) {
+                    if (await this.resetPassword({
+                        login : this.login,
+                        new_password : this.new_password,
+                        new_password_confirmation : this.new_password_confirmation,
+                        token : this.token,
+                    })) {
+                        this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.auth.login' }));
+                    }
+                } else {
+                    if (await this.sendResetPasswordMail(this.login)) {
+                        this.isResetPasswordMailSent = true;
+                    }
+                }
+            }
         }
     }
 </script>
@@ -102,6 +209,26 @@
 
             &:hover {
                 box-shadow: 0 0 5px 0 rgba(86, 100, 210, 0.5);
+            }
+        }
+
+        .button__has_code {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 14px;
+                height: 14px;
+                margin-right: .4rem;
+                background: url("/admin/img/icons/unlock-filled.svg");
+                background-size: cover;
+            }
+
+            ::v-deep .input__button button {
+                color: #74788d;
             }
         }
     }

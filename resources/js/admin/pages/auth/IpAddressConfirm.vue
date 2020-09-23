@@ -51,6 +51,7 @@
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
     import SimpleButton from "../../elements/SimpleButton";
+    import {mapActions} from "vuex";
 
     export default {
         name: "IpAddressConfirm",
@@ -65,8 +66,10 @@
         }),
         created() {
             this.startResendTimer();
+            this.setLoadingStatus(true);
         },
         methods : {
+            ...mapActions(['setLoadingStatus']),
             startResendTimer() {
                 this.resendTime = this.settingsResendTime;
                 this.resendTimer = setInterval(() => {

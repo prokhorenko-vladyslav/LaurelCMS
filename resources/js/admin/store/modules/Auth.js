@@ -19,7 +19,10 @@ export default {
             if (localStorage.api_token) {
                 let tokenValid = await dispatch('checkToken');
                 if (tokenValid) {
-                    await dispatch('saveToken', localStorage.api_token);
+                    await dispatch('saveToken', {
+                        token : localStorage.api_token,
+                        rememberMe : true
+                    });
                     return true;
                 }
             }
@@ -58,14 +61,16 @@ export default {
                 )
                 .then( async response => {
                     if (response.data.status) {
-                        await dispatch('saveToken', response.data.data.token);
+                        await dispatch('saveToken', {
+                            token : response.data.data.token,
+                            rememberMe
+                        });
                         return true;
                     } else {
                         return false;
                     }
                 })
                 .catch( error => {
-                    console.log('catch', error);
                     return false;
                 })
         },
@@ -84,12 +89,11 @@ export default {
                     return response.data.status && response.data.alias === 'auth.account_unlocked';
                 })
                 .catch( error => {
-                    console.log('catch', error);
                     return false;
                 })
         },
-        saveToken({ commit }, token) {
-            localStorage.api_token = token;
+        saveToken({ commit }, { token, rememberMe = false }) {
+            localStorage.api_token = rememberMe ? token : null;
             commit('setApiToken', token)
         },
         startLockChecking({ commit, dispatch }) {
@@ -114,6 +118,36 @@ export default {
                 .catch( error => {
                     return !error.response.data.status && error.response.data.alias === 'auth.account_locked';
                 })
-        }
+        },
+        sendResetPasswordMail({ dispatch }, login) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.sendResetPasswordMail'),
+                    {
+                        login
+                    }
+                )
+                .then( async response => {
+                    return response.data.status && response.data.alias === 'auth.email_for_reset_password_sent';
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
+        resetPassword({ dispatch }, { login, new_password, new_password_confirmation, token}) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.resetPassword'),
+                    {
+                        login, new_password, new_password_confirmation, token
+                    }
+                )
+                .then( async response => {
+                    return response.data.status && response.data.alias === 'auth.password_changed';
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
     },
 }

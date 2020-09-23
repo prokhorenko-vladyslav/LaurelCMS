@@ -67,25 +67,25 @@ class User extends Authenticatable
         return $this->belongsToMany(IpAddress::class)->withTimestamps()->withPivot([ 'confirmation_code', 'is_confirmed', 'confirmation_code_sent_at' ]);
     }
 
-    public static function findByLogin(string $login) : self
+    public static function findByLogin(string $login) : ?self
     {
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
         return self::where($field, $login)->first();
     }
 
-    public static function findByEmail(string $email) : self
+    public static function findByEmail(string $email) : ?self
     {
         return self::where('email', $email)->first();
     }
 
-    public static function findByIpAddress(string $ipAddress) : self
+    public static function findByIpAddress(string $ipAddress) : ?self
     {
         return self::whereHas('ipAddresses', function (Builder $ipAddressQuery) use ($ipAddress) {
             return $ipAddressQuery->where('ip_address', $ipAddress);
         })->first();
     }
 
-    public function findIpAddress(string $ipAddress) : IpAddress
+    public function findIpAddressOrNew(string $ipAddress) : IpAddress
     {
         return $this->ipAddresses()->firstOrNew([
             'ip_address' => $ipAddress
