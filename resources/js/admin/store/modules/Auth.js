@@ -19,7 +19,10 @@ export default {
             if (localStorage.api_token) {
                 let tokenValid = await dispatch('checkToken');
                 if (tokenValid) {
-                    await dispatch('saveToken', localStorage.api_token);
+                    await dispatch('saveToken', {
+                        token : localStorage.api_token,
+                        rememberMe : true
+                    });
                     return true;
                 }
             }
@@ -58,7 +61,10 @@ export default {
                 )
                 .then( async response => {
                     if (response.data.status) {
-                        await dispatch('saveToken', response.data.data.token);
+                        await dispatch('saveToken', {
+                            token : response.data.data.token,
+                            rememberMe
+                        });
                         return true;
                     } else {
                         return false;
@@ -88,8 +94,8 @@ export default {
                     return false;
                 })
         },
-        saveToken({ commit }, token) {
-            localStorage.api_token = token;
+        saveToken({ commit }, { token, rememberMe = false }) {
+            localStorage.api_token = rememberMe ? token : null;
             commit('setApiToken', token)
         },
         startLockChecking({ commit, dispatch }) {
