@@ -134,5 +134,20 @@ export default {
                     return false;
                 })
         },
+        resetPassword({ dispatch }, { login, new_password, new_password_confirmation, token}) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.resetPassword'),
+                    {
+                        login, new_password, new_password_confirmation, token
+                    }
+                )
+                .then( async response => {
+                    return response.data.status && response.data.alias === 'auth.password_changed';
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
     },
 }
