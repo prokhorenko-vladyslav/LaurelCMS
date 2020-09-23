@@ -13,6 +13,7 @@
                             has-icon
                             has-label
                             placeholder="Enter email"
+                            v-model="login"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/email.svg" alt="Account">
@@ -25,7 +26,7 @@
                 </div>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-6 d-flex justify-content-end">
-                        <simple-button>Reset</simple-button>
+                        <simple-button @click="fireResetPasswordEvent">Reset</simple-button>
                     </div>
                     <div class="col-6 d-flex justify-content-start">
                         <router-link :to="{ name : 'admin.auth.login' }" class="link link__login">Login</router-link>
@@ -45,12 +46,28 @@
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
     import SimpleButton from "../../elements/SimpleButton";
+    import {mapActions} from "vuex";
 
     export default {
-        name: "Login",
+        name: "Forgot",
         components : {
             InputField, CheckboxField,
             SimpleButton,
+        },
+        data: () => ({
+            login : ''
+        }),
+        created() {
+            this.setLoadingStatus(true)
+        },
+        methods: {
+            ...mapActions(['setLoadingStatus']),
+            ...mapActions('Admin/Auth', ['sendResetPasswordMail']),
+            async fireResetPasswordEvent() {
+                if (await this.sendResetPasswordMail(this.login)) {
+                    this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.auth.login' }));
+                }
+            }
         }
     }
 </script>

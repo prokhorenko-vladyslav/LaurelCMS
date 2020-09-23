@@ -71,7 +71,6 @@ export default {
                     }
                 })
                 .catch( error => {
-                    console.log('catch', error);
                     return false;
                 })
         },
@@ -90,7 +89,6 @@ export default {
                     return response.data.status && response.data.alias === 'auth.account_unlocked';
                 })
                 .catch( error => {
-                    console.log('catch', error);
                     return false;
                 })
         },
@@ -120,6 +118,21 @@ export default {
                 .catch( error => {
                     return !error.response.data.status && error.response.data.alias === 'auth.account_locked';
                 })
-        }
+        },
+        sendResetPasswordMail({ dispatch }, login) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.sendResetPasswordMail'),
+                    {
+                        login
+                    }
+                )
+                .then( async response => {
+                    return response.data.status && response.data.alias === 'auth.email_for_reset_password_sent';
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
     },
 }
