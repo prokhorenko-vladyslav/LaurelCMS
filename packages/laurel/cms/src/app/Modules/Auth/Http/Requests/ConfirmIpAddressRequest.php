@@ -25,7 +25,7 @@ class ConfirmIpAddressRequest extends FormRequest
     {
         return [
             'login' => 'required|string',
-            'ip_address' => 'required|ip',
+            'ipAddress' => 'required|ip',
             'code' => 'required|string|size:64'
         ];
     }
