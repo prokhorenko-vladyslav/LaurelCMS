@@ -73,7 +73,7 @@ class AuthController
         try {
             return $this->authService->confirmIpAddress(
                 $request->input('login'),
-                $request->input('ip_address'),
+                $request->input('ipAddress'),
                 $request->input('code'),
             )->respond();
         } catch (Exception $e) {

@@ -4,12 +4,16 @@ export default {
         token : false,
         lockCheckingInterval : null,
         isLocked : false,
+        login : '',
+        ipAddress : '',
     },
     mutations: {
         setApiToken: (state, token) => state.token = token,
         setLockCheckingInterval: (state, lockCheckingInterval) => state.lockCheckingInterval = lockCheckingInterval,
         clearLockCheckingInterval: (state) => clearInterval(state.lockCheckingInterval),
         setIsLocked: (state, isLocked) => state.isLocked = isLocked,
+        setLogin: (state, login) => state.login = login,
+        setIpAddress: (state, ipAddress) => state.ipAddress = ipAddress,
     },
     getters: {
 
@@ -65,7 +69,7 @@ export default {
                             token : response.data.data.token,
                             rememberMe
                         });
-                        return true;
+                        return response.data;
                     } else {
                         return false;
                     }
@@ -144,6 +148,36 @@ export default {
                 )
                 .then( async response => {
                     return response.data.status && response.data.alias === 'auth.password_changed';
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
+        confirmIpAddress({ dispatch }, { login, ipAddress, code}) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.confirmIpAddress'),
+                    {
+                        login, ipAddress, code
+                    }
+                )
+                .then( async response => {
+                    return response.data;
+                })
+                .catch( error => {
+                    return false;
+                })
+        },
+        sendIpConfirmMail({ dispatch }, { login }) {
+            return axios
+                .post(
+                    composeRoute('api.modules.auth.sendIpConfirmMail'),
+                    {
+                        login
+                    }
+                )
+                .then( async response => {
+                    return response.data;
                 })
                 .catch( error => {
                     return false;

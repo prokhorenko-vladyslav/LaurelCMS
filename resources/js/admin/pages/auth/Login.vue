@@ -114,6 +114,7 @@
             }
         },
         methods: {
+            ...mapMutations('Admin/Auth', ['setLogin', 'setIpAddress']),
             ...mapActions(['setLoadingStatus']),
             ...mapActions('Admin/Auth', [
                 'loadTokenFromLocalStorage', 'signIn'
@@ -129,7 +130,11 @@
                     })
                     this.submitted = false;
 
-                    if (response) {
+                    if (response.alias === 'auth.ip_confirm_mail_sent') {
+                        this.setLogin(this.login);
+                        this.setIpAddress(response.data.ipAddress);
+                        this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.auth.ipConfirm' }));
+                    } else if (response.alias === 'auth.logged_in') {
                         this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.dashboard' }));
                     }
                 }

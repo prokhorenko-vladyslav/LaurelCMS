@@ -14,6 +14,7 @@
                             has-label
                             type="password"
                             placeholder="Enter code from mail"
+                            v-model="code"
                         >
                             <template v-slot:icon>
                                 <img src="/admin/img/icons/lock.svg" alt="Lock">
@@ -26,7 +27,7 @@
                 </div>
                 <div class="row w-100 justify-content-center mt-4">
                     <div class="col-6 d-flex justify-content-end">
-                        <simple-button outlined>Confirm</simple-button>
+                        <simple-button outlined @click="fireIpAddressConfirmingEvent">Confirm</simple-button>
                     </div>
                     <div class="col-6 d-flex justify-content-start">
                         <simple-button @click="resendMail">Resend <span v-if="resendTime">({{ resendTime }})</span></simple-button>
@@ -51,7 +52,7 @@
     import InputField from "../../elements/InputField";
     import CheckboxField from "../../elements/CheckboxField";
     import SimpleButton from "../../elements/SimpleButton";
-    import {mapActions} from "vuex";
+    import { mapState, mapActions } from "vuex";
 
     export default {
         name: "IpAddressConfirm",
@@ -60,16 +61,21 @@
             SimpleButton,
         },
         data: () => ({
-            settingsResendTime : 60,
+            settingsResendTime : 5,
             resendTime : 0,
             resendTimer : false,
+            code: ''
         }),
+        computed: {
+            ...mapState('Admin/Auth', ['login', 'ipAddress'])
+        },
         created() {
             this.startResendTimer();
             this.setLoadingStatus(true);
         },
         methods : {
             ...mapActions(['setLoadingStatus']),
+            ...mapActions('Admin/Auth', ['confirmIpAddress', 'sendIpConfirmMail']),
             startResendTimer() {
                 this.resendTime = this.settingsResendTime;
                 this.resendTimer = setInterval(() => {
@@ -82,9 +88,26 @@
                     }
                 }, 1000);
             },
-            resendMail() {
+            async resendMail() {
                 if (!this.resendTime) {
-                    this.startResendTimer()
+                    let response = await this.sendIpConfirmMail({
+                        login : this.login
+                    });
+
+                    if (response.status && response.alias === 'auth.ip_confirm_mail_sent') {
+                        this.startResendTimer();
+                    }
+                }
+            },
+            async fireIpAddressConfirmingEvent() {
+                let response = await this.confirmIpAddress({
+                    login : this.login,
+                    ipAddress : this.ipAddress,
+                    code : this.code
+                });
+
+                if (response.status && response.alias === 'auth.ip_confirmed') {
+                    this.setLoadingStatus(false).then( () => this.$router.push({ name: 'admin.dashboard' }));
                 }
             }
         }

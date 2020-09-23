@@ -55,11 +55,14 @@ trait CanProcessIpAddress
     {
         $confirmationCode = Str::random(64);
         $user = User::findByLogin($login);
-        $ipAddress = $user->findIpAddress(Request::ip());
+        $ipAddress = $user->findIpAddressOrNew(Request::ip());
         $this->updateConfirmation($user, $ipAddress, Hash::make($confirmationCode), Carbon::now()->format('Y-m-d H:i:s'));
 
         Mail::to($user->email)->send(new IpAddressConfirmMail($confirmationCode));
-        return serviceResponse(200, true, 'auth.ip_confirm_mail_sent',[],'You have tried to login using unknown ip address. Please, confirm it.');
+        return serviceResponse(200, true, 'auth.ip_confirm_mail_sent',[
+            'ipAddress' => $ipAddress->ip_address,
+            'token' => $this->createApiToken($user)
+        ],'You have tried to login using unknown ip address. Please, confirm it.');
     }
 
     /**

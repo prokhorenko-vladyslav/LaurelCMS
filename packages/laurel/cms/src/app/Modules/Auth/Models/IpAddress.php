@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package Laurel\CMS\Modules\Auth\Models
  * @property bool $is_blocked
  * @property bool $is_confirmed
+ * @property bool $ip_address
  */
 
 class IpAddress extends Model
