@@ -34,6 +34,10 @@ Route::group([
     Route::get('/dashboard', function () {
         return view('admin.master');
     });
+
+    Route::get('/pages', function () {
+        return view('admin.master');
+    });
 });
 
 Route::get('/foo', function () {

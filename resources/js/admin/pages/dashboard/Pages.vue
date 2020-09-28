@@ -1,16 +1,15 @@
 <template>
-    <dashboard-layout layoutClass="dashboard">
-        Main
+    <dashboard-layout layoutClass="pages">
+            Pages
     </dashboard-layout>
 </template>
 
 <script>
     import DashboardLayout from "../../sublayouts/DashboardLayout";
-
     import {mapActions} from "vuex";
 
     export default {
-        name: "Dashboard",
+        name: "Pages",
         components: {
             DashboardLayout
         },
@@ -31,12 +30,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .main {
-        min-height: calc(100% - 100px);
-        margin-left: 1rem;
-        margin-right: 1rem;
-        padding: 1rem;
-        border: 1px solid #DFE3E7;
-        border-radius: .25rem;
-    }
+
 </style>
