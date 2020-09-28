@@ -26,6 +26,7 @@ input::-moz-focus-inner {
 html, body {
     overflow: hidden;
     font-family: "Nunito", sans-serif;
+    background: #f1f3f3;
 }
 
 a {
@@ -43,4 +44,9 @@ a {
 
 .dashboard {
     font-family: $font-family-dashboard;
+}
+
+.main {
+    padding-left: 2rem;
+    padding-right: 2rem;
 }

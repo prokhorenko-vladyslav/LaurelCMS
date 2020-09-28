@@ -1,19 +1,26 @@
 <template>
-    <dashboard-layout layoutClass="dashboard">
-        Main
+    <dashboard-layout layoutClass="pages"
+                      title="Pages"
+                      breadcrumb="Pages"
+    >
+            <extended-table></extended-table>
     </dashboard-layout>
 </template>
 
 <script>
     import DashboardLayout from "../../sublayouts/DashboardLayout";
-
+    import ExtendedTable from "../../elements/ExtendedTable";
     import {mapActions} from "vuex";
 
     export default {
-        name: "Dashboard",
+        name: "Pages",
         components: {
-            DashboardLayout
+            DashboardLayout,
+            ExtendedTable
         },
+        data: () => ({
+
+        }),
         async created() {
             if (!await this.hasToken()) {
                 this.setLoadingStatus(false).then(() => this.$router.push({ name: 'admin.auth.login' }));
@@ -31,12 +38,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .main {
-        min-height: calc(100% - 100px);
-        margin-left: 1rem;
-        margin-right: 1rem;
-        padding: 1rem;
-        border: 1px solid #DFE3E7;
-        border-radius: .25rem;
-    }
+
 </style>
