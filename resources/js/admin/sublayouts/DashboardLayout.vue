@@ -6,7 +6,24 @@
         <div class="col-md-10 pl-0">
             <dashboard-header></dashboard-header>
             <div class="main">
-                <page-breadcrumbs></page-breadcrumbs>
+                <page-breadcrumbs
+                    layoutClass="pages"
+                    :title="title"
+                    :items="[
+          {
+            text: 'Admin',
+            href: '#'
+          },
+          {
+            text: 'Manage',
+            href: '#'
+          },
+          {
+            text: 'Library',
+            active: true
+          }
+        ]"
+                ></page-breadcrumbs>
                 <slot></slot>
             </div>
         </div>
@@ -29,7 +46,19 @@
             layoutClass : {
                 type : String,
                 default : ''
-            }
+            },
+            title: {
+                type : String,
+                required: true
+            },
+            breadcrumb: {
+                type : String,
+                required: true
+            },
+            breadcrumbs : {
+                type : Array,
+                default: () => [],
+            },
         }
     }
 </script>

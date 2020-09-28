@@ -1,6 +1,9 @@
 <template>
-    <dashboard-layout layoutClass="pages">
-            Pages
+    <dashboard-layout layoutClass="pages"
+                      title="Pages"
+                      breadcrumb="Pages"
+    >
+            Pages content
     </dashboard-layout>
 </template>
 
@@ -13,6 +16,9 @@
         components: {
             DashboardLayout
         },
+        data: () => ({
+
+        }),
         async created() {
             if (!await this.hasToken()) {
                 this.setLoadingStatus(false).then(() => this.$router.push({ name: 'admin.auth.login' }));
