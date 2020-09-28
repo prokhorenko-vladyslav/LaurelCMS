@@ -23,6 +23,8 @@
 
 <style lang="scss" scoped>
     .page-breadcrumbs {
+        margin-bottom: 1.5rem;
+
         .page-title {
             margin-right: 1rem;
             padding-right: 1rem;

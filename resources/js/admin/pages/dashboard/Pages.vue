@@ -3,18 +3,20 @@
                       title="Pages"
                       breadcrumb="Pages"
     >
-            Pages content
+            <extended-table></extended-table>
     </dashboard-layout>
 </template>
 
 <script>
     import DashboardLayout from "../../sublayouts/DashboardLayout";
+    import ExtendedTable from "../../elements/ExtendedTable";
     import {mapActions} from "vuex";
 
     export default {
         name: "Pages",
         components: {
-            DashboardLayout
+            DashboardLayout,
+            ExtendedTable
         },
         data: () => ({
 
