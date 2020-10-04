@@ -24,6 +24,9 @@
           }
         ]"
                 ></page-breadcrumbs>
+                <div class="actions">awdawd
+                    <slot name="actions"></slot>
+                </div>
                 <slot></slot>
             </div>
         </div>

@@ -9,7 +9,7 @@ export default new Vuex.Store({
     namespaced : true,
     state: {
         apiRoutes : window.apiRoutes || {},
-        loaded : false,
+        loaded : true,
     },
     mutations: {
         setLoaded : (state, loaded) => state.loaded = !!loaded

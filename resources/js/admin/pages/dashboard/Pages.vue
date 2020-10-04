@@ -3,7 +3,8 @@
                       title="Pages"
                       breadcrumb="Pages"
     >
-            <extended-table></extended-table>
+        <template v-slot:actions>Test</template>
+        <extended-table></extended-table>
     </dashboard-layout>
 </template>
 
@@ -18,12 +19,10 @@
             DashboardLayout,
             ExtendedTable
         },
-        data: () => ({
-
-        }),
+        data: () => ({}),
         async created() {
             if (!await this.hasToken()) {
-                this.setLoadingStatus(false).then(() => this.$router.push({ name: 'admin.auth.login' }));
+                this.setLoadingStatus(false).then(() => this.$router.push({name: 'admin.auth.login'}));
             } else {
                 this.setLoadingStatus(true);
             }
