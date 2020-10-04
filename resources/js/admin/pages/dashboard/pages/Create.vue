@@ -8,7 +8,7 @@
                 name : 'admin.pages.index'
             }">Back</simple-button>
         </template>
-        <extended-table></extended-table>
+        <page-editor></page-editor>
     </dashboard-layout>
 </template>
 
@@ -16,6 +16,7 @@
     import DashboardLayout from "../../../sublayouts/DashboardLayout";
     import ExtendedTable from "../../../elements/ExtendedTable";
     import SimpleButton from "../../../elements/SimpleButton";
+    import PageEditor from "../../../elements/PageEditor";
     import {mapActions} from "vuex";
 
     export default {
@@ -23,7 +24,8 @@
         components: {
             DashboardLayout,
             ExtendedTable,
-            SimpleButton
+            SimpleButton,
+            PageEditor
         },
         data: () => ({}),
         async created() {

@@ -35,6 +35,10 @@ require('./bootstrap');
 import router from "./router/router";
 import store from "./store/store";
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
+
 window.composeRoute = function (route, parameters = {}, isExternal = false) {
     // add to composing parameters and isExternal option
     let routeUri = window.apiRoutes[route];
