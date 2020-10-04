@@ -38,6 +38,10 @@ Route::group([
     Route::get('/pages', function () {
         return view('admin.master');
     });
+
+    Route::get('/pages/create', function () {
+        return view('admin.master');
+    });
 });
 
 Route::get('/foo', function () {

@@ -4,7 +4,7 @@ import IpAddressConfirm from "../pages/auth/IpAddressConfirm";
 import Forgot from "../pages/auth/Forgot";
 import Lock from "../pages/auth/Lock";
 import Dashboard from "../pages/dashboard/Dashboard";
-import Pages from "../pages/dashboard/Pages";
+import PagesRoutes from "./Pages/PagesRoutes";
 
 export default [
     {
@@ -36,11 +36,7 @@ export default [
                 component : Dashboard,
                 name: 'admin.dashboard',
             },
-            {
-                path : 'pages',
-                component : Pages,
-                name: 'admin.pages',
-            }
+            ...PagesRoutes,
         ]
     }
 ]

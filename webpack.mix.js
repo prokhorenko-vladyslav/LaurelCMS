@@ -13,4 +13,5 @@ const mix = require('laravel-mix');
 
 mix.sass('resources/sass/admin/app.scss', 'public/admin/css')
     .js('resources/js/admin/app.js', 'public/admin/js')
-    .copyDirectory('resources/img/admin', 'public/admin/img');
+    .copyDirectory('resources/img/admin', 'public/admin/img')
+    .browserSync('laurel.cms.loc');

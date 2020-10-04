@@ -67,22 +67,26 @@ class User extends Authenticatable
         return $this->belongsToMany(IpAddress::class)->withTimestamps()->withPivot([ 'confirmation_code', 'is_confirmed', 'confirmation_code_sent_at' ]);
     }
 
-    public static function findByLogin(string $login) : ?self
+    public static function findByLogin(string $login, bool $throwException = false) : ?self
     {
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'login';
-        return self::where($field, $login)->first();
+        $query = self::where($field, $login);
+        return $throwException ? $query->firstorFail() : $query->first();
     }
 
-    public static function findByEmail(string $email) : ?self
+    public static function findByEmail(string $email, bool $throwException = false) : ?self
     {
-        return self::where('email', $email)->first();
+        $query = self::where('email', $email);
+        return $throwException ? $query->firstOrFail() : $query->first();
     }
 
-    public static function findByIpAddress(string $ipAddress) : ?self
+    public static function findByIpAddress(string $ipAddress, bool $throwException = false) : ?self
     {
-        return self::whereHas('ipAddresses', function (Builder $ipAddressQuery) use ($ipAddress) {
+        $query = self::whereHas('ipAddresses', function (Builder $ipAddressQuery) use ($ipAddress) {
             return $ipAddressQuery->where('ip_address', $ipAddress);
-        })->first();
+        });
+
+        return $throwException ? $query->firstOrFail() : $query->first();
     }
 
     public function findIpAddressOrNew(string $ipAddress) : IpAddress

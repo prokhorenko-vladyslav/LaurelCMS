@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-10 pl-0">
             <dashboard-header></dashboard-header>
-            <div class="main">
+            <div class="dashboard-subheader">
                 <page-breadcrumbs
                     layoutClass="pages"
                     :title="title"
@@ -24,6 +24,11 @@
           }
         ]"
                 ></page-breadcrumbs>
+                <div class="actions">
+                    <slot name="actions"></slot>
+                </div>
+            </div>
+            <div class="dashboard-main">
                 <slot></slot>
             </div>
         </div>
@@ -63,6 +68,15 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .dashboard-subheader,
+    .dashboard-main {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
+    .dashboard-subheader {
+        display: flex;
+        justify-content: space-between;
+    }
 </style>

@@ -31,7 +31,7 @@ class AuthService
      */
     public function login(string $login, string $password, bool $rememberMe = false) : ServiceResponse
     {
-        $user = User::findByLogin($login);
+        $user = User::findByLogin($login, true);
         $this->checkUserPassword($user, $password);
         $this->checkUserIp($user);
         Auth::login($user, $rememberMe);
