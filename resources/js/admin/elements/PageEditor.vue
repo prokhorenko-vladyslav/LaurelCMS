@@ -5,34 +5,35 @@
             <b-button @click="addLink">link</b-button>
         </div>
         <div class="page-editor__content">
-            <component v-for="element in content"
-                       :is="element.component"
-                       :options="element.options"
-                       :content="element.childElements"
-            ></component>
+            <template v-for="element in content">
+                <template v-if="element.isText">
+                    {{ element.content }}
+                </template>
+                <component v-else
+                           :is="element.component"
+                           :options="element.options"
+                           :childElements="element.childElements"
+                           :content="element.content"
+                ></component>
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-    import PComponent from "./editor/PComponent";
-    import AComponent from "./editor/AComponent";
-    import DivComponent from "./editor/DivComponent";
+    import EditorComponents from "../scripts/editor-components";
 
     export default {
         name: "PageEditor",
-        components: {
-            PComponent,
-            AComponent,
-            DivComponent
-        },
+        components: EditorComponents,
         data: () => ({
             content : [
 
             ],
-            text : ' <div>\n' +
-                '                <p>Test <a href="#">Link</a></p>\n' +
-                '            </div>'
+            text : '<ul>\n' +
+                '   <li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li>\n' +
+                '</ul>\n' +
+                '            '
         }),
         created() {
             this.parse();
@@ -50,13 +51,19 @@
                 for (let i = 0; i < elements.length; i++) {
                     let parsedElement = {};
 
-                    parsedElement.component = this.createComponentName(elements[i].tagName);
-                    parsedElement.options = {};
+                    parsedElement.content = elements[i].nodeValue;
 
-                    if (elements[i].children.length) {
-                        parsedElement.childElements = this.recursiveParse(elements[i].children, content);
+                    if (elements[i].nodeName === "#text") {
+                        parsedElement.isText = true;
                     } else {
-                        parsedElement.childElements = [];
+                        parsedElement.isText = false;
+                        parsedElement.component = this.createComponentName(elements[i].tagName);
+                        parsedElement.options = this.parseElementsAttributes(elements[i]);
+                        if (elements[i].childNodes.length) {
+                            parsedElement.childElements = this.recursiveParse(elements[i].childNodes, content);
+                        } else {
+                            parsedElement.childElements = [];
+                        }
                     }
 
                     content.push(parsedElement);
@@ -67,33 +74,51 @@
             createComponentName(tagName) {
                 return `${tagName.capitalize()}Component`;
             },
+            parseElementsAttributes(element) {
+                let attributes = {};
+                for (let i = 0; i < element.attributes.length; i++) {
+                    attributes[ element.attributes[i].name ] = element.attributes[i].value;
+                }
+
+                return attributes;
+            },
             addParagraph() {
                 this.content.push({
-                    component : 'ParagraphComponent',
+                    component : 'PComponent',
                     options : {
-                        content : 'I am a paragraph'
+
                     },
                     childElements : [
                         {
-                            component : 'LinkComponent',
+                            component : 'AComponent',
                             options : {
                                 href: 'google.com',
                                 target: '_blank',
-                                content : 'I am a link'
-                            }
+                            },
+                            childElements: [
+                                {
+                                    content : 'I am a link',
+                                    isText : true
+                                }
+                            ]
                         }
                     ]
                 })
             },
             addLink() {
                 this.content.push({
-                    component : 'LinkComponent',
+                    component : 'AComponent',
                     options : {
                         href: 'google.com',
                         target: '_blank',
                         isRouterLink : false,
-                        content : 'I am a link'
-                    }
+                    },
+                    childElements: [
+                        {
+                            content : 'I am a link',
+                            isText : true
+                        }
+                    ]
                 })
             }
         }

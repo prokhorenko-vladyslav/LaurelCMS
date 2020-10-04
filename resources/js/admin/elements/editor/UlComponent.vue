@@ -1,5 +1,5 @@
 <template>
-    <p>
+    <ul>
         <template v-for="element in childElements">
             <template v-if="element.isText">
                 {{ element.content }}
@@ -11,30 +11,32 @@
                        :content="element.content"
             ></component>
         </template>
-    </p>
+    </ul>
 </template>
 
 <script>
-    import AComponent from "./AComponent";
+    import EditorComponents from "../../scripts/editor-components";
+    import LiComponent from "./LiComponent";
 
     export default {
-        name: "PComponent",
+        name: "UlComponent",
         components: {
-            AComponent
+            ...EditorComponents,
+            LiComponent
         },
         props: {
             options: {
                 type: Object,
                 required: true
             },
-            childElements: {
-                type: Array,
+            childElements : {
+                type : Array,
                 default() {
                     return [];
                 }
             },
-            content: {
-                type: String,
+            content : {
+                type : String,
                 default: ''
             }
         }
