@@ -3,21 +3,27 @@
                       title="Pages"
                       breadcrumb="Pages"
     >
-        <template v-slot:actions>Test</template>
+        <template v-slot:actions>
+            <simple-button primary type="router-link" :to="{
+                name : 'admin.pages.index'
+            }">Back</simple-button>
+        </template>
         <extended-table></extended-table>
     </dashboard-layout>
 </template>
 
 <script>
-    import DashboardLayout from "../../sublayouts/DashboardLayout";
-    import ExtendedTable from "../../elements/ExtendedTable";
+    import DashboardLayout from "../../../sublayouts/DashboardLayout";
+    import ExtendedTable from "../../../elements/ExtendedTable";
+    import SimpleButton from "../../../elements/SimpleButton";
     import {mapActions} from "vuex";
 
     export default {
         name: "Pages",
         components: {
             DashboardLayout,
-            ExtendedTable
+            ExtendedTable,
+            SimpleButton
         },
         data: () => ({}),
         async created() {

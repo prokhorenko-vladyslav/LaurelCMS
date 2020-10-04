@@ -35,7 +35,7 @@
         </div>
         <div class="main-menu__section">
             <div class="main-menu__section__header">Content</div>
-            <router-link :to="{ name : 'admin.pages' }" class="main-menu__section__item"><img src="/admin/img/icons/menu/page.svg" alt=""> Pages</router-link>
+            <router-link :to="{ name : 'admin.pages.index' }" class="main-menu__section__item"><img src="/admin/img/icons/menu/page.svg" alt=""> Pages</router-link>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/category.svg" alt=""> Categories</router-link>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/post.svg" alt=""> Posts</router-link>
             <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/comment.svg" alt=""> Comments</router-link>

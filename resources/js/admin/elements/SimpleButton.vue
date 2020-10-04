@@ -1,12 +1,13 @@
 <template>
-    <div class="input" :class="{ classes, outlined, simple }">
+    <div class="input" :class="{ classes, outlined, simple, primary, secondary }">
         <div class="input__button p-0">
-            <button
-                :disabled="disabled"
-                @click="fireClick"
+            <component :is="type"
+                       :disabled="disabled"
+                       :to=" isLink ? to : '' "
+                       @click="fireClick"
             >
                 <slot></slot>
-            </button>
+            </component>
         </div>
     </div>
 </template>
@@ -15,6 +16,10 @@
     export default {
         name: "SimpleButton",
         props : {
+            type : {
+                type : String,
+                default : 'button'
+            },
             classes : {
                 type : String,
                 default : ''
@@ -30,6 +35,22 @@
             simple : {
                 type : Boolean,
                 default : false,
+            },
+            primary : {
+                type : Boolean,
+                default : false
+            },
+            secondary : {
+                type : Boolean,
+                default : false
+            },
+            to : {
+
+            }
+        },
+        computed: {
+            isLink() {
+                return this.type == 'router-link';
             }
         },
         methods : {
@@ -55,8 +76,6 @@
                     border: none;
                     background: none;
                     color: #5664d2;
-                    text-align: center;
-                    transition: all .3s ease-in-out;
 
                     &:hover {
                         box-shadow: none;
@@ -68,15 +87,25 @@
         &.outlined {
             .input__button {
                 button {
-                    border: 1px solid #5664d2;
-                    border-radius: .25rem;
                     background: none;
                     color: #5664d2;
-                    text-align: center;
-                    transition: all .3s ease-in-out;
 
                     &:hover {
                         box-shadow: 0 0 5px 0 rgba(86, 100, 210, 0.5);
+                    }
+                }
+            }
+        }
+
+        &.primary {
+            .input__button {
+                button {
+                    border-color: #4EDE97;
+                    background-color: #4EDE97;
+                    box-shadow: 0 2px 4px 0 rgba(57,218,138,.5);
+
+                    &:hover {
+                        box-shadow: 0 4px 12px 0 rgba(57,218,138,.6);
                     }
                 }
             }
@@ -94,6 +123,7 @@
                 border: 1px solid #5664d2;
                 background: #5664d2;
                 color: #fff;
+                text-align: center;
                 transition: all .3s ease-in-out;
 
                 &:hover {
