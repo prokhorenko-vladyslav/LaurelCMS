@@ -163,9 +163,13 @@ class SettingsModule extends Module
      */
     public function setting(string $settingName, $defaultValue = null, bool $valueAsObjectIfJson = true)
     {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSetting($section, $name);
-        return !empty($setting) ? $setting->returnValueAsObject($valueAsObjectIfJson)->value : $defaultValue;
+        try {
+            [$section, $name] = $this->getSectionAndSettingName($settingName);
+            $setting = Setting::getSetting($section, $name, true);
+            return $setting->returnValueAsObject($valueAsObjectIfJson)->value;
+        } catch (Throwable $e) {
+            return $defaultValue;
+        }
     }
 
     /**

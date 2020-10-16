@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        /*$user = User::create([
+        $user = User::create([
             'first_name' => 'Vladislav',
             'login' => 'admin',
             'email' => 'admin@admin.com',
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'ip_address' => '127.0.0.1'
         ]);
 
-        $user->ipAddresses()->save($ipAddress);*/
+        $user->ipAddresses()->save($ipAddress);
 
         SettingsModule::instance()->createOrUpdateSettingSection(
             [
