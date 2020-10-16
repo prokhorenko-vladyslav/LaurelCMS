@@ -5,6 +5,7 @@ import Forgot from "../pages/auth/Forgot";
 import Lock from "../pages/auth/Lock";
 import Dashboard from "../pages/dashboard/Dashboard";
 import PagesRoutes from "./Pages/PagesRoutes";
+import SettingsRoutes from "./Settings/SettingsRoutes";
 
 export default [
     {
@@ -37,6 +38,7 @@ export default [
                 name: 'admin.dashboard',
             },
             ...PagesRoutes,
+            ...SettingsRoutes,
         ]
     }
 ]
