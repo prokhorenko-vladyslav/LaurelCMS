@@ -2,7 +2,7 @@
     <div class="settings__tabs">
         <div class="settings__tabs__header">Settings</div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="settings__tabs__sections">
                     <router-link :to="{ name : 'admin.settings.section', params : { slug : 'general' } }"
                                  class="section d-flex align-items-center"
@@ -155,19 +155,21 @@
                     </router-link>
                 </div>
             </div>
-            <div class="col-md-4">
-                First section
-            </div>
-            <div class="col-md-4">
-                Second section
+            <div class="col-md-9">
+                <setting-fields></setting-fields>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import SettingFields from "../../../sublayouts/SettingFields";
+
     export default {
-        name: "SettingsTabs"
+        name: "SettingsTabs",
+        components: {
+            SettingFields
+        }
     }
 </script>
 
@@ -187,7 +189,6 @@
         }
 
         .settings__tabs__sections {
-            width: 80%;
             padding-right: .5rem;
             border-right: 1px solid #DFE3E7;
 

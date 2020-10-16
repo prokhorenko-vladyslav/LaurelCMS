@@ -43,7 +43,7 @@ Route::group([
         return view('admin.master');
     });
 
-    Route::get('/settings/general', function () {
+    Route::get('/settings/{slug}', function () {
         return view('admin.master');
     });
 });
