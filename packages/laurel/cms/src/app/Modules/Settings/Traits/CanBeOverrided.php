@@ -42,10 +42,12 @@ trait CanBeOverrided
      * Setter for override MorphClass
      *
      * @param string $morphClass
+     * @return CanBeOverrided
      */
     public function setMorphClass(string $morphClass)
     {
         $this->settingable_type = $morphClass;
+        return $this;
     }
 
     /**
@@ -63,10 +65,12 @@ trait CanBeOverrided
      * Setter for override MorphId
      *
      * @param int $morphId
+     * @return CanBeOverrided
      */
-    public function setMorphId(int $morphId)
+    public function setMorphId(int $morphId) : self
     {
         $this->settingable_id = $morphId;
+        return $this;
     }
 
     /**

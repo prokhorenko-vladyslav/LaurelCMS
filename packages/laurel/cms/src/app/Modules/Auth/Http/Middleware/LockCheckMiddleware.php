@@ -18,6 +18,7 @@ class LockCheckMiddleware
     public function handle($request, Closure $next)
     {
         if (
+            !app()->runningInConsole() &&
             settingsModule()->setting('admin.lock_admin_panel')
         ) {
             $token = auth()->user()->token();

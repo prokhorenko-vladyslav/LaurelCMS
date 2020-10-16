@@ -1,5 +1,5 @@
 <template>
-    <p>
+    <p contenteditable="true">
         <template v-for="element in childElements">
             <template v-if="element.isText">
                 {{ element.content }}

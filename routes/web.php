@@ -42,6 +42,10 @@ Route::group([
     Route::get('/pages/create', function () {
         return view('admin.master');
     });
+
+    Route::get('/settings/{slug}', function () {
+        return view('admin.master');
+    });
 });
 
 Route::get('/foo', function () {
