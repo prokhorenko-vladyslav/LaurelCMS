@@ -3,9 +3,9 @@
 
 namespace Laurel\CMS\Modules\Settings\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Laurel\CMS\Modules\Settings\Exceptions\SettingAlreadyExistsException;
-use Laurel\CMS\Modules\Settings\Exceptions\SettingNotFoundException;
+use Illuminate\Database\Eloquent\{ Builder, Collection, Model };
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laurel\CMS\Modules\Settings\Exceptions\{ SettingAlreadyExistsException, SettingNotFoundException };
 use Laurel\CMS\Modules\Settings\Traits\CanBeOverrided;
 use Throwable;
 
@@ -14,6 +14,20 @@ use Throwable;
  *
  * Class Setting
  * @package Laurel\CMS\Modules\Settings\Models
+ * @property int $id ID of the setting
+ * @property string $name Display name of the setting
+ * @property string $description Description of the setting
+ * @property string $slug Slug of the setting
+ * @property string|array|null $value Value of the setting
+ * @property string $type Type of the setting
+ * @property array|null $attributes Attributes of the setting
+ * @property Setting|null $setting Parent setting, which has been overrided
+ * @property SettingSection $section Setting section
+ * @property int $section_id Setting section
+ * @property int $settingable_id ID of the morph object
+ * @property string $settingable_type Class of the morph object
+ * @property Setting $parent Overrided setting
+ * @property Setting[]|Collection $children Collection with setting overriding
  */
 class Setting extends Model
 {
@@ -27,18 +41,30 @@ class Setting extends Model
     protected bool $valueAsObjectIfJson = true;
 
     /**
+     * Relation with setting section
+     *
+     * @return BelongsTo
+     */
+    public function section() : BelongsTo
+    {
+        return $this->belongsTo(SettingSection::class);
+    }
+
+    /**
      * Return object of the setting. If it has not been found, exception SettingNotFoundException will be throwed
      *
-     * @param string|null $group
+     * @param string $section
      * @param string $name
      * @param bool $throwIfNotFound
      * @return static|null
      * @throws Throwable
      */
-    public static function getSetting(?string $group, string $name, bool $throwIfNotFound = false) : ?self
+    public static function getSetting(string $section, string $name, bool $throwIfNotFound = false) : ?self
     {
-        $setting = self::where('group', $group)->where('name', $name)->whereNull('setting_id')->first();
-        throw_if(!$setting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"" . ($group ? "$group." : "") . "$name\" has not been found"]);
+        $setting = self::whereHas('section', function (Builder $sectionQuery) use ($section) {
+            $sectionQuery->where('slug', $section);
+        })->where('name', $name)->whereNull('setting_id')->first();
+        throw_if(!$setting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"{$section}.{$name}\" has not been found"]);
 
         return $setting;
     }
@@ -46,7 +72,7 @@ class Setting extends Model
     /**
      * Return object of the overrided setting. If it has not been found, exception SettingNotFoundException will be throwed
      *
-     * @param string|null $group
+     * @param string $section
      * @param string $name
      * @param string $morphClass
      * @param int $morphId
@@ -54,63 +80,19 @@ class Setting extends Model
      * @return static|null
      * @throws Throwable
      */
-    public static function getSettingFor(?string $group, string $name, string $morphClass, int $morphId, bool $throwIfNotFound = false) : ?self
+    public static function getSettingFor(string $section, string $name, string $morphClass, int $morphId, bool $throwIfNotFound = false) : ?self
     {
-        $overridedSetting = self::where('group', $group)->where('name', $name)->overrided($morphClass, $morphId)->first();
-        throw_if(!$overridedSetting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"" . ($group ? "$group." : "") . "$name\" has not been found"]);
+        $overridedSetting = self::whereHas('section', function (Builder $sectionQuery) use ($section) {
+            $sectionQuery->where('slug', $section);
+        })->where('name', $name)->overrided($morphClass, $morphId)->first();
+        throw_if(!$overridedSetting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"{$section}.{$name}\" has not been found"]);
 
         return $overridedSetting;
     }
 
     /**
-     * Sets group of the setting
-     *
-     * @param string|null $groupName
-     * @return $this
-     */
-    public function setGroup(?string $groupName)
-    {
-        $this->attributes['group'] = $groupName;
-        return $this;
-    }
-
-    /**
-     * Sets name of the setting
-     *
-     * @param string|null $settingName
-     * @return $this
-     */
-    public function setName(?string $settingName)
-    {
-        $this->attributes['name'] = $settingName;
-        return $this;
-    }
-
-    /**
-     * Sets value of the setting
-     *
-     * @param $value
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        return $this;
-    }
-
-    /**
-     * Returns value of the setting
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
      * Method for changing returning type of the value.
-     * If $valueAsObjectIfJson setted to true, object will be returned. Otherwise, method will return array
+     * If $valueAsObjectIfJson set to true, object will be returned. Otherwise, method will return array
      *
      * @param bool $valueAsObjectIfJson
      * @return $this
@@ -148,7 +130,7 @@ class Setting extends Model
 
     /**
      * Overriding of the default method saveOrFail of the Laravel model.
-     * Before save method checks if setting with same group and name already exists in the database.
+     * Before save method checks if setting with same section and name already exists in the database.
      * If does, exception SettingAlreadyExistsException will be throwed
      *
      * @param array $options
@@ -163,7 +145,7 @@ class Setting extends Model
 
     /**
      * Overriding of the default method save of the Laravel model.
-     * Before save method checks if setting with same group and name already exists in the database.
+     * Before save method checks if setting with same section and name already exists in the database.
      * If does, exception SettingAlreadyExistsException will be throwed
      * @param array $options
      * @return bool
@@ -176,7 +158,7 @@ class Setting extends Model
     }
 
     /**
-     * Before save method checks if setting with same group and name already exists in the database.
+     * Before save method checks if setting with same section and name already exists in the database.
      * If does, exception SettingAlreadyExistsException will be throwed
      * @throws Throwable
      */
@@ -184,9 +166,9 @@ class Setting extends Model
     {
         if (!$this->exists) {
             throw_if(
-                $this->isOverriding ? self::getSettingFor($this->group, $this->name, $this->getMorphClass(), $this->getMorphId()) : self::getSetting($this->group, $this->name),
+                $this->isOverriding ? self::getSettingFor($this->section->name, $this->name, $this->getMorphClass(), $this->getMorphId()) : self::getSetting($this->section->name, $this->name),
                 SettingAlreadyExistsException::class,
-                ...["Setting \"$this->name\" already exists " . ($this->group ? "in group \"{$this->group}\"" : "")]);
+                ...["Setting \"$this->name\" already exists in section \"{$this->section->name}\""]);
         }
     }
 }

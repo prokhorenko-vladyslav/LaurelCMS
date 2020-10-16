@@ -236,6 +236,10 @@ class LaurelCoreServiceProvider extends ServiceProvider
 
     protected function loadPassportExtensions()
     {
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
         Passport::tokensExpireIn(now()->addHours(
             settingsModule()->setting('admin.token_lifetime_in_hours', 1)
         ));
