@@ -1,9 +1,9 @@
 <template>
-    <div class="select">
+    <div class="select" :class="{ 'dropdown-visible' : dropdownVisible }">
         <div class="select__backdrop" v-if="dropdownVisible" @click="hideDropdown"></div>
         <label class="d-flex flex-column" @click="showDropdown">
             <span class="select__name">Single select</span>
-            <input class="select__field" :class="{ 'dropdown-visible' : dropdownVisible }" type="text" placeholder="Select option" :value="value" readonly>
+            <input class="select__field" type="text" placeholder="Select option" :value="value" readonly>
             <span class="select__description">Please choose your first name</span>
             <span class="select__dropdown__icon d-flex align-items-center">
                 <svg width="15" height="15" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,6 +11,11 @@
                 </svg>
             </span>
         </label>
+        <div class="select__clear__icon d-flex align-items-center" @click="clear" :class="{ visible : value }">
+            <svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.47487 2.47483L7.42462 7.42458M7.42462 2.47483L2.47487 7.42458" stroke="#CBCBCB"/>
+            </svg>
+        </div>
         <div class="select__dropdown__menu" v-show="dropdownVisible">
             <input class="dropdown__input" type="text" placeholder="Input to search...">
             <vue-custom-scrollbar class="dropdown__items" tagname="div" :settings="scrollbarSettings" @ps-y-reach-end="scrollHandle">
@@ -95,6 +100,9 @@
             },
             scrollHandle() {
                 console.log('loading');
+            },
+            clear() {
+                this.value = null;
             }
         }
     }
@@ -135,14 +143,21 @@
                 color: #828D99;
                 font-weight: lighter;
             }
+        }
 
-            &.dropdown-visible,
-            &:focus {
+        &.dropdown-visible {
+            .select__field {
                 border-color: #5A8DEE;
+            }
 
-                & + .select__description + .select__dropdown__icon path {
-                    stroke: #5A8DEE;
-                }
+            .select__dropdown__icon path,
+            .select__clear__icon path {
+                stroke: #5A8DEE;
+            }
+
+            .select__dropdown__icon {
+                top: 4px;
+                transform: rotate(180deg);
             }
         }
 
@@ -209,14 +224,33 @@
             color: #828D99;
         }
 
+        .select__clear__icon,
         .select__dropdown__icon {
             position: absolute;
             right: 10px;
-            top: 2px;
+            top: 1px;
             height: 100%;
+            transition: all .3s ease-in-out;
 
             path {
                 transition: all .3s ease-in-out;
+            }
+        }
+
+        .select__clear__icon {
+            top: 3px;
+            right: 30px;
+            visibility: hidden;
+            opacity: 0;
+            cursor: pointer;
+
+            &:hover path {
+                stroke: #5A8DEE;
+            }
+
+            &.visible {
+                visibility: visible;
+                opacity: 1;
             }
         }
 
