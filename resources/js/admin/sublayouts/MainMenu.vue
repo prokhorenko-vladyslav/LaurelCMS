@@ -1,87 +1,100 @@
 <template>
     <div class="main-menu">
-        <div class="main-menu__content">
-        <div class="main-menu__header">
+        <vue-custom-scrollbar class="main-menu__content" tagname="div" :settings="scrollbarSettings">
+            <div class="main-menu__header">
 
-        </div>
-        <div class="main-menu__section">
-            <div class="has-subsection">
-                <input id="checkbox_1" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="checkbox_1" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/dashboard.svg" alt=""> Dashboard <span class="counter">2</span></label>
-                <div class="main-menu__subsection">
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">eCommerce</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Analytics</router-link>
+            </div>
+            <div class="main-menu__section">
+                <div class="has-subsection">
+                    <input id="checkbox_1" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                    <label for="checkbox_1" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/dashboard.svg" alt=""> Dashboard <span class="counter">2</span></label>
+                    <div class="main-menu__subsection">
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">eCommerce</router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Analytics</router-link>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="main-menu__section">
-            <div class="main-menu__section__header">Apps</div>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/email.svg" alt="">Email</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/chat.svg" alt="">Chat</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/todo.svg" alt="">Todo</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/calendar.svg" alt="">Calendar</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/kanban.svg" alt="">Kanban</router-link>
-            <div class="has-subsection">
-                <input id="checkbox_2" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="checkbox_2" to="#" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/invoice.svg" alt=""> Invoice</label>
-                <div class="main-menu__subsection">
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice List</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice Add</router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice Edit</router-link>
+            <div class="main-menu__section">
+                <div class="main-menu__section__header">Apps</div>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/email.svg" alt="">Email</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/chat.svg" alt="">Chat</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/todo.svg" alt="">Todo</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/calendar.svg" alt="">Calendar</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/kanban.svg" alt="">Kanban</router-link>
+                <div class="has-subsection">
+                    <input id="checkbox_2" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                    <label for="checkbox_2" to="#" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/invoice.svg" alt=""> Invoice</label>
+                    <div class="main-menu__subsection">
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice List</router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice</router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice Add</router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Invoice Edit</router-link>
+                    </div>
+                </div>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/file_manager.svg" alt=""> File Manager</router-link>
+            </div>
+            <div class="main-menu__section">
+                <div class="main-menu__section__header">Content</div>
+                <router-link :to="{ name : 'admin.pages.index' }" class="main-menu__section__item"><img src="/admin/img/icons/menu/page.svg" alt=""> Pages</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/category.svg" alt=""> Categories</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/post.svg" alt=""> Posts</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/comment.svg" alt=""> Comments</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/review.svg" alt=""> Reviews</router-link>
+            </div>
+            <div class="main-menu__section">
+                <div class="main-menu__section__header">Shop</div>
+                <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/category.svg" alt=""> Categories</router-link>
+                <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/product.svg" alt=""> Products</router-link>
+                <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/attributes.svg" alt=""> Attributes</router-link>
+                <div class="has-subsection">
+                    <input id="sales" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                    <label for="sales" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/sales.svg" alt="">  Sales</label>
+                    <div class="main-menu__subsection">
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Orders <div class="counter">99+</div></router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Customers</router-link>
+                    </div>
                 </div>
             </div>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/file_manager.svg" alt=""> File Manager</router-link>
-        </div>
-        <div class="main-menu__section">
-            <div class="main-menu__section__header">Content</div>
-            <router-link :to="{ name : 'admin.pages.index' }" class="main-menu__section__item"><img src="/admin/img/icons/menu/page.svg" alt=""> Pages</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/category.svg" alt=""> Categories</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/post.svg" alt=""> Posts</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/comment.svg" alt=""> Comments</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/review.svg" alt=""> Reviews</router-link>
-        </div>
-        <div class="main-menu__section">
-            <div class="main-menu__section__header">Shop</div>
-            <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/category.svg" alt=""> Categories</router-link>
-            <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/product.svg" alt=""> Products</router-link>
-            <router-link to="#" class="main-menu__section__item main-menu__section__subitem"><img src="/admin/img/icons/menu/attributes.svg" alt=""> Attributes</router-link>
-            <div class="has-subsection">
-                <input id="sales" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="sales" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/sales.svg" alt="">  Sales</label>
-                <div class="main-menu__subsection">
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Orders <div class="counter">99+</div></router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Customers</router-link>
+            <div class="main-menu__section">
+                <div class="main-menu__section__header">Design</div>
+                <div class="has-subsection">
+                    <input id="ui_elements" class="main-menu__section__item toggle_checkbox" type="checkbox">
+                    <label for="ui_elements" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/ui.svg" alt=""> UI elements</label>
+                    <div class="main-menu__subsection">
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Widgets <div class="counter info">New</div></router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Components <div class="counter info">New</div></router-link>
+                        <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Contact forms <div class="counter info">New</div></router-link>
+                    </div>
                 </div>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/themes.svg" alt=""> Themes <div class="counter">1</div></router-link>
             </div>
-        </div>
-        <div class="main-menu__section">
-            <div class="main-menu__section__header">Design</div>
-            <div class="has-subsection">
-                <input id="ui_elements" class="main-menu__section__item toggle_checkbox" type="checkbox">
-                <label for="ui_elements" class="main-menu__section__item parent"><img src="/admin/img/icons/menu/ui.svg" alt=""> UI elements</label>
-                <div class="main-menu__subsection">
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Widgets <div class="counter info">New</div></router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Components <div class="counter info">New</div></router-link>
-                    <router-link to="#" class="main-menu__section__item main-menu__section__subitem">Contact forms <div class="counter info">New</div></router-link>
-                </div>
+            <div class="main-menu__section">
+                <div class="main-menu__section__header">Settings</div>
+                <router-link :to="{ name : 'admin.settings.section', params : { slug : 'general' } }" class="main-menu__section__item"><img src="/admin/img/icons/menu/settings.svg" alt=""> General</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/permission.svg" alt=""> Permissions</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/server.svg" alt=""> Server</router-link>
+                <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/localization.svg" alt=""> Localization</router-link>
             </div>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/themes.svg" alt=""> Themes <div class="counter">1</div></router-link>
-        </div>
-        <div class="main-menu__section">
-            <div class="main-menu__section__header">Settings</div>
-            <router-link :to="{ name : 'admin.settings.section', params : { slug : 'general' } }" class="main-menu__section__item"><img src="/admin/img/icons/menu/settings.svg" alt=""> General</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/permission.svg" alt=""> Permissions</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/server.svg" alt=""> Server</router-link>
-            <router-link to="#" class="main-menu__section__item"><img src="/admin/img/icons/menu/localization.svg" alt=""> Localization</router-link>
-        </div>
-            </div>
+        </vue-custom-scrollbar>
     </div>
 </template>
 
 <script>
+    import vueCustomScrollbar from 'vue-custom-scrollbar';
+    import "vue-custom-scrollbar/dist/vueScrollbar.css";
+
     export default {
         name: "MainMenu",
+        components: {
+            vueCustomScrollbar
+        },
+        data: () => ({
+            scrollbarSettings: {
+                suppressScrollY: false,
+                suppressScrollX: false,
+                wheelPropagation: false
+            },
+        }),
     }
 </script>
 

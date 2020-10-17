@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.17.3",
+        "vue-custom-scrollbar": "^1.4.0",
         "vue-router": "^3.4.3",
         "vuelidate": "^0.7.5",
         "vuex": "^3.5.1"

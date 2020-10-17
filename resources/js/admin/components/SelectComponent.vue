@@ -13,12 +13,24 @@
         </label>
         <div class="select__dropdown__menu" v-show="dropdownVisible">
             <input class="dropdown__input" type="text" placeholder="Input to search...">
-            <div class="dropdown__items">
+            <vue-custom-scrollbar class="dropdown__items" tagname="div" :settings="scrollbarSettings" @ps-y-reach-end="scrollHandle">
                 <div class="dropdown__item" @click="select(1)">Option 1</div>
                 <div class="dropdown__item" @click="select(2)">Option 2</div>
                 <div class="dropdown__item" @click="select(3)">Option 3</div>
                 <div class="dropdown__item" @click="select(4)">Option 4</div>
-            </div>
+                <div class="dropdown__item" @click="select(1)">Option 1</div>
+                <div class="dropdown__item" @click="select(2)">Option 2</div>
+                <div class="dropdown__item" @click="select(3)">Option 3</div>
+                <div class="dropdown__item" @click="select(4)">Option 4</div>
+                <div class="dropdown__item" @click="select(1)">Option 1</div>
+                <div class="dropdown__item" @click="select(2)">Option 2</div>
+                <div class="dropdown__item" @click="select(3)">Option 3</div>
+                <div class="dropdown__item" @click="select(4)">Option 4</div>
+                <div class="dropdown__item" @click="select(1)">Option 1</div>
+                <div class="dropdown__item" @click="select(2)">Option 2</div>
+                <div class="dropdown__item" @click="select(3)">Option 3</div>
+                <div class="dropdown__item" @click="select(4)">Option 4</div>
+            </vue-custom-scrollbar>
         </div>
         <div class="select__language__selected d-flex align-items-center">
             <img src="/admin/img/icons/settings/usa.png" alt="">
@@ -53,9 +65,20 @@
 </template>
 
 <script>
+    import vueCustomScrollbar from 'vue-custom-scrollbar';
+    import "vue-custom-scrollbar/dist/vueScrollbar.css";
+
     export default {
         name: "SelectComponent",
+        components: {
+            vueCustomScrollbar
+        },
         data: () => ({
+            scrollbarSettings: {
+                suppressScrollY: false,
+                suppressScrollX: false,
+                wheelPropagation: false
+            },
             dropdownVisible : false,
             value : null
         }),
@@ -69,6 +92,9 @@
             select(value) {
                 this.value = value;
                 this.hideDropdown();
+            },
+            scrollHandle() {
+                console.log('loading');
             }
         }
     }
@@ -151,19 +177,26 @@
                 }
             }
 
-            .dropdown__item {
-                margin-bottom: 5px;
-                padding: 5px 9px;
-                transition: all .3s ease-in-out;
-                cursor: pointer;
+            .dropdown__items {
+                height: 200px;
 
-                &.current {
-                    background: #F2F4F4;
-                }
+                .dropdown__item {
+                    margin-bottom: 5px;
+                    padding: 5px 15px;
+                    color: #8494A7;
+                    font-size: 14px;
+                    font-weight: normal;
+                    transition: all .3s ease-in-out;
+                    cursor: pointer;
 
-                &:hover {
-                    background: rgba(90, 141, 238, 0.75);
-                    color: #fff;
+                    &.current {
+                        background: #F2F4F4;
+                    }
+
+                    &:hover {
+                        background: rgba(90, 141, 238, 0.75);
+                        color: #fff;
+                    }
                 }
             }
         }
