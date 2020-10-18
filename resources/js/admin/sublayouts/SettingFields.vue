@@ -16,7 +16,12 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <select-component></select-component>
+                    <custom-select></custom-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <multiple-select></multiple-select>
                 </div>
             </div>
         </div>
@@ -28,12 +33,13 @@
 
 <script>
     import InputWithTranslations from "../components/InputWithTranslations";
-    import SelectComponent from "../components/SelectComponent";
+    import CustomSelect from "../components/CustomSelect";
+    import MultipleSelect from "../components/MultipleSelect";
 
     export default {
         name: "SettingFields",
         components: {
-            InputWithTranslations, SelectComponent
+            InputWithTranslations, CustomSelect, MultipleSelect
         }
     }
 </script>

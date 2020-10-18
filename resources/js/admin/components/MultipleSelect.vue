@@ -3,7 +3,16 @@
         <div class="select__backdrop" v-if="dropdownVisible" @click="hideDropdown"></div>
         <label class="d-flex flex-column" @click="showDropdown">
             <span class="select__name">Single select</span>
-            <input class="select__field" type="text" placeholder="Select option" :value="value" readonly>
+            <span class="select__field">
+                <template v-if="values.length">
+                    <span class="value" v-for="value in values">
+                        {{ value }}
+                    </span>
+                </template>
+                <span v-else class="select__placeholder">
+                    Placeholder
+                </span>
+            </span>
             <span class="select__description">Please choose your first name</span>
             <span class="select__dropdown__icon d-flex align-items-center">
                 <svg width="15" height="15" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,7 +20,7 @@
                 </svg>
             </span>
         </label>
-        <div class="select__clear__icon d-flex align-items-center" @click="clear" :class="{ visible : value }">
+        <div class="select__clear__icon d-flex align-items-center" @click="clear" :class="{ visible : values.length }">
             <svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.47487 2.47483L7.42462 7.42458M7.42462 2.47483L2.47487 7.42458" stroke="#CBCBCB"/>
             </svg>
@@ -74,7 +83,7 @@
     import "vue-custom-scrollbar/dist/vueScrollbar.css";
 
     export default {
-        name: "CustomSelect",
+        name: "SelectComponent",
         components: {
             vueCustomScrollbar
         },
@@ -85,7 +94,7 @@
                 wheelPropagation: false
             },
             dropdownVisible : false,
-            value : null
+            values : []
         }),
         methods: {
             showDropdown() {
@@ -95,14 +104,14 @@
                 this.dropdownVisible = false;
             },
             select(value) {
-                this.value = value;
+                this.values.push(value);
                 this.hideDropdown();
             },
             scrollHandle() {
                 console.log('loading');
             },
             clear() {
-                this.value = null;
+                this.values = [];
             }
         }
     }
@@ -138,11 +147,11 @@
             border-radius: 2px;
             color: #475F7B;
             transition: all .3s ease-in-out;
+        }
 
-            &::placeholder {
-                color: #828D99;
-                font-weight: lighter;
-            }
+        .select__placeholder {
+            color: #828D99;
+            font-weight: lighter;
         }
 
         &.dropdown-visible {
