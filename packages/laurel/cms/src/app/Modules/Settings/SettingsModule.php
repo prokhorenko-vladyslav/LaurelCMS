@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Modules\Settings\Contracts\SettingContract;
+use Laurel\CMS\Modules\Page\Contracts\PageModuleContract;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionHasNotBeenDeletedNotFoundException;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionNotFoundException;
 use Laurel\CMS\Modules\Settings\Models\Setting;
@@ -20,12 +21,12 @@ use Throwable;
  * Class SettingsModule
  * @package Laurel\CMS\Modules\Settings
  */
-class SettingsModule implements SettingContract
+class SettingsModule implements SettingModuleContract
 {
     public function routes(string $group)
     {
-        Route::get('/settings11', function () {
-            return 'awdawd';
+        Route::get('/settings11', function (PageModuleContract $pageModule) {
+            return dd($pageModule);
         });
     }
 

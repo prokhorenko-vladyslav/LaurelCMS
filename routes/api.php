@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api', \Laurel\CMS\Modules\Auth\Http\Middleware\LockCheckMiddleware::class])->get('/user', function (Request $request) {
-    return $request->user();
-});
+foreach (cms()->modules() as $module) {
+    if (method_exists($module, 'routes')) {
+        $module->routes('api');
+    }
+}

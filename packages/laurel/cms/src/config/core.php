@@ -21,7 +21,7 @@
         'modules_api_name' => 'api.modules.',
 
         'modules' => [
-            \Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract::class => \Laurel\CMS\Modules\Auth\AuthModuleModule::class,
+            \Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract::class => \Laurel\CMS\Modules\Auth\AuthModule::class,
 
             \Laurel\CMS\Modules\Files\Contracts\FilesModuleContract::class => \Laurel\CMS\Modules\Files\FilesModule::class,
 
@@ -39,7 +39,7 @@
 
             \Laurel\CMS\Modules\Search\Contracts\SearchModuleContract::class => \Laurel\CMS\Modules\Search\SearchModule::class,
 
-            \Laurel\CMS\Modules\Settings\Contracts\SettingContract::class => \Laurel\CMS\Modules\Settings\SettingsModule::class,
+            \Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract::class => \Laurel\CMS\Modules\Settings\SettingsModule::class,
 
             \Laurel\CMS\Modules\Tag\Contracts\TagModuleContract::class => \Laurel\CMS\Modules\Tag\TagModule::class,
 

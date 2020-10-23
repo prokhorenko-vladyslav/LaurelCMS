@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Exceptions\ModuleManagerNotFoundException;
 use Laurel\CMS\Managers\ModuleManager;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Laurel\CMS\Providers\LaurelCoreServiceProvider;
 use League\Flysystem\FileNotFoundException;
 
@@ -31,7 +32,7 @@ class LaurelCMS
         $this->modules = collect([]);
     }
 
-    public function addModule(string $abstract, $concrete = null)
+    public function putModule(string $abstract, $concrete = null)
     {
         app()->singleton($abstract, $concrete);
         $this->modules->put($abstract, app()->get($abstract));
@@ -108,6 +109,6 @@ class LaurelCMS
 
     public function getAppName()
     {
-        return settingsModule()->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
+        return cms()->module(SettingModuleContract::class)->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
     }
 }

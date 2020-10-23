@@ -11,6 +11,7 @@ use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\User;
 use Laurel\CMS\Modules\Auth\Traits\{ CanProcessIpAddress, CanProcessPassword, CanProcessApiToken };
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 
 /**
  * Class AuthService
@@ -19,6 +20,13 @@ use Laurel\CMS\Modules\Auth\Traits\{ CanProcessIpAddress, CanProcessPassword, Ca
 class AuthService
 {
     use CanProcessIpAddress, CanProcessApiToken, CanProcessPassword;
+
+    protected SettingModuleContract $settingModule;
+
+    public function __construct(SettingModuleContract $settingModule)
+    {
+        $this->settingModule = $settingModule;
+    }
 
     /**
      * @param string $login

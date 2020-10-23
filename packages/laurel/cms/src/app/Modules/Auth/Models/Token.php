@@ -4,6 +4,7 @@
 namespace Laurel\CMS\Modules\Auth\Models;
 
 use \Laravel\Passport\Token as PassportToken;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 
 class Token extends PassportToken
 {
@@ -30,7 +31,7 @@ class Token extends PassportToken
     protected function addLockAtAttribute()
     {
         $this->attributes['lock_at'] = now()->addMinutes(
-            settingsModule()->setting('admin.lock_after_minutes', null)
+            cms()->module(SettingModuleContract::class)->setting('admin.lock_after_minutes', null)
         );
     }
 }

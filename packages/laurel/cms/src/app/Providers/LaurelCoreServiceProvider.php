@@ -10,13 +10,13 @@ use Laurel\CMS\Contracts\BladeExtensionContract;
 use Laurel\CMS\Contracts\ModuleContract;
 use Laurel\CMS\Exceptions\MiddlewareGroupHasNotBeenFoundException;
 use Laurel\CMS\LaurelCMS;
-use Laurel\CMS\Modules\Auth\AuthModuleModule;
+use Laurel\CMS\Modules\Auth\AuthModule;
 use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
 use Laurel\CMS\Modules\Notification\Contracts\NotificationsModuleContract;
 use Laurel\CMS\Modules\Notification\NotificationsModule;
-use Laurel\CMS\Modules\Settings\Contracts\SettingContract;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Laurel\CMS\Modules\Settings\NewSettingsModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
 use Psy\Exception\TypeErrorException;
@@ -60,7 +60,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
         $this->loadCoreConfig();
 
         foreach (config('laurel.cms.core.modules') as $abstractClass => $concreteClass) {
-            cms()->addModule($abstractClass, $concreteClass);
+            cms()->putModule($abstractClass, $concreteClass);
         }
     }
 
@@ -208,7 +208,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
         }
 
         Passport::tokensExpireIn(now()->addHours(
-            cms()->module(SettingContract::class)->setting('admin.token_lifetime_in_hours', 1)
+            cms()->module(SettingModuleContract::class)->setting('admin.token_lifetime_in_hours', 1)
         ));
         Passport::useTokenModel(Token::class);
     }
