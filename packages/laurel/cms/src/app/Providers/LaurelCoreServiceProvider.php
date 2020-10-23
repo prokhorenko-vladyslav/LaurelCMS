@@ -7,12 +7,17 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Laurel\CMS\Console\Commands\CreateMigrationForCMS;
 use Laurel\CMS\Contracts\BladeExtensionContract;
+use Laurel\CMS\Contracts\ModuleContract;
 use Laurel\CMS\Exceptions\MiddlewareGroupHasNotBeenFoundException;
 use Laurel\CMS\LaurelCMS;
 use Laurel\CMS\Modules\Auth\AuthModule;
 use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use Laurel\CMS\Modules\Localization\LocalizationModule;
+use Laurel\CMS\Modules\Notification\Contracts\NotificationsModuleContract;
+use Laurel\CMS\Modules\Notification\NotificationsModule;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
+use Laurel\CMS\Modules\Settings\NewSettingsModule;
 use Laurel\CMS\Modules\Settings\SettingsModule;
 use Psy\Exception\TypeErrorException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -44,19 +49,19 @@ class LaurelCoreServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register services. Also, method loads helpers, config files and registers resources for publishing
+     * Register services.
      *
      * @return void
      * @throws Throwable
      */
     public function register()
     {
-        $this->registerPublishes();
-
         $this->loadHelpers();
         $this->loadCoreConfig();
-        $this->loadMigrations();
-        $this->loadCommands();
+
+        foreach (config('laurel.cms.core.modules') as $abstractClass => $concreteClass) {
+            cms()->putModule($abstractClass, $concreteClass);
+        }
     }
 
     /**
@@ -67,16 +72,10 @@ class LaurelCoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        LaurelCMS::instance()
-            ->setRoot($this->cmsRoot)
-            ->moduleManager()
-            ->loadModule('auth', AuthModule::class)
-            ->loadModule('settings', SettingsModule::class)
-            ->loadModule('localization', LocalizationModule::class);
-
-        $this->loadModulesConfig();
-        $this->loadModulesMiddleware();
+        $this->loadMigrations();
+        $this->loadCommands();
         $this->loadExtensions();
+        $this->registerPublishes();
     }
 
     /**
@@ -94,11 +93,11 @@ class LaurelCoreServiceProvider extends ServiceProvider
      */
     protected function loadMigrations()
     {
-        $mainPath = $this->composePath('/../database/migrations//Modules');
+        $mainPath = $this->composePath('/../database/migrations/Modules');
         $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
         $paths = array_merge([$mainPath], $directories);
 
-        $mainPath = $this->composePath('/../database/migrations//Core');
+        $mainPath = $this->composePath('/../database/migrations/Core');
         $directories = glob($mainPath . '/*' , GLOB_ONLYDIR);
         $paths = array_merge($paths, $directories);
 
@@ -144,38 +143,6 @@ class LaurelCoreServiceProvider extends ServiceProvider
         );
     }
 
-    protected function loadModulesConfig()
-    {
-        foreach (LaurelCMS::instance()->moduleManager()->getModules() as $moduleAlias => $module) {
-            foreach ($module->getConfigFiles() as $configFile) {
-                $this->mergeConfigFrom(
-                    $configFile,
-                    "laurel.cms.modules.{$moduleAlias}"
-                );
-            }
-        }
-    }
-
-    protected function loadModulesMiddleware()
-    {
-        $router = &$this->app['router'];
-        $routerMiddlewareGroups = $router->getMiddlewareGroups();
-        foreach (LaurelCMS::instance()->moduleManager()->getModules() as $module) {
-            $moduleMiddleware = $module->getModuleMiddleware();
-            if (!empty($module->getModuleMiddleware())) {
-                foreach ($moduleMiddleware as $routeGroup => $middleware) {
-                    if ($routeGroup === '*') {
-                        foreach ($routerMiddlewareGroups as $groupName => $group) {
-                            $router->pushMiddlewareToGroup($groupName, $middleware);
-                        }
-                    } elseif (key_exists($routeGroup, $routerMiddlewareGroups)) {
-                        $router->pushMiddlewareToGroup($routeGroup, $middleware);
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * Method adds to the filepath path of the CMS app folder
      *
@@ -185,8 +152,8 @@ class LaurelCoreServiceProvider extends ServiceProvider
      */
     protected function composePath(string $path) : string
     {
-        $fileFullPath = $this->cmsRoot . $path;
-        throw_if(!file_exists($fileFullPath), FileNotFoundException::class);
+        $fileFullPath = LaurelCMS::instance()->getRoot() . $path;
+        throw_if(!file_exists($fileFullPath), FileNotFoundException::class, ...[$fileFullPath]);
         return $fileFullPath;
     }
 
@@ -241,7 +208,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
         }
 
         Passport::tokensExpireIn(now()->addHours(
-            settingsModule()->setting('admin.token_lifetime_in_hours', 1)
+            cms()->module(SettingModuleContract::class)->setting('admin.token_lifetime_in_hours', 1)
         ));
         Passport::useTokenModel(Token::class);
     }

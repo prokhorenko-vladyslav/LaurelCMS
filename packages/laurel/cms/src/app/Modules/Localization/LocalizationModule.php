@@ -6,31 +6,15 @@ namespace Laurel\CMS\Modules\Localization;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Abstracts\Module;
+use Laurel\CMS\Modules\Localization\Contracts\LocalizationModuleContract;
 use Laurel\CMS\Modules\Localization\Exceptions\LocaleHasNotBeenFoundException;
-use Laurel\CMS\Modules\Localization\Http\Controllers\TranslationController;
 use Laurel\CMS\Modules\Localization\Http\Middleware\LocalizationMiddleware;
 use League\Flysystem\FileNotFoundException;
 use Psy\Exception\TypeErrorException;
 
-class LocalizationModule extends Module
+class LocalizationModule implements LocalizationModuleContract
 {
     protected Collection $translations;
-
-    public function load()
-    {
-
-    }
-
-    public function unload()
-    {
-
-    }
-
-    public function canBeForgotten(): bool
-    {
-        return false;
-    }
 
     public function getConfigFiles(): array
     {

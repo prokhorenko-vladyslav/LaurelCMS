@@ -3,9 +3,12 @@
 
 namespace Laurel\CMS;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Exceptions\ModuleManagerNotFoundException;
 use Laurel\CMS\Managers\ModuleManager;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
+use Laurel\CMS\Providers\LaurelCoreServiceProvider;
 use League\Flysystem\FileNotFoundException;
 
 /**
@@ -16,45 +19,46 @@ use League\Flysystem\FileNotFoundException;
  */
 class LaurelCMS
 {
-    /**
-     * Singleton instance
-     *
-     * @var LaurelCMS $this
-     */
-    protected static self $instance;
-
-    protected ?ModuleManager $moduleManager;
+    protected static ?self $instance = null;
     protected ?string $root;
+    protected Collection $modules;
 
     /**
      * LaurelCMS constructor.
      */
-    protected function __construct()
+    private function __construct()
     {
-        $this->load();
+        $this->root =  __DIR__;
+        $this->modules = collect([]);
+    }
+
+    public function putModule(string $abstract, $concrete = null)
+    {
+        app()->singleton($abstract, $concrete);
+        $this->modules->put($abstract, app()->get($abstract));
+    }
+
+    public function modules() : Collection
+    {
+        return $this->modules;
+    }
+
+    public function module(string $abstract)
+    {
+        return $this->modules->get($abstract);
     }
 
     /**
      * Instance cloning is disabled
      */
-    protected function __clone()
+    private function __clone()
     {
 
     }
 
-    /**
-     * When instance destructs, all modules must be unloaded and deleted from the list
-     */
-    public function __destruct()
+    private function __wakeup()
     {
-        \Laurel\CMS\LaurelCMS::instance()->moduleManager()->forgetAllModules();
-    }
 
-    public function setRoot(string $root)
-    {
-        throw_if(!file_exists($root), FileNotFoundException::class, ...["Directory \"{$root}\" has not been found"]);
-        $this->root = $root;
-        return $this;
     }
 
     public function getRoot() : string
@@ -74,40 +78,17 @@ class LaurelCMS
      */
     public static function instance() : self
     {
-        if (empty(self::$instance)) {
+        if (!self::$instance) {
             self::$instance = new self;
         }
+
         return self::$instance;
-    }
-
-    /**
-     * Method loads general static modules and modules for console or http requests
-     */
-    public function load() : self
-    {
-        $this->setModuleManager(ModuleManager::instance());
-        $this->moduleManager()->loadModules($this->moduleManager()->getStaticModules()->toArray());
-        $this->moduleManager()->loadModulesIf(app()->runningInConsole(), $this->moduleManager()->getStaticModulesForConsole()->toArray());
-        $this->moduleManager()->loadModulesIf(!app()->runningInConsole(),$this->moduleManager()->getStaticModulesForHttp()->toArray());
-
-        return $this;
-    }
-
-    public function setModuleManager(ModuleManager $moduleManager)
-    {
-        $this->moduleManager = $moduleManager;
-    }
-
-    public function moduleManager() : ModuleManager
-    {
-        throw_if(empty($this->moduleManager), ModuleManagerNotFoundException::class, ...['Module manager has not been found']);
-        return $this->moduleManager;
     }
 
     public function getServiceProviders() : array
     {
         return array_merge([
-            \Laurel\CMS\Providers\LaurelCoreServiceProvider::class,
+            LaurelCoreServiceProvider::class,
         ], config('laurel.cms.packages.providers', []));
     }
 
@@ -128,6 +109,6 @@ class LaurelCMS
 
     public function getAppName()
     {
-        return settingsModule()->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
+        return cms()->module(SettingModuleContract::class)->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
     }
 }

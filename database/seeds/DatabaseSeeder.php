@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
         SettingsModule::instance()->createOrUpdateSettingSection(
             [
                 'ru' => 'Уведомления',
-                'en' => 'Notifications'
+                'en' => 'Notification'
             ],
             [
                 'ru' => 'Настройте отправку уведомлений',

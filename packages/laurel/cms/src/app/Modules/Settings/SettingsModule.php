@@ -6,7 +6,9 @@ namespace Laurel\CMS\Modules\Settings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laurel\CMS\Abstracts\Module;
+use Illuminate\Support\Facades\Route;
+use Laurel\CMS\Modules\Page\Contracts\PageModuleContract;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionHasNotBeenDeletedNotFoundException;
 use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionNotFoundException;
 use Laurel\CMS\Modules\Settings\Models\Setting;
@@ -19,34 +21,13 @@ use Throwable;
  * Class SettingsModule
  * @package Laurel\CMS\Modules\Settings
  */
-class SettingsModule extends Module
+class SettingsModule implements SettingModuleContract
 {
-    /**
-     * SettingsModule load method
-     *
-     * @return bool|void
-     */
-    public function load()
+    public function routes(string $group)
     {
-        require_once __DIR__ . '/Helpers/settings.php';
-    }
-
-    /**
-     *
-     */
-    public function install()
-    {
-
-    }
-
-    /**
-     * Can module be forgotten or not
-     *
-     * @return bool
-     */
-    public function canBeForgotten(): bool
-    {
-        return false;
+        Route::get('/settings11', function (PageModuleContract $pageModule) {
+            return dd($pageModule);
+        });
     }
 
     /**
@@ -175,7 +156,7 @@ class SettingsModule extends Module
     /**
      * Method for fetching overrided setting from database for specified model and returning its value.
      * If value has been saved as JSON, method will decode it and return
-     * array(if $valueAsObjectIfJson setted to false) or object (if $valueAsObjectIfJson setted to true)
+     * array(if $valueAsObjectIfJson set to false) or object (if $valueAsObjectIfJson set to true)
      *
      * @param string $settingName
      * @param string $morphClass
@@ -201,7 +182,7 @@ class SettingsModule extends Module
 
     /**
      * Updates value of setting.
-     * If setting has not been found and parameter $createIfNotExists setted to true, setting will be created.
+     * If setting has not been found and parameter $createIfNotExists set to true, setting will be created.
      * Otherwise, exception will be throwed
      *
      * @param string $settingName
@@ -307,7 +288,7 @@ class SettingsModule extends Module
     /**
      * Sets value of setting to null.
      * If setting has not been found, SettingNotFoundException exception will be throwed
-     * If parameter $unsetForAllOverrided has been setted to true, values of all overrided setting for this setting would be setting to null too.
+     * If parameter $unsetForAllOverrided has been set to true, values of all overrided setting for this setting would be setting to null too.
      *
      * @param string $settingName
      * @param bool $unsetForAllOverrides

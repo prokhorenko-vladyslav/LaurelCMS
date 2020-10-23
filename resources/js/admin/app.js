@@ -7,11 +7,14 @@
 import Vuex from "vuex";
 import Vuelidate from 'vuelidate';
 import { BootstrapVue } from 'bootstrap-vue';
+import Vue           from 'vue'
+import Notifications from 'vue-notification'
 
 window.Vue = require('vue');
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 Vue.use(BootstrapVue);
+Vue.use(Notifications);
 
 require('./bootstrap');
 

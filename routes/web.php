@@ -1,5 +1,7 @@
 <?php
 
+use App\Notifications\TestNotification;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+foreach (cms()->modules() as $module) {
+    if (method_exists($module, 'routes')) {
+        $module->routes('web');
+    }
+}
 
 Route::group([
     'prefix' => 'admin',

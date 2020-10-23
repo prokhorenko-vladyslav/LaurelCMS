@@ -4,70 +4,37 @@
 namespace Laurel\CMS\Modules\Auth;
 
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Abstracts\Module;
-use Laurel\CMS\Modules\Auth\Http\Middleware\LockCheckMiddleware;
+use Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract;
 
-class AuthModule extends Module
+class AuthModule implements AuthModuleContract
 {
-    public function register()
-    {
-
+    public function routes(string $group) {
+        if ($group === 'api') {
+            $this->addApiRoutes();
+        }
     }
 
-    public function login()
+    protected function addApiRoutes()
     {
+        Route::name('api.modules.auth.')
+            ->namespace('\\Laurel\\CMS\\Modules\\Auth\\Http\\Controllers\\')
+            ->prefix('auth')
+            ->group(function() {
+                Route::post('login', 'AuthController@login')->name('login');
 
-    }
+                Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirmIpAddress');
 
-    public function forgotPassword()
-    {
+                Route::post('sendIpConfirmMail', 'AuthController@sendIpConfirmMail')->name('sendIpConfirmMail');
 
-    }
+                Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('sendResetPasswordMail');
 
-    public function changePassword()
-    {
+                Route::post('resetPassword', 'AuthController@resetPassword')->name('resetPassword');
 
-    }
-
-    public function createToken()
-    {
-
-    }
-
-    public function updateToken()
-    {
-
-    }
-
-    public function createResetPasswordEmail()
-    {
-
-    }
-
-    public function sendResetPasswordEmail()
-    {
-
-    }
-
-    public function loadModuleApiRoutes() {
-        Route::group([
-            'namespace' => 'Http\\Controllers\\'
-        ], function() {
-            Route::post('login', 'AuthController@login')->name('login');
-
-            Route::post('confirmIpAddress', 'AuthController@confirmIpAddress')->name('confirmIpAddress');
-
-            Route::post('sendIpConfirmMail', 'AuthController@sendIpConfirmMail')->name('sendIpConfirmMail');
-
-            Route::post('sendResetPasswordMail', 'AuthController@sendResetPasswordMail')->name('sendResetPasswordMail');
-
-            Route::post('resetPassword', 'AuthController@resetPassword')->name('resetPassword');
-
-            Route::middleware('auth:api')->group(function() {
-                Route::post('unlock', 'AuthController@unlock')->name('unlock');
-                Route::post('lockStatus', 'AuthController@lockStatus')->name('lockStatus');
-                Route::post('checkToken', 'AuthController@checkToken')->name('checkToken');
-            });
+                Route::middleware('auth:api')->group(function() {
+                    Route::post('unlock', 'AuthController@unlock')->name('unlock');
+                    Route::post('lockStatus', 'AuthController@lockStatus')->name('lockStatus');
+                    Route::post('checkToken', 'AuthController@checkToken')->name('checkToken');
+                });
         });
     }
 }

@@ -3,13 +3,13 @@
 
 namespace Laurel\CMS\Modules\Page;
 
-use Laurel\CMS\Abstracts\Module;
+use Laurel\CMS\Modules\Page\Contracts\PageModuleContract;
 
 /**
  * Module for manipulating pages
- * 
+ *
  */
-class PageModule extends Module
+class PageModule implements PageModuleContract
 {
 
 }

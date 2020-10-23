@@ -35,7 +35,7 @@ trait CanProcessIpAddress
      */
     public function checkUserIp(User $user)
     {
-        if (settingsModule()->setting('admin.ip_address.need_to_check')) {
+        if ($this->settingModule->setting('admin.ip_address.need_to_check')) {
             $ipAddress = $user->ipAddresses()->where('ip_address', Request::ip())->first();
 
             throw_if(!$ipAddress || !$ipAddress->pivot->is_confirmed, IpAddressNotFoundException::class, ...["IpAddress for user with id {$user->id} has not been found"]);
