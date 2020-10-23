@@ -17,8 +17,7 @@ class ApiRoutesListDirective implements BladeExtensionContract
 
     public function getDirectiveExpression(): string
     {
-        $routes = LaurelCMS::instance()->getApiRoutes();
-        $routes = json_encode($routes, App::environment('production') ? JSON_UNESCAPED_SLASHES : JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $routes = json_encode(cms()->getApiRoutes(), App::environment('production') ? JSON_UNESCAPED_SLASHES : JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return "
 <script>
     window.apiRoutes = window.apiRoutes ||\n<?php echo '{$routes}'; ?>\n

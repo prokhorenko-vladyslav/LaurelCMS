@@ -167,13 +167,14 @@ return [
          */
         //\Laurel\Menu\App\Providers\MenuServiceProvider::class,
         ...\Laurel\CMS\LaurelCMS::instance()->getServiceProviders(),
+        \Illuminate\Notifications\SlackChannelServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

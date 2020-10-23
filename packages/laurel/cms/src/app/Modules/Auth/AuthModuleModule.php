@@ -4,51 +4,11 @@
 namespace Laurel\CMS\Modules\Auth;
 
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Abstracts\Module;
+use Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract;
 use Laurel\CMS\Modules\Auth\Http\Middleware\LockCheckMiddleware;
 
-class AuthModule extends Module
+class AuthModuleModule implements AuthModuleContract
 {
-    public function register()
-    {
-
-    }
-
-    public function login()
-    {
-
-    }
-
-    public function forgotPassword()
-    {
-
-    }
-
-    public function changePassword()
-    {
-
-    }
-
-    public function createToken()
-    {
-
-    }
-
-    public function updateToken()
-    {
-
-    }
-
-    public function createResetPasswordEmail()
-    {
-
-    }
-
-    public function sendResetPasswordEmail()
-    {
-
-    }
-
     public function loadModuleApiRoutes() {
         Route::group([
             'namespace' => 'Http\\Controllers\\'

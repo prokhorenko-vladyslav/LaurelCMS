@@ -62,6 +62,21 @@ class User extends Authenticatable
         'blocked_at', 'blocked_until'
     ];
 
+    public function routeNotificationForSlack($notification)
+    {
+        return config('services.slack.web_hook');
+    }
+
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'users.'.$this->id;
+    }
+
     public function ipAddresses() : BelongsToMany
     {
         return $this->belongsToMany(IpAddress::class)->withTimestamps()->withPivot([ 'confirmation_code', 'is_confirmed', 'confirmation_code_sent_at' ]);

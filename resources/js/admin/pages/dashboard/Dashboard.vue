@@ -1,6 +1,7 @@
 <template>
     <dashboard-layout layoutClass="dashboard">
         Main
+        <notifications group="foo" />
     </dashboard-layout>
 </template>
 
@@ -20,6 +21,16 @@
             } else {
                 this.setLoadingStatus(true);
             }
+
+            Echo.private('users.1')
+                .notification((notification) => {
+                    this.$notify({
+                        group: 'foo',
+                        type: 'success',
+                        title: notification.title,
+                        text: notification.text
+                    });
+                });
         },
         methods: {
             ...mapActions(['setLoadingStatus']),

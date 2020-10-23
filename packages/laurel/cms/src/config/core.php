@@ -20,32 +20,30 @@
          */
         'modules_api_name' => 'api.modules.',
 
-        /**
-         * List of modules, which will be loaded on every request
-         */
         'modules' => [
+            \Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract::class => \Laurel\CMS\Modules\Auth\AuthModuleModule::class,
 
-        ],
+            \Laurel\CMS\Modules\Files\Contracts\FilesModuleContract::class => \Laurel\CMS\Modules\Files\FilesModule::class,
 
-        /**
-         * List of modules, which will be loaded, when CMS is running in the console
-         */
-        'console_modules' => [
+            \Laurel\CMS\Modules\Localization\Contracts\LocalizationModuleContract::class => \Laurel\CMS\Modules\Localization\LocalizationModule::class,
 
-        ],
+            \Laurel\CMS\Modules\Notification\Contracts\NotificationsModuleContract::class => \Laurel\CMS\Modules\Notification\NotificationsModule::class,
 
-        /**
-         * List of modules, which will be loaded, when CMS loaded using HTTP Request
-         */
-        'http_modules' => [
+            \Laurel\CMS\Modules\Page\Contracts\PageModuleContract::class => \Laurel\CMS\Modules\Page\PageModule::class,
 
-        ],
+            \Laurel\CMS\Modules\Permission\Contracts\PermissionModuleContract::class => \Laurel\CMS\Modules\Permission\PermissionModule::class,
 
-        /**
-         * List of aliases for main classes of the modules. Before creating module object, method will check the
-         * existence of the alias. If does, its alias class will be used instead of the default class
-         */
-        'aliases' => [
-//            \Laurel\CMS\Modules\Settings\SettingsModule::class => \App\UpdatedSettingModule::class
+            \Laurel\CMS\Modules\Post\Contracts\PostModuleContract::class => \Laurel\CMS\Modules\Post\PostModule::class,
+
+            \Laurel\CMS\Modules\Rubric\Contracts\RubricModuleContract::class => \Laurel\CMS\Modules\Rubric\RubricModule::class,
+
+            \Laurel\CMS\Modules\Search\Contracts\SearchModuleContract::class => \Laurel\CMS\Modules\Search\SearchModule::class,
+
+            \Laurel\CMS\Modules\Settings\Contracts\SettingContract::class => \Laurel\CMS\Modules\Settings\SettingsModule::class,
+
+            \Laurel\CMS\Modules\Tag\Contracts\TagModuleContract::class => \Laurel\CMS\Modules\Tag\TagModule::class,
+
+            \Laurel\CMS\Modules\Telegram\Contracts\TelegramModuleContract::class => \Laurel\CMS\Modules\Telegram\TelegramModule::class,
+
         ]
     ];
