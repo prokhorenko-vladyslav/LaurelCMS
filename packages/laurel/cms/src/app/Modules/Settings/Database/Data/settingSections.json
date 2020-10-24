@@ -1,0 +1,162 @@
+[
+    {
+        "name" : {
+            "ru" : "Общие",
+            "en" : "General"
+        },
+        "description" : {
+            "ru" : "Общие настройки системы",
+            "en" : "General settings of the system"
+        },
+        "slug" : "general",
+        "iconUrl" : "#",
+        "settings" : [
+            {
+                "name" : {
+                    "ru" : "Название сайта",
+                    "en" : "Site name"
+                },
+                "description" : {
+                    "ru" : "Введите название сайта",
+                    "en" : "Input site name"
+                },
+                "slug" : "site_name",
+                "value" : "",
+                "type" : "input",
+                "attributes" : {
+                    "placeholder" : {
+                        "ru" : "Введите название сайта",
+                        "en" : "Input site name"
+                    },
+                    "disabledIf" : {
+                        "testField" : true
+                    }
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Test field",
+                    "en" : "Test field"
+                },
+                "description" : {
+                    "ru" : "Введите название сайта",
+                    "en" : "Input site name"
+                },
+                "slug" : "test_field",
+                "value" : "",
+                "type" : "checkbox",
+                "attributes" : {
+                    "checked" : true
+                }
+            }
+        ]
+    },
+    {
+        "name" : {
+            "ru" : "Дизайн",
+            "en" : "Design"
+        },
+        "description" : {
+            "ru" : "Выберите тему для Вашего сайта и персонализируйте ее",
+            "en" : "Choose theme for your site and personalize it"
+        },
+        "slug" : "design",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Почта",
+            "en" : "Mail"
+        },
+        "description" : {
+            "ru" : "Настройте отправки электронных писем",
+            "en" : "Settings for sending mails"
+        },
+        "slug" : "mail",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "СЕО",
+            "en" : "SEO"
+        },
+        "description" : {
+            "ru" : "Оптимизируйте сайт для поисковых систем",
+            "en" : "Settings for optimizing site for search engines"
+        },
+        "slug" : "seo",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Магазин",
+            "en" : "Shop"
+        },
+        "description" : {
+            "ru" : "Настройте электронную коммерцию",
+            "en" : "Settings for ecommerce"
+        },
+        "slug" : "shop",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Уведомления",
+            "en" : "Notification"
+        },
+        "description" : {
+            "ru" : "Настройте отправку уведомлений",
+            "en" : "Choose events, when you will get notifications from the system"
+        },
+        "slug" : "notifications",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Сервер",
+            "en" : "Server"
+        },
+        "description" : {
+            "ru" : "Настройте сервер",
+            "en" : "Server settings"
+        },
+        "slug" : "server",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Панель",
+            "en" : "Dashboard"
+        },
+        "description" : {
+            "ru" : "Персонализируйте административную панель под свои нужды",
+            "en" : "Personalize admin panel for your needs"
+        },
+        "slug" : "dashboard",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Безопасность",
+            "en" : "Security"
+        },
+        "description" : {
+            "ru" : "Повысьте уровень безопасности CMS",
+            "en" : "Increase security level of CMS"
+        },
+        "slug" : "security",
+        "iconUrl" : "#"
+    },
+    {
+        "name" : {
+            "ru" : "Локализация",
+            "en" : "Localization"
+        },
+        "description" : {
+            "ru" : "Переведите систему на различные языки",
+            "en" : "Translate system to different languages"
+        },
+        "slug" : "localization",
+        "iconUrl" : "#"
+    }
+]

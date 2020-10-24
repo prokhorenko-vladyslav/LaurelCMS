@@ -31,12 +31,9 @@ class CreateSettingsTable extends Migration
             $table->unsignedBigInteger('section_id');
             $table->string('type');
             $table->json('attributes')->nullable();
-            $table->foreignId('setting_id')->nullable();
-            $table->nullableMorphs('settingable');
             $table->timestamps();
 
             $table->foreign('section_id')->references('id')->on('setting_sections');
-            $table->foreign('setting_id')->references('id')->on('settings');
         });
     }
 
