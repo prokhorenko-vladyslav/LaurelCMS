@@ -22,13 +22,14 @@
                 },
                 "slug" : "app_name",
                 "value" : "LaurelCMS",
-                "type" : "input",
+                "type" : "simpleInput",
                 "positions" : [
                     {
                         "name" : "cms.dashboard.settings.general"
                     }
                 ],
                 "attributes" : {
+                    "translatable" : true,
                     "placeholder" : {
                         "ru" : "Введите название приложения",
                         "en" : "Input application name"

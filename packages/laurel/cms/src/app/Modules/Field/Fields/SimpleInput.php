@@ -6,7 +6,7 @@ namespace Laurel\CMS\Modules\Field\Fields;
 
 use Laurel\CMS\Modules\Field\Abstracts\FieldType;
 
-class InputField extends FieldType
+class SimpleInput extends FieldType
 {
 
     /**

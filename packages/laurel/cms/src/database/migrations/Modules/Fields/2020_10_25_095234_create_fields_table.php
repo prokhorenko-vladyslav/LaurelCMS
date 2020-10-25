@@ -19,7 +19,7 @@ class CreateFieldsTable extends Migration
             $table->string('type');
             $table->json('positions');
             $table->json('attributes')->nullable();
-            $table->string('value')->nullable();
+            $table->text('value')->nullable();
             $table->timestamps();
         });
     }

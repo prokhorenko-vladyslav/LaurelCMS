@@ -74,7 +74,7 @@
     import "vue-custom-scrollbar/dist/vueScrollbar.css";
 
     export default {
-        name: "CustomSelect",
+        name: "SingleSelect",
         components: {
             vueCustomScrollbar
         },
