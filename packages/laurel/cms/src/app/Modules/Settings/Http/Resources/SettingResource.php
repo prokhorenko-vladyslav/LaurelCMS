@@ -13,11 +13,11 @@ class SettingResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->getTranslations('name'),
-            "description" => $this->getTranslations('description'),
+            "name" => $this->name,
+            "description" => $this->description,
             "slug" => $this->slug,
-            "value" => $this->value,
-            "field" => new FieldResource($this->whenLoaded('field'))
+            "value" => $this->getValueTranslations(),
+            "field" => new FieldResource($this->field)
         ];
     }
 }

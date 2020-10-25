@@ -50,7 +50,7 @@ class SettingsModule implements SettingModuleContract
         Route::name('api.modules.settings.')
             ->prefix('settings')
             ->group(function() {
-                Route::get('{section}', [SettingController::class, 'index']);
+                Route::get('{section}', [SettingController::class, 'index'])->name('sectionSettings');
             });
     }
 

@@ -5,7 +5,7 @@
         ],
 
         "fields" => [
-            "input" => \Laurel\CMS\Modules\Field\Fields\InputField::class,
+            "simpleInput" => \Laurel\CMS\Modules\Field\Fields\SimpleInput::class,
             "numberInput" => \Laurel\CMS\Modules\Field\Fields\NumberInput::class,
             "textarea" => \Laurel\CMS\Modules\Field\Fields\TextareaField::class,
             "select" => \Laurel\CMS\Modules\Field\Fields\SelectField::class,

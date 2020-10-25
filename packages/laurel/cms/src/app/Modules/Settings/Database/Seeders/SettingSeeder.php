@@ -64,7 +64,9 @@ class SettingSeeder extends Seeder
                         ->setType($settingData['type'])
                         ->setAttributes($settingData['attributes'] ?? [])
                         ->setPositions($settingData['positions'] ?? [])
-                        ->setValue($settingData['value'])
+                        ->setValue(
+                            $settingData['value'],
+                            !empty($settingData['attributes']['translatable']) ? $settingData['attributes']['translatable'] : false)
                         ->associate($settingBuilder->instance());
                     $fieldModule->create($fieldBuilder);
                 }

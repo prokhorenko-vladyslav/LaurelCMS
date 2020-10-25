@@ -1,14 +1,14 @@
 <template>
-    <div class="input-with-translations">
+    <div class="simple-input">
         <label class="d-flex flex-column">
-            <span class="input__name">First name</span>
-            <input class="input__field" type="text" placeholder="Enter your first name...">
-            <span class="input__description">Please enter your first name</span>
+            <span class="input__name">{{ name }}</span>
+            <input class="input__field" type="text" :placeholder="attributes.placeholder">
+            <span class="input__description">{{ description }}</span>
         </label>
         <div class="input__language__selected d-flex align-items-center justify-content-end">
             <img src="/admin/img/icons/settings/usa.png" alt="">
         </div>
-        <div class="input__languages">
+        <div class="input__languages" v-if="attributes.translatable">
             <div class="language d-flex align-items-center">
                 <div class="language__img">
                     <img src="/admin/img/icons/settings/usa.png" alt="">
@@ -39,12 +39,29 @@
 
 <script>
     export default {
-        name: "InputWithTranslations"
+        name: "SimpleInput",
+        props: {
+            name : {
+                type : String,
+                required : true
+            },
+            description : {
+                type : String,
+                default : ''
+            },
+            value : {
+                default : null
+            },
+            attributes : {
+                type : Object,
+                default: () => {}
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    .input-with-translations {
+    .simple-input {
         width: 100%;
         position: relative;
 

@@ -78,8 +78,11 @@ class FieldBuilder
         return $this;
     }
 
-    public function setValue(?string $value) : self
+    public function setValue($value, $isTranslatable = false) : self
     {
+        if ($isTranslatable) {
+            $this->instance->translatable[] = 'value';
+        }
         $this->instance->value = $value;
         return $this;
     }

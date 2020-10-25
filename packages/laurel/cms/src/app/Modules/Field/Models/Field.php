@@ -7,9 +7,12 @@ namespace Laurel\CMS\Modules\Field\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laurel\CMS\Modules\Field\Contracts\FieldModuleContract;
+use Spatie\Translatable\HasTranslations;
 
 class Field extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'type', 'order', 'attributes', 'value', 'positions'
     ];
@@ -21,6 +24,10 @@ class Field extends Model
 
     protected $appends = [
         'simple_type'
+    ];
+
+    public $translatable = [
+
     ];
 
     public function fieldable()

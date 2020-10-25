@@ -156,7 +156,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <setting-fields></setting-fields>
+                <setting-fields :settings="settings"></setting-fields>
             </div>
         </div>
     </div>
@@ -169,6 +169,32 @@
         name: "SettingsTabs",
         components: {
             SettingFields
+        },
+        data: () => ({
+            settings : []
+        }),
+        created() {
+            this.loadSettings(this.$route.params.slug)
+        },
+        watch: {
+            $route(to, from) {
+                this.loadSettings(to.params.slug)
+            }
+        },
+        methods: {
+            loadSettings(sectionSlug) {
+                axios
+                    .get(composeRoute('api.modules.settings.sectionSettings', {
+                        replace : {
+                            section : sectionSlug
+                        }
+                    }))
+                    .then( response => {
+                        if (response.data.status) {
+                            Vue.set(this, 'settings', response.data.data.settings);
+                        }
+                    })
+            }
         }
     }
 </script>

@@ -177,6 +177,18 @@ class Setting extends Model
         }
     }
 
+    public function getValueTranslations()
+    {
+        if (
+            !empty($this->field->attributes->translatable) &&
+            $this->field->attributes->translatable
+        ) {
+            $this->translatable[] = 'value';
+        }
+
+        return $this->value;
+    }
+
     /**
      * Overriding of the default method saveOrFail of the Laravel model.
      * Before save method checks if setting with same section and name already exists in the database.

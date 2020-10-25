@@ -46,6 +46,12 @@ window.composeRoute = function (route, parameters = {}, isExternal = false) {
     // add to composing parameters and isExternal option
     let routeUri = window.apiRoutes[route];
 
+    if (parameters.replace) {
+        Object.keys(parameters.replace).forEach( replacable => {
+            routeUri = routeUri.split(`{${replacable}}`).join(parameters.replace[replacable]);
+        });
+    }
+
     return routeUri;
 };
 
