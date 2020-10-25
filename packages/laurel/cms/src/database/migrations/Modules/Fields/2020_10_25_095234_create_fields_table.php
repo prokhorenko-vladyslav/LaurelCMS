@@ -18,7 +18,6 @@ class CreateFieldsTable extends Migration
             $table->morphs('fieldable');
             $table->string('type');
             $table->json('positions');
-            $table->string('order')->default(0);
             $table->json('attributes')->nullable();
             $table->string('value')->nullable();
             $table->timestamps();

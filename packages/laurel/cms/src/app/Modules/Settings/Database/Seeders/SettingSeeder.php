@@ -1,6 +1,6 @@
 <?php
 
-namespace Laurel\CMS\Modules\Settings\Database\Seeds;
+namespace Laurel\CMS\Modules\Settings\Database\Seeders;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Seeder;
@@ -64,7 +64,6 @@ class SettingSeeder extends Seeder
                         ->setType($settingData['type'])
                         ->setAttributes($settingData['attributes'] ?? [])
                         ->setPositions($settingData['positions'] ?? [])
-                        ->setOrder($order)
                         ->setValue($settingData['value'])
                         ->associate($settingBuilder->instance());
                     $fieldModule->create($fieldBuilder);

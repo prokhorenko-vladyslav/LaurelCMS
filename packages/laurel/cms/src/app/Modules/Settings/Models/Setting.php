@@ -6,8 +6,8 @@ namespace Laurel\CMS\Modules\Settings\Models;
 use Illuminate\Database\Eloquent\{ Builder, Model };
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laurel\CMS\Modules\Field\Models\Field;
-use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
 use Laurel\CMS\Modules\Settings\Exceptions\{SettingAliasIsIncorrect, SettingAlreadyExistsException};
+use Spatie\Translatable\HasTranslations;
 use Throwable;
 
 /**
@@ -192,7 +192,6 @@ class Setting extends Model
         if ($this->field) {
             $this->field->save();
         }
-        $this->encodeTranslatableAttributes();
         return parent::saveOrFail($options);
     }
 
@@ -210,7 +209,6 @@ class Setting extends Model
         if ($this->field) {
             $this->field->save();
         }
-        $this->encodeTranslatableAttributes();
         return parent::save($options);
     }
 

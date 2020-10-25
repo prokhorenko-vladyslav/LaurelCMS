@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * Model for setting sections.

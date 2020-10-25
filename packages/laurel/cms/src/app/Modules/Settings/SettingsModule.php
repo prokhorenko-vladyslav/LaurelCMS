@@ -11,6 +11,7 @@ use Laurel\CMS\Exceptions\ModelNotDeletedException;
 use Laurel\CMS\Modules\Settings\Builders\SettingBuilder;
 use Laurel\CMS\Modules\Settings\Builders\SettingSectionBuilder;
 use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
+use Laurel\CMS\Modules\Settings\Http\Controllers\SettingController;
 use Laurel\CMS\Modules\Settings\Models\Setting;
 use Laurel\CMS\Modules\Settings\Models\SettingSection;
 use Laurel\CMS\Traits\HasSeedData;
@@ -37,9 +38,20 @@ class SettingsModule implements SettingModuleContract
      * @param string $group
      * @return void
      */
-    public function routes(string $group): void
+    public function routes(string $group) : void
     {
-        //
+        if ($group === 'api') {
+            $this->addApiRoutes();
+        }
+    }
+
+    protected function addApiRoutes()
+    {
+        Route::name('api.modules.settings.')
+            ->prefix('settings')
+            ->group(function() {
+                Route::get('{section}', [SettingController::class, 'index']);
+            });
     }
 
     /**

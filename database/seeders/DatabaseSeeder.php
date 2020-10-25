@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             $user->ipAddresses()->save($ipAddress);
         }
 
-        $this->call(\Laurel\CMS\Modules\Settings\Database\Seeds\SettingSeeder::class);
+        $this->call(\Laurel\CMS\Modules\Settings\Database\Seeders\SettingSeeder::class);
 
 
         dd('awdawd');

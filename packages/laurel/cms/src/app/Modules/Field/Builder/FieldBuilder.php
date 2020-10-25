@@ -6,6 +6,7 @@ namespace Laurel\CMS\Modules\Field\Builder;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laurel\CMS\Modules\Field\Exceptions\PositionNameForFieldHasNotBeenFound;
 use Laurel\CMS\Modules\Field\Models\Field;
 
 class FieldBuilder
@@ -42,27 +43,33 @@ class FieldBuilder
 
     public function setPositions(array $positions) : self
     {
-        $this->instance->positions = collect($positions);
+        $positions = collect($positions);
+        $positions->each(function($item, $index) {
+            $this->checkPosition($item);
+        });
+        $this->instance->positions = $positions;
         return $this;
     }
 
-    public function addPosition(string $position)
+    public function checkPosition(array $position)
     {
-        $this->instance->positions->push(Str::lower($position));
+        if (empty($position['name'])) {
+            throw new PositionNameForFieldHasNotBeenFound;
+        }
+    }
+
+    public function addPosition(array $position)
+    {
+        $this->checkPosition($position);
+        $this->instance->positions->push($position);
         return $this;
     }
 
     public function removePosition(string $position)
     {
         return $this->instance->positions->reject(function ($value, $key) use ($position) {
-            return $value === $position;
+            return $value === $position['name'];
         });
-    }
-
-    public function setOrder(int $order) : self
-    {
-        $this->instance->order = $order;
-        return $this;
     }
 
     public function setAttributes(array $attributes) : self

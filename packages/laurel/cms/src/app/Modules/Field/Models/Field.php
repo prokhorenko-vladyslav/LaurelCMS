@@ -19,6 +19,10 @@ class Field extends Model
         'positions' => 'collection'
     ];
 
+    protected $appends = [
+        'simple_type'
+    ];
+
     public function fieldable()
     {
         return $this->morphTo('fieldable');
@@ -36,10 +40,16 @@ class Field extends Model
         return cms()->module(FieldModuleContract::class)->getClassByType($this->attributes['type']);
     }
 
+    public function getSimpleTypeAttribute() : ?string
+    {
+        return $this->attributes['type'];
+    }
+
     public function save(array $options = [])
     {
         $this->positions->transform(function ($item) {
-            return Str::lower($item);
+            $item['name'] = Str::lower($item['name']);
+            return $item;
         });
         return parent::save($options);
     }
@@ -47,7 +57,8 @@ class Field extends Model
     public function saveOrFail(array $options = [])
     {
         $this->positions->transform(function ($item) {
-            return Str::lower($item);
+            $item['name'] = Str::lower($item['name']);
+            return $item;
         });
         return parent::saveOrFail($options);
     }
