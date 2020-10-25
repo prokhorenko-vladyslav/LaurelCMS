@@ -35,7 +35,7 @@ class LaurelCMS
     public function putModule(string $abstract, $concrete = null)
     {
         app()->singleton($abstract, $concrete);
-        $this->modules->put($abstract, app()->get($abstract));
+        $this->modules->put($abstract, app($abstract));
     }
 
     public function modules() : Collection
@@ -109,6 +109,6 @@ class LaurelCMS
 
     public function getAppName()
     {
-        return cms()->module(SettingModuleContract::class)->setting('cms.app_name', env('APP_NAME', 'LaurelCMS'));
+        return app(SettingModuleContract::class)->findOrDefault('general.app_name', env('APP_NAME', 'LaurelCMS'));
     }
 }

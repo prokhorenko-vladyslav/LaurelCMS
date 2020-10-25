@@ -4,8 +4,11 @@
 namespace Laurel\CMS\Modules\Settings\Contracts;
 
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laurel\CMS\Modules\Settings\Builders\SettingBuilder;
 use Laurel\CMS\Modules\Settings\Models\Setting;
+use Throwable;
 
 /**
  * Contract for manipulating of settings.
@@ -47,4 +50,24 @@ interface SettingContract
      * @return null|Setting
      */
     public function find(string $value, string $field = 'slug') : ?Setting;
+
+    /**
+     * Finds setting by alias and returns its value or returns default value.
+     *
+     * @param string $alias
+     * @param $defaultValue
+     * @return mixed
+     * @throws Throwable
+     */
+    public function findOrDefault(string $alias, $defaultValue);
+
+    /**
+     * Finds and returns setting using its alias.
+     *
+     * @param string $alias
+     * @param bool $throwIfNotFound
+     * @return Builder|Model|null|Setting
+     * @throws Throwable
+     */
+    public function findByAlias(string $alias, bool $throwIfNotFound = true);
 }

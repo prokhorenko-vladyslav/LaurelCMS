@@ -174,7 +174,6 @@ class LaurelCoreServiceProvider extends ServiceProvider
     {
         $this->publishes([
             $this->composePath('/../config/core.php') => config_path('laurel/cms/core.php'),
-            $this->composePath('/../config/settings.php') => config_path('laurel/cms/settings.php'),
         ], 'config');
     }
 
@@ -208,7 +207,7 @@ class LaurelCoreServiceProvider extends ServiceProvider
         }
 
         Passport::tokensExpireIn(now()->addHours(
-            cms()->module(SettingModuleContract::class)->setting('admin.token_lifetime_in_hours', 1)
+            cms()->module(SettingModuleContract::class)->findOrDefault('admin.token_lifetime_in_hours', 1)
         ));
         Passport::useTokenModel(Token::class);
     }

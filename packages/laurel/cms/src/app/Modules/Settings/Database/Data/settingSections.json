@@ -13,46 +13,24 @@
         "settings" : [
             {
                 "name" : {
-                    "ru" : "Название сайта",
-                    "en" : "Site name"
+                    "ru" : "Название приложения",
+                    "en" : "Application name"
                 },
                 "description" : {
-                    "ru" : "Введите название сайта",
-                    "en" : "Input site name"
+                    "ru" : "Название приложения, которое будет отображаться в админ панели",
+                    "en" : "Application name, which shows in admin panel"
                 },
-                "slug" : "site_name",
-                "value" : "Test value",
+                "slug" : "app_name",
+                "value" : "LaurelCMS",
                 "type" : "input",
                 "positions" : [
-                    "cms.dashboard.settings"
+                    "cms.dashboard.settings.general"
                 ],
                 "attributes" : {
                     "placeholder" : {
-                        "ru" : "Введите название сайта",
-                        "en" : "Input site name"
-                    },
-                    "disabledIf" : {
-                        "testField" : true
+                        "ru" : "Введите название приложения",
+                        "en" : "Input application name"
                     }
-                }
-            },
-            {
-                "name" : {
-                    "ru" : "Test field",
-                    "en" : "Test field"
-                },
-                "description" : {
-                    "ru" : "Введите название сайта",
-                    "en" : "Input site name"
-                },
-                "slug" : "test_field",
-                "value" : "",
-                "type" : "checkbox",
-                "positions" : [
-                    "cms.dashboard.settings"
-                ],
-                "attributes" : {
-                    "checked" : true
                 }
             }
         ]
@@ -151,7 +129,152 @@
             "en" : "Increase security level of CMS"
         },
         "slug" : "security",
-        "iconUrl" : "#"
+        "iconUrl" : "#",
+        "settings" : [
+            {
+                "name" : {
+                    "ru" : "Проверка IP-адреса",
+                    "en" : "IP-address checking"
+                },
+                "description" : {
+                    "ru" : "Нужно ли проверять ip адрес администратора при входе",
+                    "en" : "Need to check ip address of administrator"
+                },
+                "slug" : "need_to_check_admin_ip_address",
+                "value" : true,
+                "type" : "checkbox",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "labels" : {
+                        "checked" : {
+                            "ru" : "Да",
+                            "en" : "Yes"
+                        },
+                        "unchecked" : {
+                            "ru" : "Нет",
+                            "en" : "No"
+                        }
+                    }
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Время жизни токена авторизации (в минутах)",
+                    "en" : "Auth token lifetime (in minutes)"
+                },
+                "description" : {
+                    "ru" : "Время, в течение которого токен авторизации будет действительным",
+                    "en" : "Time, during which auth token will be valid"
+                },
+                "slug" : "auth_token_expires_in_minutes",
+                "value" : 0,
+                "type" : "numberInput",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "min" : 5,
+                    "max" : 999,
+                    "step" : 1
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Время жизни кода для восстановления пароля (в минутах)",
+                    "en" : "Lifetime of the code for password resetting (in minutes)"
+                },
+                "description" : {
+                    "ru" : "Время, в течение которого код для сброса пароля будет действительным",
+                    "en" : "Time, during which code for password resetting will be valid"
+                },
+                "slug" : "reset_code_expires_in_minutes",
+                "value" : 0,
+                "type" : "numberInput",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "min" : 5,
+                    "max" : 999,
+                    "step" : 1
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Блокировка админ панели",
+                    "en" : "Admin panel blocking"
+                },
+                "description" : {
+                    "ru" : "Нужно ли блокировать админ панель",
+                    "en" : "Need to block admin panel"
+                },
+                "slug" : "need_to_lock_admin_panel",
+                "value" : true,
+                "type" : "checkbox",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "labels" : {
+                        "checked" : {
+                            "ru" : "Да",
+                            "en" : "Yes"
+                        },
+                        "unchecked" : {
+                            "ru" : "Нет",
+                            "en" : "No"
+                        }
+                    }
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Блоикровать админ панель после {value} минут",
+                    "en" : "Block admin panel after {value} minutes"
+                },
+                "description" : {
+                    "ru" : "Время, по истечению которого админ панель будет заблокирована",
+                    "en" : "Time, during which admin panel blocks"
+                },
+                "slug" : "lock_admin_panel_after_minutes",
+                "value" : 15,
+                "type" : "numberInput",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "min" : 5,
+                    "max" : 999,
+                    "step" : 1,
+                    "disabledIf" : {
+                        "security.need_to_lock_admin_panel" : true
+                    }
+                }
+            },
+            {
+                "name" : {
+                    "ru" : "Время жизни кода для подтверждения IP-адреса (в минутах)",
+                    "en" : "Lifetime of the code for ip confirmation (in minutes)"
+                },
+                "description" : {
+                    "ru" : "Время, в течение которого код для подтверждения IP-адреса будет действительным",
+                    "en" : "Time, during which code for ip confirmation will be valid"
+                },
+                "slug" : "ip_confirmation_code_expires_in_minutes",
+                "value" : 0,
+                "type" : "numberInput",
+                "positions" : [
+                    "cms.dashboard.settings.security"
+                ],
+                "attributes" : {
+                    "min" : 5,
+                    "max" : 999,
+                    "step" : 1
+                }
+            }
+        ]
     },
     {
         "name" : {

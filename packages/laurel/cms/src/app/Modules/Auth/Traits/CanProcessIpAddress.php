@@ -15,6 +15,7 @@ use Laurel\CMS\Modules\Auth\Exceptions\IpAddressIsBlockedException;
 use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Models\IpAddress;
 use Laurel\CMS\Modules\Auth\Models\User;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Throwable;
 
 /**
@@ -35,7 +36,7 @@ trait CanProcessIpAddress
      */
     public function checkUserIp(User $user)
     {
-        if ($this->settingModule->setting('admin.ip_address.need_to_check')) {
+        if (cms()->module(SettingModuleContract::class)->findOrDefault('security.need_to_check_admin_ip_address', true)) {
             $ipAddress = $user->ipAddresses()->where('ip_address', Request::ip())->first();
 
             throw_if(!$ipAddress || !$ipAddress->pivot->is_confirmed, IpAddressNotFoundException::class, ...["IpAddress for user with id {$user->id} has not been found"]);
@@ -114,7 +115,7 @@ trait CanProcessIpAddress
 
                 if (
                     Hash::check($code, $ipAddress->pivot->confirmation_code) &&
-                    $diffInMinutes <= settingsModule()->setting('admin.ip_address.code_expires_in_minutes', 15)
+                    $diffInMinutes <= cms()->module(SettingModuleContract::class)->findOrDefault('admin.ip_address.ip_confirmation_code_expires_in_minutes', 15)
                 ) {
                     $this->updateConfirmation($user, $ipAddress, null, null, true);
                     return serviceResponse(200, true, 'auth.ip_confirmed');

@@ -6,6 +6,7 @@ namespace Laurel\CMS\Modules\Settings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Route;
 use Laurel\CMS\Exceptions\ModelNotDeletedException;
 use Laurel\CMS\Modules\Settings\Builders\SettingBuilder;
 use Laurel\CMS\Modules\Settings\Builders\SettingSectionBuilder;
@@ -25,6 +26,9 @@ class SettingsModule implements SettingModuleContract
 {
     use HasSeedData;
 
+    /**
+     *
+     */
     protected const MODULE_DIRECTORY = __DIR__;
 
     /**
@@ -35,7 +39,7 @@ class SettingsModule implements SettingModuleContract
      */
     public function routes(string $group): void
     {
-        // TODO: Implement routes() method.
+        //
     }
 
     /**
@@ -105,6 +109,23 @@ class SettingsModule implements SettingModuleContract
         } catch (\Exception $e) {
             throw_if($throwIfNotFound, ModelNotFoundException::class, ...[Setting::class . " with value \"{$value}\" in field {$field} has not been found."]);
             return null;
+        }
+    }
+
+    /**
+     * Finds setting by alias and returns its value or returns default value.
+     *
+     * @param string $alias
+     * @param mixed $defaultValue
+     * @return mixed
+     * @throws Throwable
+     */
+    public function findOrDefault(string $alias, $defaultValue = null)
+    {
+        try {
+            return $this->findByAlias($alias)->value;
+        } catch (ModelNotFoundException $e) {
+            return $defaultValue;
         }
     }
 
