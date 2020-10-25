@@ -31,7 +31,7 @@ class Token extends PassportToken
     protected function addLockAtAttribute()
     {
         $this->attributes['lock_at'] = now()->addMinutes(
-            cms()->module(SettingModuleContract::class)->setting('admin.lock_after_minutes', null)
+            cms()->module(SettingModuleContract::class)->findOrDefault('security.lock_admin_panel_after_minutes', 15)
         );
     }
 }

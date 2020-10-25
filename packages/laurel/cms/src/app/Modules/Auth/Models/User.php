@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * Class User

@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Modules\Page\Contracts\PageModuleContract;
+use Laurel\CMS\Exceptions\ModelNotDeletedException;
+use Laurel\CMS\Modules\Settings\Builders\SettingBuilder;
+use Laurel\CMS\Modules\Settings\Builders\SettingSectionBuilder;
 use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
-use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionHasNotBeenDeletedNotFoundException;
-use Laurel\CMS\Modules\Settings\Exceptions\SettingSectionNotFoundException;
+use Laurel\CMS\Modules\Settings\Http\Controllers\SettingController;
 use Laurel\CMS\Modules\Settings\Models\Setting;
 use Laurel\CMS\Modules\Settings\Models\SettingSection;
+use Laurel\CMS\Traits\HasSeedData;
 use Throwable;
 
 /**
@@ -23,379 +25,196 @@ use Throwable;
  */
 class SettingsModule implements SettingModuleContract
 {
-    public function routes(string $group)
-    {
-        Route::get('/settings11', function (PageModuleContract $pageModule) {
-            return dd($pageModule);
-        });
-    }
+    use HasSeedData;
 
     /**
-     * Creates section with settings, if one with the same slug is not exists.
      *
-     * @param array $name
-     * @param array $description
-     * @param string $slug
-     * @param string $iconUrl
-     * @return Builder|Model|SettingSection
-     * @throws Throwable
      */
-    public function createSettingSectionIfNotExists(array $name, array $description, string $slug, string $iconUrl) : SettingSection
+    protected const MODULE_DIRECTORY = __DIR__;
+
+    /**
+     * Registers module routes.
+     *
+     * @param string $group
+     * @return void
+     */
+    public function routes(string $group) : void
     {
-        try {
-            return SettingSection::findBy('slug', $slug);
-        } catch (ModelNotFoundException $e) {
-            return $this->createSettingSection(
-                $name, $description, $slug, $iconUrl
-            );
+        if ($group === 'api') {
+            $this->addApiRoutes();
         }
     }
 
-    /**
-     * Creates or update section with settings
-     *
-     * @param array $name
-     * @param array $description
-     * @param string $slug
-     * @param string $iconUrl
-     * @return Builder|Model|SettingSection
-     * @throws Throwable
-     */
-    public function createOrUpdateSettingSection(array $name, array $description, string $slug, string $iconUrl) : SettingSection
+    protected function addApiRoutes()
     {
-        try {
-            return $this->updateSettingSection(
-                SettingSection::findBy('slug', $slug),
-                $name, $description, $iconUrl
-            );
-        } catch (ModelNotFoundException $e) {
-            return $this->createSettingSection(
-                $name, $description, $slug, $iconUrl
-            );
-        }
+        Route::name('api.modules.settings.')
+            ->prefix('settings')
+            ->group(function() {
+                Route::get('{section}', [SettingController::class, 'index']);
+            });
     }
 
     /**
-     * Creates section with settings or throws Exception.
+     * Registers additional routes.
      *
-     * @param SettingSection $section
-     * @param array $name
-     * @param array $description
-     * @param string $iconUrl
-     * @return Builder|Model|SettingSection
-     * @throws Throwable
+     * @param string $group
+     * @return void
      */
-    public function updateSettingSection(SettingSection $section, array $name, array $description, string $iconUrl) : SettingSection
+    public function additionalRoutes(string $group): void
     {
-        $section = $section->fill([
-            'name' => $name,
-            'description' => $description,
-            'icon_url' => $iconUrl
-        ]);
-        $section->saveOrFail();
-        return $section;
+        // TODO: Implement additionalRoutes() method.
     }
 
     /**
-     * Creates section with settings or throws Exception.
+     * Creates new setting.
      *
-     * @param array $name
-     * @param array $description
-     * @param string $slug
-     * @param string $iconUrl
-     * @return Builder|Model|SettingSection
-     * @throws Throwable
+     * @param SettingBuilder $settingBuilder
+     * @return Setting
      */
-    public function createSettingSection(array $name, array $description, string $slug, string $iconUrl) : SettingSection
+    public function create(SettingBuilder $settingBuilder): Setting
     {
-        $section = SettingSection::query()->create([
-            'name' => $name,
-            'description' => $description,
-            'slug' => $slug,
-            'icon_url' => $iconUrl
-        ]);
-        $section->saveOrFail();
-        return $section;
+        $settingBuilder->instance()->saveOrFail();
+        return $settingBuilder->instance();
     }
 
     /**
-     * Deletes setting section with all child settings.
+     * Updates specified setting.
      *
-     * @param string $slug
+     * @param SettingBuilder $settingBuilder
+     * @return Setting
+     */
+    public function update(SettingBuilder $settingBuilder): Setting
+    {
+        $settingBuilder->instance()->saveOrFail();
+        return $settingBuilder->instance();
+    }
+
+    /**
+     * Deletes specified setting.
+     *
+     * @param Setting $setting
+     * @throws ModelNotDeletedException
      * @return bool
-     * @throws Throwable
      */
-    public function forgetSettingSection(string $slug)
+    public function delete(Setting $setting): bool
     {
-        throw_if(!SettingSection::findBy('slug', $slug)->delete(), new SettingSectionHasNotBeenDeletedNotFoundException, ["Section with slug \"{$slug}\" has not been found"]);
+        if (!$setting->delete()) {
+            throw new ModelNotDeletedException(Setting::class . " with id {$setting->id} has not been deleted");
+        }
+
         return true;
     }
 
     /**
-     * Method for fetching setting from database and returning this value.
-     * If value has been saved as JSON, method will decode it and return
-     * array(if $valueAsObjectIfJson set to false) or object (if $valueAsObjectIfJson set to true)
+     * Finds and returns setting using specified field.
      *
-     * @param string $settingName
-     * @param null $defaultValue
-     * @param bool $valueAsObjectIfJson
-     * @return mixed|null
+     * @param string $value
+     * @param string|null $field
+     * @param bool $throwIfNotFound
+     * @return null|Setting
      * @throws Throwable
      */
-    public function setting(string $settingName, $defaultValue = null, bool $valueAsObjectIfJson = true)
+    public function find(string $value, string $field = 'slug', bool $throwIfNotFound = true): ?Setting
     {
         try {
-            [$section, $name] = $this->getSectionAndSettingName($settingName);
-            $setting = Setting::getSetting($section, $name, true);
-            return $setting->returnValueAsObject($valueAsObjectIfJson)->value;
-        } catch (Throwable $e) {
+            return Setting::findBy($field, $value);
+        } catch (\Exception $e) {
+            throw_if($throwIfNotFound, ModelNotFoundException::class, ...[Setting::class . " with value \"{$value}\" in field {$field} has not been found."]);
+            return null;
+        }
+    }
+
+    /**
+     * Finds setting by alias and returns its value or returns default value.
+     *
+     * @param string $alias
+     * @param mixed $defaultValue
+     * @return mixed
+     * @throws Throwable
+     */
+    public function findOrDefault(string $alias, $defaultValue = null)
+    {
+        try {
+            return $this->findByAlias($alias)->value;
+        } catch (ModelNotFoundException $e) {
             return $defaultValue;
         }
     }
 
     /**
-     * Method for fetching overrided setting from database for specified model and returning its value.
-     * If value has been saved as JSON, method will decode it and return
-     * array(if $valueAsObjectIfJson set to false) or object (if $valueAsObjectIfJson set to true)
+     * Finds and returns setting using its alias.
      *
-     * @param string $settingName
-     * @param string $morphClass
-     * @param int $morphId
-     * @param null $defaultValue
-     * @param bool $valueAsObjectIfJson
-     * @return mixed|null
+     * @param string $alias
+     * @param bool $throwIfNotFound
+     * @return Builder|Model|null|Setting
      * @throws Throwable
      */
-    public function settingFor(string $settingName, string $morphClass, int $morphId, $defaultValue = null, bool $valueAsObjectIfJson = true)
+    public function findByAlias(string $alias, bool $throwIfNotFound = true)
     {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSetting($section, $name);
-        $overridedSetting = $setting->overrided($morphClass, $morphId)->first();
-        if (!empty($overridedSetting)) {
-            return $overridedSetting->returnValueAsObject($valueAsObjectIfJson)->getValue();
-        } elseif (!empty($setting)) {
-            return $setting->returnValueAsObject($valueAsObjectIfJson)->value;
-        } else {
-            return $defaultValue;
+        try {
+            return Setting::findByAlias($alias);
+        } catch (\Exception $e) {
+            throw_if($throwIfNotFound, ModelNotFoundException::class, ...[Setting::class . " with alias {$alias} has not been found."]);
+            return null;
         }
     }
 
     /**
-     * Updates value of setting.
-     * If setting has not been found and parameter $createIfNotExists set to true, setting will be created.
-     * Otherwise, exception will be throwed
+     * Creates new setting section.
      *
-     * @param string $settingName
-     * @param $value
-     * @param bool $createIfNotExists
-     * @return Setting
+     * @param SettingSectionBuilder $settingSectionBuilder
      * @throws Throwable
+     * @return SettingSection
      */
-    public function setSetting(string $settingName, $value, bool $createIfNotExists = false) : Setting
+    public function createSection(SettingSectionBuilder $settingSectionBuilder): SettingSection
     {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSetting($section, $name, !$createIfNotExists);
-
-        if (!$setting) {
-            return $this->createSetting($settingName, $value);
-        } else {
-            $setting->value = $value;
-            $setting->saveOrFail();
-
-            return $setting;
-        }
+        $settingSectionBuilder->instance()->saveOrFail();
+        return $settingSectionBuilder->instance();
     }
 
     /**
-     * Updates value of overrided setting.
-     * If setting has not been found and parameter $createIfNotExists set to true, overrided setting and parent setting (if need) will be created.
-     * Otherwise, exception will be throwed
+     * Updates specified setting section.
      *
-     * @param string $settingName
-     * @param string $morphClass
-     * @param int $morphId
-     * @param $value
-     * @param bool $createIfNotExists
-     * @return Setting
-     * @throws Throwable
+     * @param SettingSectionBuilder $settingSectionBuilder
+     * @return SettingSection
      */
-    public function setSettingFor(string $settingName, string $morphClass, int $morphId, $value, bool $createIfNotExists = false) : Setting
+    public function updateSection(SettingSectionBuilder $settingSectionBuilder): SettingSection
     {
-        [$group, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSettingFor($group, $name, $morphClass, $morphId,!$createIfNotExists);
-
-        if (!$setting) {
-            return $this->createSettingFor($settingName, $morphClass, $morphId, $value);
-        } else {
-            $setting->value = $value;
-            $setting->saveOrFail();
-
-            return $setting;
-        }
+        $settingSectionBuilder->instance()->saveOrFail();
+        return $settingSectionBuilder->instance();
     }
 
     /**
-     * Creates new setting and saves it to the database
+     * Deletes specified setting section.
      *
-     * @param string $settingName
-     * @param $value
-     * @return Setting
-     * @throws Throwable
-     */
-    public function createSetting(string $settingName, $value) : Setting
-    {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = new Setting;
-        $setting->section()->associate($section);
-        $setting->name = $name;
-        $setting->value = $value;
-        $setting->saveOrFail();
-
-        return $setting;
-    }
-
-    /**
-     * Creates new overrided setting and parent setting (if need) and saves it to the database
-     *
-     * @param string $settingName
-     * @param string $morphClass
-     * @param int $morphId
-     * @param $value
-     * @return Setting
-     * @throws Throwable
-     */
-    public function createSettingFor(string $settingName, string $morphClass, int $morphId, $value) : Setting
-    {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $parentSetting = Setting::getSetting($section, $name);
-
-        if (!$parentSetting) {
-            $parentSetting = $this->setSetting($settingName, $value, true);
-        }
-
-        $overridedSetting = new Setting;
-        $overridedSetting->name = $name;
-        $overridedSetting->value = $value;
-        $overridedSetting->section()->associate($section);
-        $overridedSetting->setMorphClass($morphClass);
-        $overridedSetting->setMorphId($morphId);
-        $overridedSetting->parent()->associate($parentSetting);
-        $overridedSetting->saveOrFail();
-
-        return $overridedSetting;
-    }
-
-    /**
-     * Sets value of setting to null.
-     * If setting has not been found, SettingNotFoundException exception will be throwed
-     * If parameter $unsetForAllOverrided has been set to true, values of all overrided setting for this setting would be setting to null too.
-     *
-     * @param string $settingName
-     * @param bool $unsetForAllOverrides
+     * @param SettingSection $settingSection
      * @return bool
-     * @throws Throwable
      */
-    public function unsetSetting(string $settingName, bool $unsetForAllOverrides = false)
+    public function deleteSection(SettingSection $settingSection): bool
     {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSetting($section, $name, true);
-        $setting->value = null;
-        $setting->saveOrFail();
-
-        if ($unsetForAllOverrides) {
-            $overrides = $setting->children()->get();
-            foreach ($overrides as $override) {
-                $override->value = null;
-                $override->saveOrFail();
-            }
+        if (!$settingSection->delete()) {
+            throw new ModelNotDeletedException(SettingSection::class . " with id {$settingSection->id} has not been deleted");
         }
 
         return true;
     }
 
     /**
-     * Sets value of overrided setting to null.
-     * If setting has not been found, SettingNotFoundException exception will be throwed
+     * Finds and returns setting section using specified field.
      *
-     * @param string $settingName
-     * @param string $morphClass
-     * @param int $morphId
-     * @return bool
+     * @param string $value
+     * @param string|null $field
+     * @param bool $throwIfNotFound
+     * @return null|SettingSection
      * @throws Throwable
      */
-    public function unsetSettingFor(string $settingName, string $morphClass, int $morphId)
+    public function findSection(string $value, string $field = 'slug', bool $throwIfNotFound = true): ?SettingSection
     {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSettingFor($section, $name, $morphClass, $morphId, true);
-        $setting->value = null;
-        $setting->saveOrFail();
-
-        return true;
-    }
-
-    /**
-     * Removes setting from the database
-     * If parameter $forgetForAllOverrides has been set to true, all overrided setting for this setting would be deleted too.
-     *
-     * @param string $settingName
-     * @param bool $forgetForAllOverrides
-     * @return bool
-     * @throws Throwable
-     */
-    public function forgetSetting(string $settingName, bool $forgetForAllOverrides = false)
-    {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $setting = Setting::getSetting($section, $name);
-        if ($setting) {
-            $setting->delete();
-
-            if ($forgetForAllOverrides) {
-                $setting->children()->delete();
-            }
+        try {
+            return SettingSection::findBy($field, $value);
+        } catch (\Exception $e) {
+            throw_if($throwIfNotFound, ModelNotFoundException::class, ...[SettingSection::class . " with value \"{$value}\" in field {$field} has not been found."]);
+            return null;
         }
-
-        return true;
-    }
-
-    /**
-     * Removes overrided setting from the database for specified MorphClass and MorphId
-     *
-     * @param string $settingName
-     * @param string $morphClass
-     * @param int $morphId
-     * @return bool
-     * @throws Throwable
-     */
-    public function forgetSettingFor(string $settingName, string $morphClass, int $morphId)
-    {
-        [$section, $name] = $this->getSectionAndSettingName($settingName);
-        $overridedSetting = Setting::getSettingFor($section, $name, $morphClass, $morphId);
-        if ($overridedSetting) {
-            $overridedSetting->delete();
-        }
-
-        return true;
-    }
-
-    /**
-     * Explodes setting name by dot. If zero element exists, it will be section and other parts will be name of setting.
-     * Otherwise, if count of exploded elements more than one, section name will be set as null and setting name will return untouched
-     *
-     * @param string $settingName
-     * @return array [SettingSection $groupName, string $settingName]
-     * @throws Throwable
-     */
-    protected function getSectionAndSettingName(string $settingName)
-    {
-        $settingNameParts = explode('.', $settingName);
-        throw_if(count($settingNameParts) !== 2, SettingSectionNotFoundException::class, ...["Section slug has not been found in the setting next name \"{$settingName}\""]);
-        $section = SettingSection::findBy('slug', $settingNameParts[0]);
-        unset($settingNameParts[0]);
-        $settingName = implode('.', $settingNameParts);
-
-        return [
-            $section,
-            $settingName
-        ];
     }
 }

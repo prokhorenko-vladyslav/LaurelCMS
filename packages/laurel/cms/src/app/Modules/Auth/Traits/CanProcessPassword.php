@@ -13,6 +13,7 @@ use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\PasswordReset;
 use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Auth\Models\User;
+use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 
 /**
  * Trait CanProcessPassword
@@ -68,7 +69,7 @@ trait CanProcessPassword
     public function unlock(string $password)
     {
         if (
-            settingsModule()->setting('admin.lock_admin_panel')
+        cms()->module(SettingModuleContract::class)->findOrDefault('security.reset_code_expires_in_minutes', 15)
         ) {
             $user = Auth::user();
             $this->checkUserPassword($user, $password);
@@ -80,14 +81,14 @@ trait CanProcessPassword
 
     protected function resetLockTimeForToken(Token $token)
     {
-        $token->lock_at = now()->addMinutes(settingsModule()->setting('admin.lock_after_minutes', 15));
+        $token->lock_at = now()->addMinutes(cms()->module(SettingModuleContract::class)->findOrDefault('security.lock_admin_panel_after_minutes', 15));
         $token->saveOrFail();
     }
 
     public function getLockStatus() : ServiceResponse
     {
         if (
-        settingsModule()->setting('admin.lock_admin_panel')
+            cms()->module(SettingModuleContract::class)->findOrDefault('security.need_to_lock_admin_panel')
         ) {
             $user = Auth::user();
             if (now()->diffInMinutes($user->token()->lock_at, false) >= 0) {

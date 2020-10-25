@@ -4,10 +4,11 @@
 namespace Laurel\CMS\Modules\Settings\Models;
 
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * Model for setting sections.
@@ -49,7 +50,7 @@ class SettingSection extends Model
      */
     public function settings() : HasMany
     {
-        return $this->hasMany(Setting::class);
+        return $this->hasMany(Setting::class, 'section_id');
     }
 
 
@@ -69,7 +70,7 @@ class SettingSection extends Model
      * Overriding of parent delete method for deleting children settings.
      *
      * @return bool|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete()
     {
@@ -81,7 +82,7 @@ class SettingSection extends Model
      * Overriding of parent forceDelete method for deleting children settings.
      *
      * @return bool|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function forceDelete()
     {

@@ -3,10 +3,11 @@
 
 namespace Laurel\CMS\Modules\Settings\Models;
 
-use Illuminate\Database\Eloquent\{ Builder, Collection, Model };
+use Illuminate\Database\Eloquent\{ Builder, Model };
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laurel\CMS\Modules\Settings\Exceptions\{ SettingAlreadyExistsException, SettingNotFoundException };
-use Laurel\CMS\Modules\Settings\Traits\CanBeOverrided;
+use Laurel\CMS\Modules\Field\Models\Field;
+use Laurel\CMS\Modules\Settings\Exceptions\{SettingAliasIsIncorrect, SettingAlreadyExistsException};
+use Spatie\Translatable\HasTranslations;
 use Throwable;
 
 /**
@@ -21,17 +22,25 @@ use Throwable;
  * @property string|array|null $value Value of the setting
  * @property string $type Type of the setting
  * @property array|null $attributes Attributes of the setting
- * @property Setting|null $setting Parent setting, which has been overrided
  * @property SettingSection $section Setting section
  * @property int $section_id Setting section
- * @property int $settingable_id ID of the morph object
- * @property string $settingable_type Class of the morph object
- * @property Setting $parent Overrided setting
- * @property Setting[]|Collection $children Collection with setting overriding
  */
 class Setting extends Model
 {
-    use CanBeOverrided;
+    use HasTranslations;
+
+    /**
+     * Translatable attributes of the model.
+     *
+     * @var array|string[]
+     */
+    protected array $translatable = [
+        'name', 'description'
+    ];
+
+    protected $appends = [
+        'value'
+    ];
 
     /**
      * Return setting value as object (true) or as array (false)
@@ -47,47 +56,81 @@ class Setting extends Model
      */
     public function section() : BelongsTo
     {
-        return $this->belongsTo(SettingSection::class);
+        return $this->belongsTo(SettingSection::class, 'section_id');
+    }
+
+    public function field()
+    {
+        return $this->morphOne(Field::class, 'fieldable');
     }
 
     /**
-     * Return object of the setting. If it has not been found, exception SettingNotFoundException will be throwed
+     * Returns setting or throws exception.
      *
-     * @param string $section
-     * @param string $name
-     * @param bool $throwIfNotFound
-     * @return static|null
-     * @throws Throwable
+     * @param string $fieldName
+     * @param string $value
+     * @return Setting|null|Model
      */
-    public static function getSetting(string $section, string $name, bool $throwIfNotFound = false) : ?self
+    public static function findBy(string $fieldName, string $value) : Setting
     {
-        $setting = self::whereHas('section', function (Builder $sectionQuery) use ($section) {
-            $sectionQuery->where('slug', $section);
-        })->where('name', $name)->whereNull('setting_id')->first();
-        throw_if(!$setting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"{$section}.{$name}\" has not been found"]);
-
-        return $setting;
+        return self::query()->where($fieldName, $value)->firstOrFail();
     }
 
     /**
-     * Return object of the overrided setting. If it has not been found, exception SettingNotFoundException will be throwed
+     * Returns setting using its alias or throws exception.
      *
-     * @param string $section
-     * @param string $name
-     * @param string $morphClass
-     * @param int $morphId
-     * @param bool $throwIfNotFound
-     * @return static|null
+     * @param string $alias
+     * @return Builder|Model|Setting
+     */
+    public static function findByAlias(string $alias)
+    {
+        [ $sectionSlug, $settingSlug ] = self::explodeAlias($alias);
+        return self::query()->whereHas('section', function (Builder $sectionQuery) use ($sectionSlug) {
+            $sectionQuery->where('slug', $sectionSlug);
+        })->where('name', $settingSlug)->firstOrFail();
+    }
+
+    /**
+     * Returns setting or throws exception.
+     *
+     * @param Builder $query
+     * @param string $fieldName
+     * @param string $value
+     * @return Setting|null|Model
+     */
+    public function scopeFindBy(Builder $query, string $fieldName, string $value) : Setting
+    {
+        return $query->where($fieldName, $value)->firstOrFail();
+    }
+
+    /**
+     * Returns setting using its alias or throws exception.
+     *
+     * @param Builder $query
+     * @param string $alias
+     * @return Builder|Model|Setting
      * @throws Throwable
      */
-    public static function getSettingFor(string $section, string $name, string $morphClass, int $morphId, bool $throwIfNotFound = false) : ?self
+    public function scopeFindByAlias(Builder $query, string $alias)
     {
-        $overridedSetting = self::whereHas('section', function (Builder $sectionQuery) use ($section) {
-            $sectionQuery->where('slug', $section);
-        })->where('name', $name)->overrided($morphClass, $morphId)->first();
-        throw_if(!$overridedSetting && $throwIfNotFound, SettingNotFoundException::class, ...["Setting \"{$section}.{$name}\" has not been found"]);
+        [ $sectionSlug, $settingSlug ] = self::explodeAlias($alias);
+        return $query->whereHas('section', function (Builder $sectionQuery) use ($sectionSlug) {
+            $sectionQuery->where('slug', $sectionSlug);
+        })->where('name', $settingSlug)->firstOrFail();
+    }
 
-        return $overridedSetting;
+    /**
+     * Explodes alias to section slug and setting slug
+     *
+     * @param string $alias
+     * @return array
+     * @throws Throwable
+     */
+    protected static function explodeAlias(string $alias) : array
+    {
+        $parts = explode('.', $alias);
+        throw_if(count($parts) !== 2, SettingAliasIsIncorrect::class, ...["Setting alias \"{$alias}\" is invalid"]);
+        return $parts;
     }
 
     /**
@@ -112,7 +155,9 @@ class Setting extends Model
      */
     public function setValueAttribute($value)
     {
-        $this->attributes['value'] = is_object($value) || is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
+        if ($this->field) {
+            $this->field->value = is_object($value) || is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
+        }
         return $this;
     }
 
@@ -123,9 +168,13 @@ class Setting extends Model
      * @param $value
      * @return mixed
      */
-    public function getValueAttribute($value)
+    public function getValueAttribute()
     {
-        return valueIsJson($value) ? json_decode($value, !$this->valueAsObjectIfJson) : $value;
+        if ($this->field) {
+            return valueIsJson($this->field->value) ? json_decode($this->field->value, !$this->valueAsObjectIfJson) : $this->field->value;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -140,6 +189,9 @@ class Setting extends Model
     public function saveOrFail(array $options = [])
     {
         $this->checkDuplicates();
+        if ($this->field) {
+            $this->field->save();
+        }
         return parent::saveOrFail($options);
     }
 
@@ -154,6 +206,9 @@ class Setting extends Model
     public function save(array $options = [])
     {
         $this->checkDuplicates();
+        if ($this->field) {
+            $this->field->save();
+        }
         return parent::save($options);
     }
 
@@ -166,7 +221,7 @@ class Setting extends Model
     {
         if (!$this->exists) {
             throw_if(
-                $this->isOverriding ? self::getSettingFor($this->section->name, $this->name, $this->getMorphClass(), $this->getMorphId()) : self::getSetting($this->section->name, $this->name),
+                self::query()->where('section_id', $this->section->id)->where('slug', $this->slug)->exists(),
                 SettingAlreadyExistsException::class,
                 ...["Setting \"$this->name\" already exists in section \"{$this->section->name}\""]);
         }
