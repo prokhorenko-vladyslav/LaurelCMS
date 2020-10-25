@@ -21,6 +21,8 @@
         'modules_api_name' => 'api.modules.',
 
         'modules' => [
+            \Laurel\CMS\Modules\Field\Contracts\FieldModuleContract::class => \Laurel\CMS\Modules\Field\FieldModule::class,
+
             \Laurel\CMS\Modules\Auth\Contracts\AuthModuleContract::class => \Laurel\CMS\Modules\Auth\AuthModule::class,
 
             \Laurel\CMS\Modules\Files\Contracts\FilesModuleContract::class => \Laurel\CMS\Modules\Files\FilesModule::class,

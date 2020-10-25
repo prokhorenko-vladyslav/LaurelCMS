@@ -5,6 +5,7 @@ namespace Laurel\CMS\Modules\Settings\Models;
 
 use Illuminate\Database\Eloquent\{ Builder, Model };
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laurel\CMS\Modules\Field\Models\Field;
 use Laurel\CMS\Modules\Localization\Traits\HasTranslations;
 use Laurel\CMS\Modules\Settings\Exceptions\{SettingAliasIsIncorrect, SettingAlreadyExistsException};
 use Throwable;
@@ -37,6 +38,10 @@ class Setting extends Model
         'name', 'description'
     ];
 
+    protected $appends = [
+        'value'
+    ];
+
     /**
      * Return setting value as object (true) or as array (false)
      *
@@ -52,6 +57,11 @@ class Setting extends Model
     public function section() : BelongsTo
     {
         return $this->belongsTo(SettingSection::class, 'section_id');
+    }
+
+    public function field()
+    {
+        return $this->morphOne(Field::class, 'fieldable');
     }
 
     /**
@@ -145,7 +155,9 @@ class Setting extends Model
      */
     public function setValueAttribute($value)
     {
-        $this->attributes['value'] = is_object($value) || is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
+        if ($this->field) {
+            $this->field->value = is_object($value) || is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
+        }
         return $this;
     }
 
@@ -156,9 +168,13 @@ class Setting extends Model
      * @param $value
      * @return mixed
      */
-    public function getValueAttribute($value)
+    public function getValueAttribute()
     {
-        return valueIsJson($value) ? json_decode($value, !$this->valueAsObjectIfJson) : $value;
+        if ($this->field) {
+            return valueIsJson($this->field->value) ? json_decode($this->field->value, !$this->valueAsObjectIfJson) : $this->field->value;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -173,6 +189,10 @@ class Setting extends Model
     public function saveOrFail(array $options = [])
     {
         $this->checkDuplicates();
+        if ($this->field) {
+            $this->field->save();
+        }
+        $this->encodeTranslatableAttributes();
         return parent::saveOrFail($options);
     }
 
@@ -187,6 +207,10 @@ class Setting extends Model
     public function save(array $options = [])
     {
         $this->checkDuplicates();
+        if ($this->field) {
+            $this->field->save();
+        }
+        $this->encodeTranslatableAttributes();
         return parent::save($options);
     }
 

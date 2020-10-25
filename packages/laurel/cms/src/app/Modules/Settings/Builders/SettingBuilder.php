@@ -3,8 +3,6 @@
 
 namespace Laurel\CMS\Modules\Settings\Builders;
 
-
-use Laurel\CMS\Abstracts\Field;
 use Laurel\CMS\Modules\Settings\Models\Setting;
 use Laurel\CMS\Modules\Settings\Models\SettingSection;
 
@@ -114,18 +112,6 @@ class SettingBuilder
     public function setSection(SettingSection $section)
     {
         $this->instance->section()->associate($section);
-        return $this;
-    }
-
-    /**
-     * Setter for setting type.
-     *
-     * @param string $type
-     * @return $this
-     */
-    public function setType(string $type)
-    {
-        $this->instance->type = Field::getClassByType($type);
         return $this;
     }
 

@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Laurel\CMS\Fields;
+namespace Laurel\CMS\Modules\Field\Fields;
 
 
-use Laurel\CMS\Abstracts\Field;
+use Laurel\CMS\Modules\Field\Abstracts\FieldType;
 
-class RadioButtonField extends Field
+class InputField extends FieldType
 {
 
     /**

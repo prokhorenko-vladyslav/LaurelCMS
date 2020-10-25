@@ -21,8 +21,11 @@
                     "en" : "Input site name"
                 },
                 "slug" : "site_name",
-                "value" : "",
+                "value" : "Test value",
                 "type" : "input",
+                "positions" : [
+                    "cms.dashboard.settings"
+                ],
                 "attributes" : {
                     "placeholder" : {
                         "ru" : "Введите название сайта",
@@ -45,6 +48,9 @@
                 "slug" : "test_field",
                 "value" : "",
                 "type" : "checkbox",
+                "positions" : [
+                    "cms.dashboard.settings"
+                ],
                 "attributes" : {
                     "checked" : true
                 }

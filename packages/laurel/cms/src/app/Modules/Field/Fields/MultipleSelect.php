@@ -1,13 +1,14 @@
 <?php
 
 
-namespace Laurel\CMS\Fields;
+namespace Laurel\CMS\Modules\Field\Fields;
 
 
-use Laurel\CMS\Abstracts\Field;
+use Laurel\CMS\Modules\Field\Abstracts\FieldType;
 
-class SelectField extends Field
+class MultipleSelect extends FieldType
 {
+
     /**
      * Creates array with field data.
      *
