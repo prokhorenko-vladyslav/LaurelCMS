@@ -1,7 +1,8 @@
 <template>
     <div class="container-fluid p-0">
-            <admin-preloader></admin-preloader>
+        <admin-preloader></admin-preloader>
         <router-view></router-view>
+        <notifications group="default" position="bottom right"/>
     </div>
 </template>
 

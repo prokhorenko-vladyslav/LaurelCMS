@@ -165,9 +165,10 @@ return [
         /*
          * Package Service Providers...
          */
-        //\Laurel\Menu\App\Providers\MenuServiceProvider::class,
-        ...\Laurel\CMS\LaurelCMS::instance()->getServiceProviders(),
-        \Illuminate\Notifications\SlackChannelServiceProvider::class,
+        Laurel\MultiRoute\App\Providers\MultiRouteServiceProvider::class,
+        Laurel\Menu\App\Providers\MenuServiceProvider::class,
+        ...Laurel\CMS\LaurelCMS::instance()->getServiceProviders(),
+        //\Illuminate\Notifications\SlackChannelServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from 'vuex'
 //import modules from './modules';
 import Auth from "./modules/Auth";
+import Page from "./modules/Page";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,9 @@ export default new Vuex.Store({
         setLoaded : (state, loaded) => state.loaded = !!loaded
     },
     actions: {
+        getToken: async ({ getters }) => {
+            return await getters['Admin/Auth/getToken'];
+        },
         setLoadingStatus: async ({ commit }, loadingStatus) => {
             loadingStatus = !!loadingStatus;
             if (loadingStatus) {
@@ -36,7 +40,8 @@ export default new Vuex.Store({
         Admin : {
             namespaced : true,
             modules : {
-                Auth
+                Auth,
+                Page
             }
         }
     }

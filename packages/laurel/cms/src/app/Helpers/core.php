@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Laurel\CMS\Core\Responses\ServiceResponse;
 use Laurel\CMS\LaurelCMS;
+use Laurel\CMS\Modules\Notification\Types\ErrorNotification;
 
 /**
  * Checks value and return true, if it seems like json
@@ -18,9 +20,9 @@ if (!function_exists('valuesIsJson')) {
 }
 
 if (!function_exists('serviceResponse')) {
-    function serviceResponse(int $code, bool $status, string $alias, array $data = [], string $message = '')
+    function serviceResponse(int $code, bool $status, string $alias, $data = [], $notifications = [])
     {
-        return new ServiceResponse($code, $status, $alias, $data, $message);
+        return new ServiceResponse($code, $status, $alias, $data, $notifications);
     }
 }
 
@@ -28,5 +30,18 @@ if (!function_exists('cms')) {
     function cms() : LaurelCMS
     {
         return LaurelCMS::instance();
+    }
+}
+
+if (!function_exists('logAndSendServerError')) {
+    function logAndSendServerError(string $logMessage)
+    {
+        Log::critical($logMessage, debug_backtrace());
+        return serviceResponse(
+            500, false, 'server_error', [],
+            new ErrorNotification(
+                env('APP_DEBUG') ? $logMessage : __('errors.server_error')
+            )
+        )->respond();
     }
 }

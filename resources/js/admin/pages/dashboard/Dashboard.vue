@@ -1,7 +1,6 @@
 <template>
     <dashboard-layout layoutClass="dashboard">
         Main
-        <notifications group="foo" />
     </dashboard-layout>
 </template>
 
