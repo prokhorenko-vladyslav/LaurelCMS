@@ -29,7 +29,7 @@
 
             \Laurel\CMS\Modules\Localization\Contracts\LocalizationModuleContract::class => \Laurel\CMS\Modules\Localization\LocalizationModule::class,
 
-            \Laurel\CMS\Modules\Notification\Contracts\NotificationsModuleContract::class => \Laurel\CMS\Modules\Notification\NotificationsModule::class,
+            \Laurel\CMS\Modules\Notification\Contracts\NotificationModuleContract::class => \Laurel\CMS\Modules\Notification\NotificationModule::class,
 
             \Laurel\CMS\Modules\Page\Contracts\PageModuleContract::class => \Laurel\CMS\Modules\Page\PageModule::class,
 

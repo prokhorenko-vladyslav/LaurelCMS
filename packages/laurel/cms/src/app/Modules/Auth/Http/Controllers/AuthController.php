@@ -19,6 +19,9 @@ use Laurel\CMS\Modules\Auth\Http\Requests\{CheckTokenRequest,
 };
 use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Services\AuthService;
+use Laurel\CMS\Modules\Notification\Types\ErrorNotification;
+use Laurel\CMS\Modules\Notification\Types\InfoNotification;
+use Laurel\CMS\Modules\Notification\Types\WarningNotification;
 
 class AuthController
 {
@@ -34,8 +37,7 @@ class AuthController
         try {
             return $this->authService->checkToken()->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -52,19 +54,21 @@ class AuthController
                 $request->validated()['login']
             )->respond();
         } catch (IpAddressIsBlockedException $e) {
-            return serviceResponse(403, false, 'admin.auth.ip_address_blocked', [], "Ip address " . Request::ip() . " has been blocked")->respond();
+            return serviceResponse(403, false, 'admin.auth.ip_address_blocked', [], new ErrorNotification("Ip address " . Request::ip() . " has been blocked"))->respond();
         } catch (Exception $e) {
-            return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
+            return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], new WarningNotification('User with this credentials has not been founded'))->respond();
         }
     }
 
     public function sendIpConfirmMail(SendIpConfirmMailRequest $request)
     {
         try {
-            return $this->authService->sendIpConfirmMail($request->input('login'))->setMessage('Mail with ip confirmation code has been sent')->respond();
+            return $this->authService
+                ->sendIpConfirmMail($request->input('login'))
+                ->addNotification(new InfoNotification('Mail with ip confirmation code has been sent'))
+                ->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -77,8 +81,7 @@ class AuthController
                 $request->input('code'),
             )->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -89,8 +92,7 @@ class AuthController
                 $request->input('login')
             )->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -98,13 +100,12 @@ class AuthController
     {
         try {
             return $this->authService->resetPassword(
-            $request->input('login'),
-            $request->input('token'),
-            $request->input('new_password'),
-        )->respond();
+                $request->input('login'),
+                $request->input('token'),
+                $request->input('new_password'),
+            )->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -117,8 +118,7 @@ class AuthController
         } catch (PasswordIncorrectException $e) {
             return serviceResponse(401, false, 'admin.auth.incorrect_credentials', [], 'User with this credentials has not been founded')->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 
@@ -127,8 +127,7 @@ class AuthController
         try {
             return $this->authService->getLockStatus()->respond();
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return serviceResponse(500, false, 'server_error')->respond();
+            return logAndSendServerError($e->getMessage());
         }
     }
 }

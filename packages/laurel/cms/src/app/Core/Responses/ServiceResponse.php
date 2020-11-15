@@ -4,21 +4,26 @@
 namespace Laurel\CMS\Core\Responses;
 
 
+use Illuminate\Support\Collection;
+use Laurel\CMS\Modules\Notification\Abstracts\Notification;
+use Laurel\CMS\Modules\Notification\Exceptions\InvalidNotificationTypeException;
+
 class ServiceResponse
 {
     protected int $code;
     protected bool $status;
     protected string $alias;
     protected array $data;
-    protected string $message;
+    protected Collection $notifications;
 
-    public function __construct(int $code, bool $status, string $alias, array $data = [], string $message = '')
+    public function __construct(int $code, bool $status, string $alias, array $data = [], $notifications = [])
     {
         $this->code = $code;
         $this->status = $status;
         $this->alias = $alias;
         $this->data = $data;
-        $this->message = $message;
+        $this->notifications = collect([]);
+        $this->addNotification($notifications);
     }
 
     public function getCode() : int
@@ -41,14 +46,20 @@ class ServiceResponse
         return $this->data;
     }
 
-    public function getMessage() : string
+    public function getNotifications() : Collection
     {
-        return $this->message;
+        return $this->notifications;
     }
 
-    public function setMessage(string $message)
+    public function addNotification($notifications = []) : self
     {
-        $this->message = $message;
+        if (!is_array($notifications)) {
+            $notifications = [$notifications];
+        }
+        foreach ($notifications as $notificationItem) {
+            throw_if(!$notificationItem instanceof Notification, InvalidNotificationTypeException::class, ...[get_class($notificationItem)]);
+            $this->notifications->push($notificationItem);
+        }
         return $this;
     }
 
@@ -59,7 +70,7 @@ class ServiceResponse
             'status' => $this->status,
             'alias' => $this->alias,
             'data' => $this->data,
-            'message' => $this->message
+            'notifications' => $this->notifications->toArray()
         ];
     }
 
