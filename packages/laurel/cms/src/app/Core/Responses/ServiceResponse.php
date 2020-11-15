@@ -57,7 +57,7 @@ class ServiceResponse
             $notifications = [$notifications];
         }
         foreach ($notifications as $notificationItem) {
-            throw_if(!$notificationItem instanceof Notification, InvalidNotificationTypeException::class, ...[get_class($notificationItem)]);
+            throw_if(!$notificationItem instanceof Notification, InvalidNotificationTypeException::class, ...[ gettype($notificationItem) === 'object' ? get_class($notificationItem) : gettype($notificationItem) ]);
             $this->notifications->push($notificationItem);
         }
         return $this;

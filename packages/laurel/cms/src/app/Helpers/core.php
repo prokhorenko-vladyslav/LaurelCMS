@@ -37,6 +37,11 @@ if (!function_exists('logAndSendServerError')) {
     function logAndSendServerError(string $logMessage)
     {
         Log::critical($logMessage, debug_backtrace());
-        return serviceResponse(500, false, 'server_error', [], new ErrorNotification(__('errors.server_error')))->respond();
+        return serviceResponse(
+            500, false, 'server_error', [],
+            new ErrorNotification(
+                env('APP_DEBUG') ? $logMessage : __('errors.server_error')
+            )
+        )->respond();
     }
 }

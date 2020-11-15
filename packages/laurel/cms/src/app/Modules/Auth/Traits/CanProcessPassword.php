@@ -13,6 +13,9 @@ use Laurel\CMS\Modules\Auth\Exceptions\PasswordIncorrectException;
 use Laurel\CMS\Modules\Auth\Models\PasswordReset;
 use Laurel\CMS\Modules\Auth\Models\Token;
 use Laurel\CMS\Modules\Auth\Models\User;
+use Laurel\CMS\Modules\Notification\Types\ErrorNotification;
+use Laurel\CMS\Modules\Notification\Types\SuccessNotification;
+use Laurel\CMS\Modules\Notification\Types\WarningNotification;
 use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 
 /**
@@ -46,10 +49,10 @@ trait CanProcessPassword
             if ($token) {
                 Mail::to($user->email)->send(new PasswordResetMail($token));
             }
-            return serviceResponse(200, true, 'auth.email_for_reset_password_sent', [], 'Email with reset password code has been sent');
+            return serviceResponse(200, true, 'auth.email_for_reset_password_sent', [], new SuccessNotification(__('auth.email_with_reset_password_code_sent')));
         }
 
-        return serviceResponse(500, false, 'auth.email_for_reset_password_not_sent', [], 'Email with reset password code has not been sent. Try again later');
+        return serviceResponse(500, false, 'auth.email_for_reset_password_not_sent', [], new WarningNotification(__('auth.email_for_reset_password_not_sent')));
     }
 
     public function resetPassword(string $email, string $token, string $newPassword)
@@ -60,10 +63,10 @@ trait CanProcessPassword
             Password::deleteToken($user);
             $user->password = bcrypt($newPassword);
             $user->save();
-            return serviceResponse(200, true, 'auth.password_changed', [], 'Password changed');
+            return serviceResponse(200, true, 'auth.password_changed', [], new SuccessNotification(__('auth.password_changed')));
         }
 
-        return serviceResponse(500, false, 'auth.token_has_not_been_founded', [], 'Token has not been found or is expired');
+        return serviceResponse(500, false, 'auth.token_has_not_been_founded', [], new WarningNotification(__('auth.token_not_found_or_expired')));
     }
 
     public function unlock(string $password)
@@ -76,7 +79,7 @@ trait CanProcessPassword
             $this->resetLockTimeForToken($user->token());
         }
 
-        return serviceResponse(200, true, 'auth.account_unlocked', [], 'Account unlocked');
+        return serviceResponse(200, true, 'auth.account_unlocked', [], new SuccessNotification(__('auth.unlocked')));
     }
 
     protected function resetLockTimeForToken(Token $token)
@@ -92,12 +95,12 @@ trait CanProcessPassword
         ) {
             $user = Auth::user();
             if (now()->diffInMinutes($user->token()->lock_at, false) >= 0) {
-                return serviceResponse(200, true, 'auth.account_not_locked', [], 'Account not locked');
+                return serviceResponse(200, true, 'auth.account_not_locked', []);
             } else {
-                return serviceResponse(401, false, 'auth.account_locked', [], 'Account locked');
+                return serviceResponse(401, false, 'auth.account_locked', [], new WarningNotification(__('auth.locked')));
             }
         } else {
-            return serviceResponse(200, true, 'auth.account_not_locked', [], 'Account not locked');
+            return serviceResponse(200, true, 'auth.account_not_locked', []);
         }
     }
 }
