@@ -4,6 +4,7 @@
 namespace Laurel\CMS\Core\Responses;
 
 
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use Laurel\CMS\Modules\Notification\Abstracts\Notification;
 use Laurel\CMS\Modules\Notification\Exceptions\InvalidNotificationTypeException;
@@ -13,10 +14,10 @@ class ServiceResponse
     protected int $code;
     protected bool $status;
     protected string $alias;
-    protected array $data;
+    protected $data;
     protected Collection $notifications;
 
-    public function __construct(int $code, bool $status, string $alias, array $data = [], $notifications = [])
+    public function __construct(int $code, bool $status, string $alias, $data = [], $notifications = [])
     {
         $this->code = $code;
         $this->status = $status;
@@ -41,7 +42,7 @@ class ServiceResponse
         return $this->alias;
     }
 
-    public function getData() : array
+    public function getData()
     {
         return $this->data;
     }
@@ -65,13 +66,20 @@ class ServiceResponse
 
     public function toArray() : array
     {
-        return [
+        $responseData = [
             'code' => $this->code,
             'status' => $this->status,
             'alias' => $this->alias,
-            'data' => $this->data,
             'notifications' => $this->notifications->toArray()
         ];
+
+        if ($this->data instanceof ResourceCollection) {
+            $responseData = array_merge($responseData, $this->data->response()->getData(true));
+        } else {
+            $responseData['data'] = $this->data;
+        }
+
+        return $responseData;
     }
 
     public function respond(array $headers = [], $options = 0)

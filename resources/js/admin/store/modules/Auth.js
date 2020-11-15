@@ -16,7 +16,7 @@ export default {
         setIpAddress: (state, ipAddress) => state.ipAddress = ipAddress,
     },
     getters: {
-
+        getToken: (state) => state.token,
     },
     actions: {
         async loadTokenFromLocalStorage({ dispatch }) {

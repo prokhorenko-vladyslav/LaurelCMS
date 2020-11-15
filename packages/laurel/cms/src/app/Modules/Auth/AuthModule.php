@@ -18,7 +18,7 @@ class AuthModule implements AuthModuleContract
     {
         Route::name('api.modules.auth.')
             ->namespace('\\Laurel\\CMS\\Modules\\Auth\\Http\\Controllers\\')
-            ->prefix('auth')
+            ->prefix('modules/auth')
             ->group(function() {
                 Route::post('login', 'AuthController@login')->name('login');
 

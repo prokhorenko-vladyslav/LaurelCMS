@@ -4,234 +4,60 @@
             <thead>
                 <tr>
                     <th><checkbox-field :value="false"></checkbox-field></th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Member</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>Заголовок</th>
+                    <th>Алиас</th>
+                    <th>Статус</th>
+                    <th>Автор</th>
+                    <th>Родитель</th>
+                    <th>Просмотрено</th>
+                    <th>Создано/Обновлено</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="row in rows">
-                    <td v-for="column in row">{{ column.title }}</td>
+                    <td><checkbox-field :value="false"></checkbox-field></td>
+                    <td v-for="column in row">{{ column }}</td>
+                    <td><checkbox-field :value="false"></checkbox-field></td>
                 </tr>
             </tbody>
         </table>
+        <pagination :pagesCount="pagination.last_page"
+                    :currentPage="pagination.current_page"
+                    @pageChanging="emitPageChanging"
+                    @limitChanging="emitPageChanging"
+        ></pagination>
     </div>
 </template>
 
 <script>
     import CheckboxField from "./CheckboxField";
+    import Pagination from "./Pagination";
 
     export default {
         name: "ExtendedTable",
         components : {
-            CheckboxField
+            CheckboxField,
+            Pagination
+        },
+        props : {
+            rows : {
+                type : Array,
+                default: () => []
+            },
+            pagination : {
+                type : Object,
+                default: () => {}
+            }
         },
         data: () => ({
-            rows : [
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ],
-                [
-                    {
-                        title : ''
-                    },
-                    {
-                        title : 'Music'
-                    },
-                    {
-                        title : '11/04/2019'
-                    },
-                    {
-                        title : 'Photo'
-                    },
-                    {
-                        title : 'Success'
-                    },
-                    {
-                        title : 'Action'
-                    }
-                ]
-            ]
-        })
+
+        }),
+        methods: {
+            emitPageChanging(page, limit) {
+                this.$emit('pageChanging', page, limit);
+            }
+        }
     }
 </script>
 

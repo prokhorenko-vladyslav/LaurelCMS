@@ -1,4 +1,5 @@
 import Auth from './modules/Auth';
+import Page from './modules/Page';
 
 
 export default {
@@ -6,7 +7,8 @@ export default {
     Admin : {
         namespaced: true,
         modules : {
-            Auth
+            Auth,
+            Page
         }
     }
 }

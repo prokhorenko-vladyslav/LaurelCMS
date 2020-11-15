@@ -32,11 +32,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'second_name', 'email', 'password',
     ];
 
     protected array $translatable = [
-        'name'
+        'first_name', 'last_name', 'second_name'
     ];
 
     /**
@@ -61,6 +61,15 @@ class User extends Authenticatable
     protected $dates = [
         'blocked_at', 'blocked_until'
     ];
+
+    protected $appends = [
+        'full_name'
+    ];
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->last_name} {$this->first_name} {$this->second_name}";
+    }
 
     public function routeNotificationForSlack($notification)
     {

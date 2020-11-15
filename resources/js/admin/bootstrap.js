@@ -1,7 +1,18 @@
+import store from "./store/store";
+
 window._ = require('lodash');
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.interceptors.request.use(function (config) {
+    if (store.getters["Admin/Auth/getToken"]) {
+        config.headers.Authorization = `Bearer ${store.getters["Admin/Auth/getToken"]}`;
+    }
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+
 window.axios.interceptors.response.use(function (response) {
     if (response.data.notifications) {
         showNotifications(response.data.notifications);

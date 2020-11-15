@@ -78,15 +78,28 @@
         components: {
             vueCustomScrollbar
         },
-        data: () => ({
-            scrollbarSettings: {
-                suppressScrollY: false,
-                suppressScrollX: false,
-                wheelPropagation: false
+        props: {
+            defaultValue : {}
+        },
+        data() {
+            return {
+                scrollbarSettings: {
+                    suppressScrollY: false,
+                    suppressScrollX: false,
+                    wheelPropagation: false
+                },
+                dropdownVisible : false,
+                value : this.defaultValue
+            }
+        },
+        watch: {
+            defaultValue() {
+                this.value = this.defaultValue;
             },
-            dropdownVisible : false,
-            value : null
-        }),
+            value() {
+                this.$emit('input', this.value);
+            }
+        },
         methods: {
             showDropdown() {
                 this.dropdownVisible = true;

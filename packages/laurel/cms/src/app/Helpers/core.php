@@ -20,7 +20,7 @@ if (!function_exists('valuesIsJson')) {
 }
 
 if (!function_exists('serviceResponse')) {
-    function serviceResponse(int $code, bool $status, string $alias, array $data = [], $notifications = [])
+    function serviceResponse(int $code, bool $status, string $alias, $data = [], $notifications = [])
     {
         return new ServiceResponse($code, $status, $alias, $data, $notifications);
     }
