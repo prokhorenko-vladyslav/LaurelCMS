@@ -26,6 +26,10 @@ Route::group([
     'prefix' => 'admin',
     'name' => 'admin.'
 ], function () {
+    Route::get('', function () {
+        return view('admin.master');
+    });
+
     Route::get('/login', function () {
         return view('admin.master');
     });
@@ -36,10 +40,6 @@ Route::group([
         return view('admin.master');
     });
     Route::get('/lock', function () {
-        return view('admin.master');
-    });
-
-    Route::get('/dashboard', function () {
         return view('admin.master');
     });
 
