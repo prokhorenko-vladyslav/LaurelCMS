@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Laurel\CMS\Modules\Auth\Contracts;
+namespace Laurel\CMS\Modules\Post\Contracts;
 
 
-interface PageServiceContract
+interface PostServiceContract
 {
     public function fetch(?int $limit = null);
 

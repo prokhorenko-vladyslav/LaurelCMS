@@ -1,24 +1,24 @@
 <?php
 
 
-namespace Laurel\CMS\Modules\Page\Services;
+namespace Laurel\CMS\Modules\Post\Services;
 
 
 use Exception;
-use Laurel\CMS\Modules\Page\Contracts\PageServiceContract;
-use Laurel\CMS\Modules\Page\Models\Page;
+use Laurel\CMS\Modules\Post\Models\Post;
+use Laurel\CMS\Modules\Post\Contracts\PostServiceContract;
 
-class PageService implements PageServiceContract
+class PostService implements PostServiceContract
 {
     public function fetch(?int $limit = null, bool $onlyTrashed = false)
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Post::onlyTrashed() : Post::withoutTrashed();
         return $query->paginate($limit ?? 10);
     }
 
-    public function find(int $id, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Page
+    public function find(int $id, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Post
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Post::onlyTrashed() : Post::withoutTrashed();
         if ($throwIfNotFound) {
             return $query->findOrFail($id);
         } else {
@@ -26,9 +26,9 @@ class PageService implements PageServiceContract
         }
     }
 
-    public function findBy(string $field, $value, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Page
+    public function findBy(string $field, $value, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Post
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Post::onlyTrashed() : Post::withoutTrashed();
         $query = $query->where($field,$value);
         if ($throwIfNotFound) {
             return $query->firstOrFail();
@@ -44,7 +44,7 @@ class PageService implements PageServiceContract
     )
     {
         return $this->buildAndSave(
-            new Page, $title, $text, $attributes, $views,
+            new Post, $title, $text, $attributes, $views,
             $seoTitle, $seoDescription, $seoKeywords, $seoRobotsTxt
         );
     }
@@ -55,50 +55,50 @@ class PageService implements PageServiceContract
         ?string $seoRobotsTxt = null
     )
     {
-        $page = $this->find($id, true);
+        $post = $this->find($id, true);
         return $this->buildAndSave(
-            $page, $title, $text, $attributes, $views,
+            $post, $title, $text, $attributes, $views,
             $seoTitle, $seoDescription, $seoKeywords, $seoRobotsTxt
         );
     }
 
-    public function destroy(int $id) : Page
+    public function destroy(int $id) : Post
     {
-        $page = $this->find($id, true);
-        if (!$page->delete()) {
-            throw new Exception(__('modules/page.destroy.fail'));
+        $post = $this->find($id, true);
+        if (!$post->delete()) {
+            throw new Exception(__('modules/post.destroy.fail'));
         }
 
-        return $page;
+        return $post;
     }
 
-    public function restore(int $id) : Page
+    public function restore(int $id) : Post
     {
-        $page = $this->find($id, true, true);
-        if (!$page->restore()) {
-            throw new Exception(__('modules/page.restore.fail'));
+        $post = $this->find($id, true, true);
+        if (!$post->restore()) {
+            throw new Exception(__('modules/post.restore.fail'));
         }
 
-        return $page;
+        return $post;
     }
 
     public function forceDestroy(int $id)
     {
-        $page = $this->find($id, true, true);
-        if (!$page->forceDelete()) {
-            throw new Exception(__('modules/page.force_destroy.fail'));
+        $post = $this->find($id, true, true);
+        if (!$post->forceDelete()) {
+            throw new Exception(__('modules/post.force_destroy.fail'));
         }
 
-        return $page;
+        return $post;
     }
 
     protected function buildAndSave(
-        Page $page, string $title, string $text, array $attributes = [], int $views = 0,
+        Post $post, string $title, string $text, array $attributes = [], int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
-    )
+    ) : Post
     {
-        $page->fill([
+        $post->fill([
             'title' => $title,
             'text' => $text,
             'attributes' => $attributes,
@@ -108,8 +108,8 @@ class PageService implements PageServiceContract
             'seo_keywords' => $seoKeywords,
             'seo_robots_txt' => $seoRobotsTxt,
         ]);
-        $page->saveOrFail();
+        $post->saveOrFail();
 
-        return $page;
+        return $post;
     }
 }

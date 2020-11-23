@@ -4,7 +4,7 @@
 namespace Laurel\CMS\Modules\Page;
 
 use Illuminate\Support\Facades\Route;
-use Laurel\CMS\Modules\Auth\Contracts\PageServiceContract;
+use Laurel\CMS\Modules\Page\Contracts\PageServiceContract;
 use Laurel\CMS\Modules\Page\Contracts\PageModuleContract;
 use Laurel\CMS\Modules\Page\Http\Controllers\PageController;
 use Laurel\CMS\Modules\Page\Services\PageService;

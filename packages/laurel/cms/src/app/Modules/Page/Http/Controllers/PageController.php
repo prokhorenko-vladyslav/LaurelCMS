@@ -16,7 +16,7 @@ use Laurel\CMS\Modules\Page\Http\Requests\{BrowsePages,
     UpdatePage};
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laurel\CMS\Modules\Auth\Contracts\PageServiceContract;
+use Laurel\CMS\Modules\Page\Contracts\PageServiceContract;
 use Laurel\CMS\Modules\Notification\Types\SuccessNotification;
 use Laurel\CMS\Modules\Notification\Types\WarningNotification;
 use Laurel\CMS\Modules\Page\Http\Resources\PageResource;

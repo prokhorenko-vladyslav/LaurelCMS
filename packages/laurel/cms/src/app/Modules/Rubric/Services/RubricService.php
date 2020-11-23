@@ -1,24 +1,24 @@
 <?php
 
 
-namespace Laurel\CMS\Modules\Page\Services;
+namespace Laurel\CMS\Modules\Rubric\Services;
 
 
 use Exception;
-use Laurel\CMS\Modules\Page\Contracts\PageServiceContract;
-use Laurel\CMS\Modules\Page\Models\Page;
+use Laurel\CMS\Modules\Rubric\Contracts\RubricServiceContract;
+use Laurel\CMS\Modules\Rubric\Models\Rubric;
 
-class PageService implements PageServiceContract
+class RubricService implements RubricServiceContract
 {
     public function fetch(?int $limit = null, bool $onlyTrashed = false)
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Rubric::onlyTrashed() : Rubric::withoutTrashed();
         return $query->paginate($limit ?? 10);
     }
 
-    public function find(int $id, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Page
+    public function find(int $id, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Rubric
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Rubric::onlyTrashed() : Rubric::withoutTrashed();
         if ($throwIfNotFound) {
             return $query->findOrFail($id);
         } else {
@@ -26,9 +26,9 @@ class PageService implements PageServiceContract
         }
     }
 
-    public function findBy(string $field, $value, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Page
+    public function findBy(string $field, $value, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Rubric
     {
-        $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
+        $query = $onlyTrashed ? Rubric::onlyTrashed() : Rubric::withoutTrashed();
         $query = $query->where($field,$value);
         if ($throwIfNotFound) {
             return $query->firstOrFail();
@@ -44,7 +44,7 @@ class PageService implements PageServiceContract
     )
     {
         return $this->buildAndSave(
-            new Page, $title, $text, $attributes, $views,
+            new Rubric, $title, $text, $attributes, $views,
             $seoTitle, $seoDescription, $seoKeywords, $seoRobotsTxt
         );
     }
@@ -55,50 +55,50 @@ class PageService implements PageServiceContract
         ?string $seoRobotsTxt = null
     )
     {
-        $page = $this->find($id, true);
+        $rubric = $this->find($id, true);
         return $this->buildAndSave(
-            $page, $title, $text, $attributes, $views,
+            $rubric, $title, $text, $attributes, $views,
             $seoTitle, $seoDescription, $seoKeywords, $seoRobotsTxt
         );
     }
 
-    public function destroy(int $id) : Page
+    public function destroy(int $id) : Rubric
     {
-        $page = $this->find($id, true);
-        if (!$page->delete()) {
-            throw new Exception(__('modules/page.destroy.fail'));
+        $rubric = $this->find($id, true);
+        if (!$rubric->delete()) {
+            throw new Exception(__('modules/rubric.destroy.fail'));
         }
 
-        return $page;
+        return $rubric;
     }
 
-    public function restore(int $id) : Page
+    public function restore(int $id) : Rubric
     {
-        $page = $this->find($id, true, true);
-        if (!$page->restore()) {
-            throw new Exception(__('modules/page.restore.fail'));
+        $rubric = $this->find($id, true, true);
+        if (!$rubric->restore()) {
+            throw new Exception(__('modules/rubric.restore.fail'));
         }
 
-        return $page;
+        return $rubric;
     }
 
     public function forceDestroy(int $id)
     {
-        $page = $this->find($id, true, true);
-        if (!$page->forceDelete()) {
-            throw new Exception(__('modules/page.force_destroy.fail'));
+        $rubric = $this->find($id, true, true);
+        if (!$rubric->forceDelete()) {
+            throw new Exception(__('modules/rubric.force_destroy.fail'));
         }
 
-        return $page;
+        return $rubric;
     }
 
     protected function buildAndSave(
-        Page $page, string $title, string $text, array $attributes = [], int $views = 0,
+        Rubric $rubric, string $title, string $text, array $attributes = [], int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     )
     {
-        $page->fill([
+        $rubric->fill([
             'title' => $title,
             'text' => $text,
             'attributes' => $attributes,
@@ -108,8 +108,8 @@ class PageService implements PageServiceContract
             'seo_keywords' => $seoKeywords,
             'seo_robots_txt' => $seoRobotsTxt,
         ]);
-        $page->saveOrFail();
+        $rubric->saveOrFail();
 
-        return $page;
+        return $rubric;
     }
 }
