@@ -13,13 +13,13 @@ interface PageServiceContract
     public function findBy(string $field, $value);
 
     public function store(
-        string $title, string $text, array $attributes = [], int $views = 0,
+        string $title, string $text, ?array $attributes = [], ?int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     );
 
     public function update(
-        int $id, string $title, string $text, array $attributes = [], int $views = 0,
+        int $id, string $title, string $text, ?array $attributes = [], ?int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     );

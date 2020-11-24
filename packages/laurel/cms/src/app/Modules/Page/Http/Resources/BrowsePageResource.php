@@ -15,13 +15,15 @@ class BrowsePageResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'    => $this->id,
             'title' => $this->title,
             'alias' => $this->alias,
             'status' => 1,
             'author' => $this->createdBy->full_name,
             'parent' => '--Nope--',
             'views' => $this->views,
-            'createdUpdatedAt' => $this->created_at->format('d.m.Y H:i:s') . "/" . $this->updated_at->format('d.m.Y H:i:s'),
+            'created_at' => $this->created_at->format('d.m.Y H:i:s'),
+            'updated_at' => $this->updated_at->format('d.m.Y H:i:s'),
         ];
     }
 }

@@ -41,5 +41,75 @@ export default {
                 })
                 .catch( error => false)
         },
+        async fetchPageForUpdating({ commit }, { id } = {}) {
+            return await axios
+                .get(
+                    composeRoute('api.modules.page.edit', {
+                        replace : {
+                            page : id
+                        }
+                    })
+                )
+                .then( function ({ data }) {
+                    if (data.alias === 'modules.pages.edit.success') {
+                        return data.data;
+                    }
+
+                    return false
+                })
+                .catch( error => false)
+        },
+        async deletePage({ commit }, { id }) {
+            return await axios
+                .delete(
+                    composeRoute('api.modules.page.destroy', {
+                        replace : {
+                            page: id
+                        }
+                    })
+                )
+                .then( function ({ data }) {
+                    return data.alias === 'modules.page.destroy.success';
+                })
+                .catch( error => false)
+        },
+        async storePage({ commit }, {
+            title, seo_title, seo_description, seo_keywords, seo_robots_txt,
+            text, attributes, views
+        })
+        {
+            return await axios
+                .post(
+                    composeRoute('api.modules.page.store'), {
+                        title, seo_title, seo_description, seo_keywords, seo_robots_txt,
+                        text, attributes, views
+                    }
+                )
+                .then( function ({ data }) {
+                    return data;
+                })
+                .catch( error => false)
+        },
+        async updatePage({ commit }, {
+            id, title, seo_title, seo_description, seo_keywords, seo_robots_txt,
+            text, attributes, views
+        })
+        {
+            return await axios
+                .put(
+                    composeRoute('api.modules.page.update', {
+                        replace : {
+                            page: id
+                        }
+                    }), {
+                        title, seo_title, seo_description, seo_keywords, seo_robots_txt,
+                        text, attributes, views
+                    }
+                )
+                .then( function ({ data }) {
+                    return data;
+                })
+                .catch( error => false)
+        }
     },
 }

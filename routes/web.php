@@ -26,9 +26,9 @@ Route::group([
     'prefix' => 'admin',
     'name' => 'admin.'
 ], function () {
-    Route::get('', function () {
+    Route::get('{slug}', function () {
         return view('admin.master');
-    });
+    })->where('slug', '.*');
 
     Route::get('/login', function () {
         return view('admin.master');

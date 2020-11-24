@@ -11,6 +11,7 @@
                     class="mt-12"
                     non-linear
                     value="1"
+                    v-if="!loading"
                 >
                     <v-stepper-header>
                         <v-stepper-step
@@ -52,26 +53,75 @@
                             key="1-content"
                             step="1"
                         >
-                            <v-text-field label="Title"></v-text-field>
-                            <v-text-field label="Slug"></v-text-field>
-                            <v-select
-                                :items="authors"
-                                label="Author"
-                            ></v-select>
+                            <v-row>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="page.title"
+                                        label="Title"
+                                        :rules="[
+                                            value => !!value || 'Required.',
+                                        ]"
+                                        hide-details="auto"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        label="Alias"
+                                        :rules="[
+                                            value => !!value || 'Required.',
+                                        ]"
+                                        hide-details="auto"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
                         </v-stepper-content>
                         <v-stepper-content
                             key="2-content"
                             step="2"
                         >
-                            Page builder
+                            <v-textarea
+                                v-model="page.text"
+                                label="Text"
+                                :rules="[
+                                    value => !!value || 'Required.',
+                                        ]"
+                                hide-details="auto"
+                            ></v-textarea>
                         </v-stepper-content>
                         <v-stepper-content
                             key="3-content"
                             step="3"
                         >
-                            <v-text-field label="SEO Title"></v-text-field>
-                            <v-text-field label="SEO Description"></v-text-field>
-                            <v-text-field label="SEO Keywords"></v-text-field>
+                            <v-text-field
+                                v-model="page.seo_title"
+                                label="Seo title"
+                                :rules="[
+
+                                        ]"
+                                hide-details="auto"
+                            ></v-text-field>
+                            <v-textarea
+                                v-model="page.seo_description"
+                                label="Seo description"
+                                :rules="[
+
+                                        ]"
+                                hide-details="auto"
+                            ></v-textarea>
+                            <v-text-field
+                                v-model="page.seo_keywords"
+                                label="Seo keywords"
+                                :rules="[
+
+                                        ]"
+                                hide-details="auto"
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="page.seo_robots_txt"
+                                label="Seo robots"
+                                :rules="[
+
+                                        ]"
+                                hide-details="auto"
+                            ></v-text-field>
                         </v-stepper-content>
 
                         <v-stepper-content
@@ -95,11 +145,21 @@
         <v-row>
             <v-col>
                 <v-btn
+                    :loading="savingInProcess"
                     color="success"
+                    @click="triggerPageSaving(false)"
                 >
                     Save
                 </v-btn>
                 <v-btn
+                    :loading="savingInProcess"
+                    color="success"
+                    @click="triggerPageSaving(true)"
+                >
+                    Save and return
+                </v-btn>
+                <v-btn
+                    :loading="savingInProcess"
                     color="warning"
                     link
                     :to="{ name : 'admin.pages.browse' }"
@@ -112,12 +172,75 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
+
     export default {
         name: "AddEdit",
+        props : {
+            id : {
+                type : Number
+            }
+        },
         data: () => ({
-            seoEditing : false,
-            authors : ['Foo', 'Bar', 'Fizz', 'Buzz'],
-        })
+            page : {},
+            loading : false,
+            savingInProcess : false
+        }),
+        created() {
+            if (typeof this.id !== 'undefined' || typeof this.$route.params.pageId !== 'undefined') {
+                this.triggerPageFetchForUpdating()
+            } else {
+                this.page = this.createDefaultPageObject();
+            }
+        },
+        methods: {
+            ...mapActions('Admin/Page', ['fetchPageForUpdating', 'storePage', 'updatePage']),
+            async triggerPageFetchForUpdating()
+            {
+                this.loading = true;
+                this.page = await this.fetchPageForUpdating({
+                    id : this.id || this.$route.params.pageId
+                })
+                this.loading = false;
+            },
+            createDefaultPageObject() {
+                return {
+                    title : '',
+                    seo_title : '',
+                    seo_description : '',
+                    seo_keywords : '',
+                    seo_robots_txt : '',
+                    text : '',
+                    attributes : [],
+                    views : null
+                }
+            },
+            async triggerPageSaving(returnToBrowse)
+            {
+                let result = false;
+                let goToEdit = false;
+                this.savingInProcess = true;
+                if (typeof this.page.id === 'undefined') {
+                     result = await this.storePage(this.page);
+                     goToEdit = true;
+                } else {
+                    result = await this.updatePage(this.page);
+                }
+                this.savingInProcess = false;
+
+                if (result.status && returnToBrowse) {
+                    this.$router.push({
+                        name : 'admin.pages.browse'
+                    })
+                } else if (result.status && goToEdit) {
+                    this.$router.push({
+                        name : 'admin.pages.edit',
+                        params : { pageId : result.data.id }
+                    });
+                    this.triggerPageFetchForUpdating();
+                }
+            }
+        }
     }
 </script>
 

@@ -62,16 +62,14 @@ class PageController extends Controller
                 $request->input('text'),
                 $request->input('attributes', []),
                 $request->input('views', 0),
-                $request->input('seoTitle'),
-                $request->input('seoDescription'),
-                $request->input('seoKeywords'),
-                $request->input('seoRobotsTxt')
+                $request->input('seo_title'),
+                $request->input('seo_description'),
+                $request->input('seo_keywords'),
+                $request->input('seo_robots_txt')
             );
             return serviceResponse(
                 200, true, 'modules.page.store.success',
-                [
-                    'page' => new PageResource($page)
-                ],
+                new PageResource($page),
                 new SuccessNotification(__('modules/page.store.success', [
                     'title' => $page->title
                 ]))
@@ -81,9 +79,17 @@ class PageController extends Controller
         }
     }
 
-    public function edit(EditPage $request)
+    public function edit(EditPage $request, int $id)
     {
-
+        try {
+            $page = $this->pageService->find($id);
+            return serviceResponse(
+                200, true, 'modules.pages.edit.success',
+                new PageResource($page)
+            )->respond();
+        } catch (Exception $e) {
+            return logAndSendServerError($e->getMessage());
+        }
     }
 
     public function update(UpdatePage $request, int $id)
@@ -95,16 +101,14 @@ class PageController extends Controller
                 $request->input('text'),
                 $request->input('attributes', []),
                 $request->input('views', 0),
-                $request->input('seoTitle'),
-                $request->input('seoDescription'),
-                $request->input('seoKeywords'),
-                $request->input('seoRobotsTxt')
+                $request->input('seo_title'),
+                $request->input('seo_description'),
+                $request->input('seo_keywords'),
+                $request->input('seo_robots_txt')
             );
             return serviceResponse(
                 200, true, 'modules.page.update.success',
-                [
-                    'page' => new PageResource($page)
-                ],
+                new PageResource($page),
                 new SuccessNotification(__('modules/page.update.success', [
                     'title' => $page->title
                 ]))

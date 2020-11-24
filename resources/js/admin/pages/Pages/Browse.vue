@@ -3,7 +3,7 @@
         <v-row>
             <v-col md="8" class="d-flex">
                 <h1 class="headline d-flex align-center">Pages</h1>
-                <v-breadcrumbs :items="items" class="d-flex align-center">
+                <v-breadcrumbs :items="breadcrumbs" class="d-flex align-center">
                     <template v-slot:divider>
                         <v-icon>mdi-chevron-right</v-icon>
                     </template>
@@ -22,19 +22,58 @@
         <v-divider></v-divider>
         <v-data-table
             :headers="headers"
-            :items="desserts"
-            :items-per-page="10"
-            class="elevation-1"
-        ></v-data-table>
+            :items="pages"
+            :search="search"
+            show-select
+            :loading="loadingPages"
+            :items-per-page="limit"
+            :server-items-length="pagePagination.total"
+            :footer-props="{
+                'items-per-page-options' : [ 5, 10, 15 ]
+            }"
+            @pagination="triggerPagination"
+        >
+            <template v-slot:top>
+                <v-dialog v-model="dialogDelete" max-width="500px" v-if="editedPage">
+                    <v-card>
+                        <v-card-title class="headline">Are you sure you want to delete page "{{ editedPage.title }}"?</v-card-title>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="deleteItemConfirm" :loading="deleteInProcess">OK</v-btn>
+                            <v-btn color="blue darken-1" text @click="closeDelete" :disabled="deleteInProcess">Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </template>
+            <template v-slot:item.action="{ item }">
+                <v-btn icon :to="{ name : 'admin.pages.edit', params : { pageId : item.id } }">
+                    <v-icon>mdi-file-document-edit-outline</v-icon>
+                </v-btn>
+                <v-btn icon @click="deleteItem(item.id)">
+                    <v-icon>mdi-delete-outline</v-icon>
+                </v-btn>
+            </template>
+            <template v-slot:no-data>
+
+            </template>
+            <template v-slot:no-results>
+
+            </template>
+        </v-data-table>
     </v-container>
 </template>
 
 <script>
+    import {mapActions, mapState} from "vuex";
+
     export default {
         name: "List",
         data () {
             return {
-                items: [
+                loadingPages : false,
+                deleteInProcess : false,
+                breadcrumbs: [
                     {
                         text: 'Dashboard',
                         disabled: false,
@@ -51,103 +90,81 @@
                         href: 'breadcrumbs_link_2',
                     },
                 ],
+                dialogDelete: false,
+                search: '',
                 headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
+                    { text: 'ID', value: 'id' },
+                    { text: 'Title', value: 'title' },
+                    { text: 'Alias', value: 'alias' },
+                    { text: 'Status', value: 'status' },
+                    { text: 'Author', value: 'author' },
+                    { text: 'Parent', value: 'parent' },
+                    { text: 'Views', value: 'views' },
+                    { text: 'Created at', value: 'created_at' },
+                    { text: 'Updated at', value: 'updated_at' },
+                    { text: 'Action', value: 'action', sortable: false }
                 ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
+                editedPageId: -1,
+                page: 1,
+                limit: 10,
             }
         },
+        computed: {
+            ...mapState('Admin/Page', ['pages', 'pagePagination']),
+            editedPage()
+            {
+                return this.pages.find( page => page.id === this.editedPageId );
+            }
+        },
+        watch: {
+            dialogDelete (val) {
+                val || this.closeDelete()
+            },
+        },
+        created() {
+            this.triggerFetchPages();
+        },
+        methods : {
+            ...mapActions('Admin/Page', ['fetchPages', 'deletePage']),
+            async triggerFetchPages()
+            {
+                this.loadingPages = true;
+                await this.fetchPages({
+                    page : this.page,
+                    limit : this.limit
+                });
+                this.loadingPages = false;
+            },
+            async triggerPagination({ page, itemsPerPage })
+            {
+                this.page = page;
+                this.limit = itemsPerPage;
+                this.triggerFetchPages();
+            },
+            deleteItem (pageId)
+            {
+                this.editedPageId = pageId;
+                if (this.editedPageId) {
+                    this.dialogDelete = true
+                }
+            },
+            async deleteItemConfirm ()
+            {
+                this.deleteInProcess = true;
+                if (await this.deletePage({ id : this.editedPageId })) {
+                    this.triggerFetchPages()
+                }
+                this.deleteInProcess = false;
+                this.closeDelete();
+            },
+            closeDelete ()
+            {
+                this.dialogDelete = false
+                this.$nextTick(() => {
+                    this.editedIndex = -1
+                })
+            },
+        }
     }
 </script>
 

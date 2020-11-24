@@ -13,7 +13,7 @@ class PageService implements PageServiceContract
     public function fetch(?int $limit = null, bool $onlyTrashed = false)
     {
         $query = $onlyTrashed ? Page::onlyTrashed() : Page::withoutTrashed();
-        return $query->paginate($limit ?? 10);
+        return $query->orderByDesc('id')->paginate($limit ?? 10);
     }
 
     public function find(int $id, ?bool $throwIfNotFound = false, bool $onlyTrashed = false) : ?Page
@@ -38,7 +38,7 @@ class PageService implements PageServiceContract
     }
 
     public function store(
-        string $title, string $text, array $attributes = [], int $views = 0,
+        string $title, string $text, ?array $attributes = [], ?int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     )
@@ -50,7 +50,7 @@ class PageService implements PageServiceContract
     }
 
     public function update(
-        int $id, string $title, string $text, array $attributes = [], int $views = 0,
+        int $id, string $title, string $text, ?array $attributes = [], ?int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     )
@@ -93,7 +93,7 @@ class PageService implements PageServiceContract
     }
 
     protected function buildAndSave(
-        Page $page, string $title, string $text, array $attributes = [], int $views = 0,
+        Page $page, string $title, string $text, ?array $attributes = [], ?int $views = 0,
         ?string $seoTitle = null, ?string $seoDescription = null, ?string $seoKeywords = null,
         ?string $seoRobotsTxt = null
     )
@@ -101,8 +101,8 @@ class PageService implements PageServiceContract
         $page->fill([
             'title' => $title,
             'text' => $text,
-            'attributes' => $attributes,
-            'views' => $views,
+            'attributes' => $attributes ?? [],
+            'views' => $views ?? 0,
             'seo_title' => $seoTitle,
             'seo_description' => $seoDescription,
             'seo_keywords' => $seoKeywords,

@@ -31,7 +31,7 @@ class StorePage extends FormRequest
             'seo_robots_txt' => 'nullable|string|max:1000',
             'text' => 'required|string|max:1000000',
             'attributes' => 'nullable|array',
-            'views' => 'nullable|string|max:255|min:0',
+            'views' => 'nullable|integer|max:255|min:0',
         ];
     }
 }
