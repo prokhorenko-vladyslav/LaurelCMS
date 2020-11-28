@@ -102,7 +102,7 @@ class AuthController
             return $this->authService->resetPassword(
                 $request->input('login'),
                 $request->input('token'),
-                $request->input('new_password'),
+                $request->input('newPassword'),
             )->respond();
         } catch (Exception $e) {
             return logAndSendServerError($e->getMessage());

@@ -16,6 +16,7 @@ use Laurel\CMS\Modules\Auth\Exceptions\IpAddressNotFoundException;
 use Laurel\CMS\Modules\Auth\Models\IpAddress;
 use Laurel\CMS\Modules\Auth\Models\User;
 use Laurel\CMS\Modules\Notification\Types\InfoNotification;
+use Laurel\CMS\Modules\Notification\Types\WarningNotification;
 use Laurel\CMS\Modules\Settings\Contracts\SettingModuleContract;
 use Throwable;
 
@@ -64,7 +65,7 @@ trait CanProcessIpAddress
         return serviceResponse(200, true, 'auth.ip_confirm_mail_sent',[
             'ipAddress' => $ipAddress->ip_address,
             'token' => $this->createApiToken($user)
-        ],new InfoNotification('You have tried to login using unknown ip address. Please, confirm it.'));
+        ]);
     }
 
     /**
@@ -124,6 +125,6 @@ trait CanProcessIpAddress
             }
         }
 
-        return serviceResponse(404, false, 'auth.ip_not_found');
+        return serviceResponse(404, false, 'auth.ip_not_found', [], new WarningNotification('Code is invalid'));
     }
 }

@@ -71,11 +71,11 @@ export default {
                         });
                         return response.data;
                     } else {
-                        return false;
+                        return response.data;
                     }
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         unlock({ dispatch }, password) {
@@ -132,25 +132,28 @@ export default {
                     }
                 )
                 .then( async response => {
-                    return response.data.status && response.data.alias === 'auth.email_for_reset_password_sent';
+                    return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
-        resetPassword({ dispatch }, { login, new_password, new_password_confirmation, token}) {
+        resetPassword({ dispatch }, { login, newPassword, newPasswordConfirm, token}) {
             return axios
                 .post(
                     composeRoute('api.modules.auth.resetPassword'),
                     {
-                        login, new_password, new_password_confirmation, token
+                        login,
+                        newPassword,
+                        newPasswordConfirm,
+                        token
                     }
                 )
                 .then( async response => {
-                    return response.data.status && response.data.alias === 'auth.password_changed';
+                    return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         confirmIpAddress({ dispatch }, { login, ipAddress, code}) {
@@ -165,7 +168,7 @@ export default {
                     return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         sendIpConfirmMail({ dispatch }, { login }) {

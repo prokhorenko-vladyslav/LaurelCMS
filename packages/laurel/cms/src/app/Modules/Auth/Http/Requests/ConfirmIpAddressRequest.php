@@ -2,9 +2,9 @@
 
 namespace Laurel\CMS\Modules\Auth\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Laurel\CMS\Core\FormRequest\CmsFormRequest;
 
-class ConfirmIpAddressRequest extends FormRequest
+class ConfirmIpAddressRequest extends CmsFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

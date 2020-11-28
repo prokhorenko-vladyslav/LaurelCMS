@@ -31,10 +31,11 @@ class PageModule implements PageModuleContract
         Route::name('api.modules.')
             ->prefix('modules')
             ->group(function() {
+                Route::resource('page', PageController::class);
                 Route::middleware('auth:api')->group(function() {
                     Route::delete('page/{page}/force', [ PageController::class, 'forceDestroy' ]);
                     Route::patch('page/{page}/restore', [ PageController::class, 'restore' ]);
-                    Route::resource('page', PageController::class);
+                    //Route::resource('page', PageController::class);
                 });
             });
     }

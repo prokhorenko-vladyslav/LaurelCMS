@@ -28,7 +28,7 @@ window.axios.interceptors.response.use(function (response) {
 let showNotifications = function (notifications) {
     notifications.forEach( notification => {
         Vue.notify({
-            group: 'default',
+            group: 'dashboard',
             type: notification.type,
             title: notification.message,
             duration: notification.duration * 1000

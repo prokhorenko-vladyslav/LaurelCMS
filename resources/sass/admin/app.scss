@@ -1,8 +1,47 @@
 //@import url('https://fonts.googleapis.com/css?family=Nunito');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
 
-@import 'animations';
+//@import 'animations';
+
+html {
+    overflow: auto !important;
+}
 
 body, main {
     background: #f5f5f5;
+}
+
+#app-layout .vue-notification-template {
+    padding: 10px;
+    margin: 0 5px 5px;
+
+    font-size: 14px;
+
+    color: #ffffff;
+    background: #44A4FC;
+    border-left: 5px solid #187FE7;
+    border-radius: 3px;
+
+    .notification-title {
+        color: #ffffff;
+    }
+
+    .notification-content {
+        color: #ffffff;
+    }
+
+    &.warn {
+        background: #ffb648;
+        border-left-color: #f48a06;
+    }
+
+    &.error {
+        background: #E54D42;
+        border-left-color: #B82E24;
+    }
+
+    &.success {
+        background: #68CD86;
+        border-left-color: #42A85F;
+    }
 }
