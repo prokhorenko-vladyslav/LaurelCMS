@@ -2,9 +2,9 @@
 
 namespace Laurel\CMS\Modules\Auth\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Laurel\CMS\Core\FormRequest\CmsFormRequest;
 
-class SendResetPasswordMailRequest extends FormRequest
+class SendResetPasswordMailRequest extends CmsFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

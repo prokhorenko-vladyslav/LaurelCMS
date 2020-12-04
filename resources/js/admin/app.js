@@ -7,7 +7,7 @@
 import Vuex from "vuex";
 import Vuelidate from 'vuelidate';
 import { BootstrapVue } from 'bootstrap-vue';
-import Vue           from 'vue'
+import Vue from 'vue'
 import Notifications from 'vue-notification'
 
 window.Vue = require('vue');
@@ -37,6 +37,7 @@ require('./bootstrap');
 
 import router from "./router/router";
 import store from "./store/store";
+import vuetify from './plugins/vuetify';
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
@@ -59,5 +60,6 @@ Vue.prototype.composeRoute = window.composeRoute;
 
 const app = new Vue({
     router,
-    store
+    store,
+    vuetify
 }).$mount('#app');

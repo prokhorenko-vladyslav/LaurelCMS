@@ -2,9 +2,9 @@
 
 namespace Laurel\CMS\Modules\Auth\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Laurel\CMS\Core\FormRequest\CmsFormRequest;
 
-class LoginRequest extends FormRequest
+class LoginRequest extends CmsFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'login' => 'required|string',
+            'login' => 'required|string|email',
             'password' => 'required|string',
             'rememberMe' => 'nullable|bool',
         ];

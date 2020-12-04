@@ -2,9 +2,9 @@
 
 namespace Laurel\CMS\Modules\Auth\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Laurel\CMS\Core\FormRequest\CmsFormRequest;
 
-class ResetPasswordRequest extends FormRequest
+class ResetPasswordRequest extends CmsFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             'login' => 'required|string|email',
-            'new_password' => 'required|string|min:8|alpha_dash|confirmed',
-            'new_password_confirmation' => 'required',
+            'newPassword' => 'required|string|min:8|alpha_dash',
+            'newPasswordConfirm' => 'required|same:newPassword',
             'token' => 'required|string|size:64',
         ];
     }

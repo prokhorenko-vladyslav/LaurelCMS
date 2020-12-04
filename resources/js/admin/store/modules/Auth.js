@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        token : false,
+        token : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzMyOTU5NzA3MDcxYjE4NGQwNDNhNDAxMzRiMTYxM2U0ZDhlOWQxOWYxMjI5NTVhY2QwMGY0MWFiYzFhMWI0Y2JjZWRiOWU1M2UzZGI0ZTMiLCJpYXQiOjE2MDU0NjIyMDIsIm5iZiI6MTYwNTQ2MjIwMiwiZXhwIjoxNjM2OTk4MjAyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.cQyYTQhejnngOwbMm_5Nnt7YweOiyi_9z0R91K0U9wLZrc_z64Jh4B_VsUL9S91c9VdDK2e5W1lfQEbaMWZtHn_YGMVvCJ5iujU4cOnxpsAjJXwp6grePo4Ycpgze1_kfX_2nbRPMts6V0-rm7Y6gPSzJk_s8I0EzBrckmJctsTb-_mWGxx8IqQHImfSX-0O7ALcnXSkdLluaLXkW2VawNDsUfBt00jb1loKrMpndNJxEOjv4QxGGsnm7ebRkP4zgaF9LjpBaif6pBb1LSjpSy06tjGvLPqHI3RmGQy7IAi5j_QNlFx-QNLGSi6RpkzNSkS1VHpcapEufNmvqp9lOTW6HqCj2FAJqUamZd7Hi_lCW4lKdVKFWpFRgnGgLVe6V7MQRoFecpt3diphFxsXVPCxjedTBrVIwklRvpOkVBkvwQ1RAQHUV43jqHJ4b95TTN2OIqN9vI4ZgfEYapGmrytvnGrBq89gFHhCQ1_5fZ03BoB6I0_8I-bshULt6vWu4W7EMcHHhePhe51FK6Us-Z7hKW79SJnzp5QiHvbnC6aBP3LWdBsoNjgKBrJ-ocVcQqnYbj3gPKuH8n41XIE12Iy0MLF4VH6wrS7mEdDoPmWl0inGyO8zMlH6rqjpLll0UZQ21dPcymyMRs4wr4Yb4NqEvmoZuXm7A1gqTFRCyoM',
         lockCheckingInterval : null,
         isLocked : false,
         login : '',
@@ -71,11 +71,11 @@ export default {
                         });
                         return response.data;
                     } else {
-                        return false;
+                        return response.data;
                     }
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         unlock({ dispatch }, password) {
@@ -132,25 +132,28 @@ export default {
                     }
                 )
                 .then( async response => {
-                    return response.data.status && response.data.alias === 'auth.email_for_reset_password_sent';
+                    return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
-        resetPassword({ dispatch }, { login, new_password, new_password_confirmation, token}) {
+        resetPassword({ dispatch }, { login, newPassword, newPasswordConfirm, token}) {
             return axios
                 .post(
                     composeRoute('api.modules.auth.resetPassword'),
                     {
-                        login, new_password, new_password_confirmation, token
+                        login,
+                        newPassword,
+                        newPasswordConfirm,
+                        token
                     }
                 )
                 .then( async response => {
-                    return response.data.status && response.data.alias === 'auth.password_changed';
+                    return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         confirmIpAddress({ dispatch }, { login, ipAddress, code}) {
@@ -165,7 +168,7 @@ export default {
                     return response.data;
                 })
                 .catch( error => {
-                    return false;
+                    return error.response.data;
                 })
         },
         sendIpConfirmMail({ dispatch }, { login }) {

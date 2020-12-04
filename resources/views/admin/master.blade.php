@@ -7,13 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
-    <link rel="stylesheet" href="/admin/css/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/admin/css/app.css">
     @apiRoutesList
 </head>
 <body>
     <div id="app">
         <router-view></router-view>
     </div>
-    <script src="/admin/js/app.js"></script>
+    <script src="/assets/admin/js/app.js"></script>
 </body>
 </html>
